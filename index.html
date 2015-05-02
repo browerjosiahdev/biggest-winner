@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MasterApp">
+    <head>
+        <title>Biggest Winner</title>
+        <script type="text/javascript" language="javascript" src="js/angular.min.js"></script>
+        <script type="text/javascript" language="javascript" src="js/site.js"></script>
+    </head>
+    <body ng-controller="MasterBodyCtrl">
+        <ul>
+            <li ng-repeat="test in tests">
+                <p>{{test.content}}</p>
+            </li>
+        </ul>
+    </body>
+</html>
