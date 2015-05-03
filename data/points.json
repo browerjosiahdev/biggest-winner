@@ -1,0 +1,23 @@
+{
+    "points":
+    [
+        {
+            "id": 1,
+            "name": "Scriptures",
+            "description": "Did you read your scriptures today?",
+            "fields":
+            [
+                {
+                    "label": "Reference",
+                    "maxLength": 200,
+                    "numLines": 1
+                },
+                {
+                    "label": "Comment",
+                    "maxLength": 200,
+                    "numLines": 5
+                }
+            ]
+        }
+    ]
+}
