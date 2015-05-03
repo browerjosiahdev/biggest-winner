@@ -30,6 +30,8 @@ body {
     vertical-align: middle; }
     .menu .link:hover {
       color: #ccc; }
+    .menu .link a {
+      text-decoration: none; }
 
 .point-forms-container .point-form .form-content {
   background-color: #bbb;
@@ -53,11 +55,58 @@ body {
     .point-forms-container .point-form .form-content .fields-container.true {
       display: block; }
 
+.filters-container {
+  display: table;
+  width: 400px;
+  height: 50px; }
+  .filters-container .filter {
+    display: table-cell;
+    vertical-align: middle; }
+
+.posts-container {
+  width: 100%; }
+  .posts-container .post {
+    display: block;
+    background-color: #bbb;
+    border-radius: 15px 0 15px 0;
+    box-shadow: 5px 5px 10px #888;
+    padding: 10px;
+    margin: 10px 0; }
+    .posts-container .post .user-name {
+      display: inline-block;
+      width: 50%;
+      text-align: left; }
+    .posts-container .post .time-stamp {
+      display: inline-block;
+      width: 50%;
+      text-align: right; }
+    .posts-container .post .comment {
+      display: block;
+      padding: 10px 0;
+      border-bottom: 1px;
+      border-bottom-style: solid;
+      border-bottom-color: #fff; }
+    .posts-container .post .user-comments-container {
+      padding: 0 10px; }
+      .posts-container .post .user-comments-container .user-comment {
+        display: block;
+        margin: 10px 0; }
+
 .comment-textarea {
   width: 300px;
   resize: none; }
 
+.textarea-search {
+  width: 200px;
+  resize: none; }
+
 .hidden {
   display: none; }
+
+a {
+  color: #fff; }
+
+a:hover {
+  color: #ccc; }
 
 /*# sourceMappingURL=site.css.map */

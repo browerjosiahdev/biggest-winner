@@ -7,3 +7,6 @@ repo_info.rtf
 # Ignore development files.
 /_dev/*
 !/_dev/sass/*
+
+# Ignore all log files.
+*.log
