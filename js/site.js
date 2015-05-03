@@ -4,6 +4,6 @@ m_masterApp.controller('MasterBodyCtrl', ['$scope', '$http', function( $scope, $
 {
     $http.get('data/points.json').success(function( data ) 
     {
-        $scope.points = data; 
+        $scope.points = data;
     });
 }]);

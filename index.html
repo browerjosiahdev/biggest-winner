@@ -28,13 +28,14 @@
                 <div class="form-content">
                     <div class="input-container">
                         <div class="description">{{point.description}}</div>
-                        <div class="input"><input class="checkbox" type="checkbox"></div>
+                        <div class="input"><input class="checkbox" type="checkbox" ng-model="point.selected" ng-change></div>
                     </div>
-                    <div class="fields-container hidden">
+                    <div class="fields-container {{point.selected}}">
                         <div class="field" ng-repeat="field in point.fields">
                             <p>{{field.label}} ({{field.maxLength}})</p>
                             <textarea class="comment-textarea" maxlength="{{field.maxLength}}" rows="{{field.numLines}}"></textarea>
                         </div>
+                        <button type="submit" ng-click="">Submit</button>
                     </div>
                 </div>
             </div>

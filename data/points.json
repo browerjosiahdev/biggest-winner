@@ -15,7 +15,8 @@
                 "maxLength": 200,
                 "numLines": 5
             }
-        ]
+        ],
+        "selected": false
     },
     {
         "id": 2,
@@ -28,18 +29,21 @@
                 "maxLength": 200,
                 "numLines": 5
             }
-        ]
+        ],
+        "selected": false
     },
     {
         "id": 3,
         "name": "Water",
         "description": "Did you drink 8 cups of water today?",
-        "fields": []
+        "fields": [],
+        "selected": false
     },
     {
         "id": 4,
         "name": "Treats",
         "description": "Did you defeat the treats?",
-        "fields": []
+        "fields": [],
+        "selected": false
     }
 ]
