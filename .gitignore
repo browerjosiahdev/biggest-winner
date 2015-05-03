@@ -4,9 +4,8 @@ repo_info.rtf
 # Ignore ds store files.
 *.DS_Store
 
-# Ignore development files.
-/_dev/*
-!/_dev/sass/*
+# Ignore the sass cache folder
+.sass-cache/
 
 # Ignore all log files.
 *.log
