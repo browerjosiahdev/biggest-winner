@@ -24,7 +24,19 @@
         </div>
         <div class="point-forms-container">
             <div class="point-form" ng-repeat="point in points">
-                <h3>{{point.name}}</h3>
+                <h2>{{point.name}}</h2>
+                <div class="form-content">
+                    <div class="input-container">
+                        <div class="description">{{point.description}}</div>
+                        <div class="input"><input class="checkbox" type="checkbox"></div>
+                    </div>
+                    <div class="fields-container hidden">
+                        <div class="field" ng-repeat="field in point.fields">
+                            <p>{{field.label}} ({{field.maxLength}})</p>
+                            <textarea class="comment-textarea" maxlength="{{field.maxLength}}" rows="{{field.numLines}}"></textarea>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </body>

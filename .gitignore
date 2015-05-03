@@ -5,5 +5,5 @@ repo_info.rtf
 *.DS_Store
 
 # Ignore development files.
-_dev/*
-!_dev/sass/*
+_dev/
+!_dev/sass/

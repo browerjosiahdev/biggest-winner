@@ -1,23 +1,45 @@
-{
-    "points":
-    [
-        {
-            "id": 1,
-            "name": "Scriptures",
-            "description": "Did you read your scriptures today?",
-            "fields":
-            [
-                {
-                    "label": "Reference",
-                    "maxLength": 200,
-                    "numLines": 1
-                },
-                {
-                    "label": "Comment",
-                    "maxLength": 200,
-                    "numLines": 5
-                }
-            ]
-        }
-    ]
-}
+[
+    {
+        "id": 1,
+        "name": "Scriptures",
+        "description": "Did you read your scriptures today?",
+        "fields":
+        [
+            {
+                "label": "Reference",
+                "maxLength": 200,
+                "numLines": 1
+            },
+            {
+                "label": "Comment",
+                "maxLength": 200,
+                "numLines": 5
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Exercise",
+        "description": "Did you exercise today?",
+        "fields":
+        [
+            {
+                "label": "Comment",
+                "maxLength": 200,
+                "numLines": 5
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Water",
+        "description": "Did you drink 8 cups of water today?",
+        "fields": []
+    },
+    {
+        "id": 4,
+        "name": "Treats",
+        "description": "Did you defeat the treats?",
+        "fields": []
+    }
+]
