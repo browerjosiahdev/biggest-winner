@@ -1,0 +1,12 @@
+{
+    'users':
+    [
+        {
+            'name': 'Administrator',
+            'login': 'sysadmin',
+            'email': 'browerjosiah@gmail.com',
+            'password': 'Passw0rd',
+            'admin': true
+        }
+    ]
+}

@@ -2,10 +2,18 @@
 <html lang="en" ng-app="MasterApp">
     <head>
         <title>Biggest Winner</title>
+        <link type="text/css" rel="stylesheet" href="css/font.css">
+        <link type="text/css" rel="stylesheet" href="css/site.css">
         <script type="text/javascript" language="javascript" src="js/angular.min.js"></script>
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
     </head>
     <body ng-controller="MasterBodyCtrl">
+        <div class="header">
+            <div class="title">Biggest Winner</div>
+        </div>
+        <div class="menu">
+            <div class="link">Home</div>
+        </div>
         <ul>
             <li ng-repeat="test in tests">
                 <p>{{test.content}}</p>

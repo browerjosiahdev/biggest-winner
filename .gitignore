@@ -1,5 +1,9 @@
-# Ignore the file that contains information for the github repository
+# Ignore the file that contains information for the github repository.
 repo_info.rtf
 
-# Ignore ds store files
+# Ignore ds store files.
 *.DS_Store
+
+# Ignore development files.
+_dev/*
+!_dev/sass/*
