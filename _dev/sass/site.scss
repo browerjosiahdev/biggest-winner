@@ -173,6 +173,17 @@ body
     resize: none;
 }
 
+.textarea-form
+{
+    width: 200px;
+    resize: none;
+    
+    &.invalid
+    {
+        
+    }
+}
+
 .hidden
 {
     display: none;

@@ -14,8 +14,13 @@
         <script type="text/javascript" language="javascript">
             function login()
             {
-                var userName = $('.userName').val();
-                var password = $('.password').val();
+                var userName = $('.userName').html();
+                var password = $('.password').html();
+                
+                if (userName === null || userName == "")
+                {
+                    $('.userName').addClass('invalid');
+                }
                 
                 $.ajax({
                     url: "server/login.php",
@@ -27,18 +32,17 @@
             
             function onLoginPostSuccess( intUserID )
             {
-                
-console.log("onLoginPostSuccess()");                
-                
                 if (intUserID > 0)
                 {
-                    sessionStorage.setItem("userID", intUserID);   
+                    sessionStorage.setItem("userID", intUserID);
+                    
+                    window.location.href = "index.html";
                 }
             }
             
             function onLoginPostError()
             {
-console.log("onLoginPostError()");                   
+                alert("There was an issue logging you in. Please try again. If the issue persists, contact your system administrator.");
             }
         </script>
     </head>
@@ -51,8 +55,8 @@ console.log("onLoginPostError()");
             <div class="link"><a href="scriptures.html">Scriptures</a></div>
             <div class="link">Exercise</div>
         </div>
-        User name: <input class="userName" type="text"><br/>
-        Password: <input class="password" type="text"><br/>
-        <button type="submit">Login</button>
+        User name: <textarea class="userName textarea-form" rows="1"></textarea><br/>
+        Password: <textarea class="password textarea-form" rows="1"></textarea><br/>
+        <button type="submit" onclick="javascript:login();">Login</button>
     </body>
 </html>
