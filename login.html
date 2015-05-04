@@ -14,30 +14,49 @@
         <script type="text/javascript" language="javascript">
             function login()
             {
-                var userName = $('.userName').html();
-                var password = $('.password').html();
+                var userName = $('.userName').val();
+                var password = $('.password').val();
                 
                 if (userName === null || userName == "")
                 {
                     $('.userName').addClass('invalid');
+                    
+                    return;
                 }
+                else
+                    $('.userName').removeClass('invalid');
+                
+                if (password === null || password == "")
+                {
+                    $('.password').addClass('invalid');
+                    
+                    return;
+                }
+                else
+                    $('.password').removeClass('invalid');
                 
                 $.ajax({
                     url: "server/login.php",
                     method: "POST",
+                    data: "userName=" + userName + "&password=" + password,
                     success: onLoginPostSuccess,
                     error: onLoginPostError
                 });
             }
             
-            function onLoginPostSuccess( intUserID )
+            function onLoginPostSuccess( vData )
             {
-                if (intUserID > 0)
+                var intData = Number(vData);
+                if (typeof intData == 'number')
                 {
-                    sessionStorage.setItem("userID", intUserID);
+                    sessionStorage.setItem("userID", intData);
                     
                     window.location.href = "index.html";
                 }
+                else if (typeof vData == 'string')
+                    alert(vData);
+                else
+                    alert("Unable to find user with matching login and password. Please try again.");   
             }
             
             function onLoginPostError()
@@ -55,8 +74,16 @@
             <div class="link"><a href="scriptures.html">Scriptures</a></div>
             <div class="link">Exercise</div>
         </div>
-        User name: <textarea class="userName textarea-form" rows="1"></textarea><br/>
-        Password: <textarea class="password textarea-form" rows="1"></textarea><br/>
-        <button type="submit" onclick="javascript:login();">Login</button>
+        <div class="login-form">
+            <div class="form-container">
+                <div class="form-label">User name:</div>
+                <div class="form-input"><input class="userName input-form" type="text"></div>
+            </div>
+            <div class="form-container">
+                <div class="form-label">Password:</div> 
+                <div class="form-input"><input class="password input-form" type="password"></div>
+            </div>
+            <button type="submit" onclick="javascript:login();">Login</button>
+        </div>
     </body>
 </html>

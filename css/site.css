@@ -92,6 +92,19 @@ body {
         display: block;
         margin: 10px 0; }
 
+.login-form {
+  margin: 10px 0; }
+  .login-form .form-container {
+    display: table;
+    height: 30px; }
+    .login-form .form-container .form-label {
+      display: table-cell;
+      width: 100px;
+      vertical-align: middle; }
+    .login-form .form-container .form-input {
+      display: table-cell;
+      vertical-align: middle; }
+
 .comment-textarea {
   width: 300px;
   resize: none; }
@@ -100,9 +113,10 @@ body {
   width: 200px;
   resize: none; }
 
-.textarea-form {
-  width: 200px;
-  resize: none; }
+.input-form {
+  width: 200px; }
+  .input-form.invalid {
+    box-shadow: 0 0 10px #ff0000; }
 
 .hidden {
   display: none; }

@@ -161,6 +161,30 @@ body
     }
 }
 
+.login-form
+{
+    margin: 10px 0;
+    
+    .form-container
+    {
+        display: table;
+        height: 30px;
+        
+        .form-label
+        {
+            display: table-cell;
+            width: 100px;
+            vertical-align: middle;
+        }
+        
+        .form-input
+        {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    }
+}
+
 .comment-textarea
 {
     width: 300px;
@@ -173,14 +197,13 @@ body
     resize: none;
 }
 
-.textarea-form
+.input-form
 {
     width: 200px;
-    resize: none;
     
     &.invalid
     {
-        
+        box-shadow: 0 0 10px #ff0000;
     }
 }
 
