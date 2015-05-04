@@ -4,6 +4,6 @@ $(document).ready(function()
     {
         console.log("User " + sessionStorage.getItem("userID") + " is logged in.");
     }
-    else
-        window.location.href = "login.html";
+//    else
+//        window.location.href = "login.html";
 });
