@@ -55,13 +55,18 @@ body {
     .point-forms-container .point-form .form-content .fields-container.true {
       display: block; }
 
-.filters-container {
-  display: table;
-  width: 400px;
-  height: 50px; }
-  .filters-container .filter {
-    display: table-cell;
-    vertical-align: middle; }
+.filters-container .filter {
+  display: inline-block;
+  margin-right: 20px; }
+  .filters-container .filter .filter-container {
+    display: table;
+    height: 50px; }
+    .filters-container .filter .filter-container .filter-label {
+      display: table-cell;
+      vertical-align: middle; }
+    .filters-container .filter .filter-container .filter-input {
+      display: table-cell;
+      vertical-align: middle; }
 
 .posts-container {
   width: 100%; }

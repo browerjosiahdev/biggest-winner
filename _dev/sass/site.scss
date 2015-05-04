@@ -101,14 +101,28 @@ body
 
 .filters-container
 {
-    display: table;
-    width: 400px;
-    height: 50px;
-    
     .filter
     {
-        display: table-cell;
-        vertical-align: middle;
+        display: inline-block;
+        margin-right: 20px;
+        
+        .filter-container
+        {
+            display: table;
+            height: 50px;
+
+            .filter-label
+            {
+                display: table-cell;
+                vertical-align: middle;
+            }
+
+            .filter-input
+            {
+                display: table-cell;
+                vertical-align: middle;
+            }
+        }
     }
 }
 

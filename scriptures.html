@@ -26,13 +26,21 @@
         </div>
         <div class="filters-container">
             <div class="filter">
-                Sort by:<select ng-model="sort">
+                <div class="filter-container">
+                    <div class="filter-label">Sort by:</div>
+                    <div class="filter-input">
+                        <select ng-model="sort">
                             <option value="-timeStamp">Newest</option>
                             <option value="timeStamp">Oldest</option>
                         </select>
+                    </div>
+                </div>
             </div>
             <div class="filter">
-                Search:<textarea class="textarea-search" rows="1" ng-model="search"></textarea>
+                <div class="filter-container">
+                    <div class="filter-label">Search:</div>
+                    <div class="filter-input"><textarea class="textarea-search" rows="1" ng-model="search"></textarea></div>
+                </div>
             </div>
         </div>
         <div class="posts-container">
