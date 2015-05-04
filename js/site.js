@@ -1,26 +1,9 @@
-/////////////////////////////////////////////////////////////////////////////////////////////
-// Group: Apps.
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-var m_masterApp     = angular.module('MasterApp', []);
-var m_postsApp      = angular.module('PostsApp', []);
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// Group: Controllers.
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-m_masterApp.controller('MasterBodyCtrl', ['$scope', '$http', function( $scope, $http ) 
+$(document).ready(function()
 {
-    $http.get('data/points.json').success(function( data ) 
+    if (sessionStorage.getItem("userID") > 0)
     {
-        $scope.points = data;
-    });
-}]);
-
-m_postsApp.controller('PostsBodyCtrl', ['$scope', '$http', function( $scope, $http )
-{
-    $http.get('data/scriptures.json').success(function( data )
-    {
-        $scope.posts = data;
-    });
-}]);
+        console.log("User " + sessionStorage.getItem("userID") + " is logged in.");
+    }
+    else
+        window.location.href = "login.html";
+});
