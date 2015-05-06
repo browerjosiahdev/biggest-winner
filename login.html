@@ -10,35 +10,27 @@
         <title>Biggest Winner</title>
         <link type="text/css" rel="stylesheet" href="css/font.css">
         <link type="text/css" rel="stylesheet" href="css/site.css">
+        <script type="text/javascript" language="javascript" src="js/config.js"></script>
         <script type="text/javascript" language="javascript" src="js/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" language="javascript" src="js/site.js"></script>
         <script type="text/javascript" language="javascript">
             function login()
             {
-                var userName = $('.userName').val();
-                var password = $('.password').val();
+                var strUserName = isValidInput($('#userName'));
+                var strPassword = isValidInput($('#password'));
                 
-                if (userName === null || userName == "")
-                {
-                    $('.userName').addClass('invalid');
-                    
+                if (strUserName == '')
                     return;
-                }
-                else
-                    $('.userName').removeClass('invalid');
+                if (strPassword == '')
+                    return;
                 
-                if (password === null || password == "")
-                {
-                    $('.password').addClass('invalid');
-                    
-                    return;
-                }
-                else
-                    $('.password').removeClass('invalid');
+                var strData = 'userName=' + strUserName + 
+                              '&password=' + strPassword;
                 
                 $.ajax({
-                    url: "server/login.php",
-                    method: "POST",
-                    data: "userName=" + userName + "&password=" + password,
+                    url: 'php/login.php',
+                    method: 'POST',
+                    data: strData + '&' + DB_URLSTRING,
                     success: onLoginPostSuccess,
                     error: onLoginPostError
                 });
@@ -47,21 +39,24 @@
             function onLoginPostSuccess( vData )
             {
                 var intData = Number(vData);
-                if (typeof intData == 'number')
+                if (!isNaN(intData) && intData > 0)
                 {
-                    sessionStorage.setItem("userID", intData);
+                    if ($('#rememberMe').prop('checked'))
+                        localStorage.setItem('userID', intData);
+                    else
+                        sessionStorage.setItem('userID', intData);
                     
-                    window.location.href = "index.html";
+                    window.location.href = 'index.html';
                 }
                 else if (typeof vData == 'string')
                     alert(vData);
                 else
-                    alert("Unable to find user with matching login and password. Please try again.");   
+                    alert('Unable to find user with matching login and password. Please try again.');
             }
             
             function onLoginPostError()
             {
-                alert("There was an issue logging you in. Please try again. If the issue persists, contact your system administrator.");
+                alert('There was an issue logging you in, please try again. If the issue persists, contact your system administrator.');
             }
         </script>
     </head>
@@ -74,16 +69,18 @@
             <div class="link"><a href="scriptures.html">Scriptures</a></div>
             <div class="link">Exercise</div>
         </div>
+        <p>Don't have an account? Consider <a href="create_account.html">creating one.</a></p>
         <div class="login-form">
             <div class="form-container">
                 <div class="form-label">User name:</div>
-                <div class="form-input"><input class="userName input-form" type="text"></div>
+                <div class="form-input"><input id="userName" class="input-form" type="text"></div>
             </div>
             <div class="form-container">
                 <div class="form-label">Password:</div> 
-                <div class="form-input"><input class="password input-form" type="password"></div>
+                <div class="form-input"><input id="password" class="input-form" type="password"></div>
             </div>
-            <button type="submit" onclick="javascript:login();">Login</button>
+            <button type="submit" onclick="javascript:login();">Login</button><br/><br/>
+            Remember me: <input id="rememberMe" type="checkbox">
         </div>
     </body>
 </html>

@@ -1,4 +1,4 @@
-USE biggest_winner;
+USE biggest_winner_test;
 
 CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT, 
                                  name VARCHAR(100) NOT NULL, 

@@ -31,7 +31,10 @@ body {
     .menu .link:hover {
       color: #ccc; }
     .menu .link a {
+      color: #fff;
       text-decoration: none; }
+      .menu .link a:hover {
+        color: #ccc; }
 
 .point-forms-container .point-form .form-content {
   background-color: #bbb;
@@ -104,7 +107,7 @@ body {
     height: 30px; }
     .login-form .form-container .form-label {
       display: table-cell;
-      width: 100px;
+      width: 150px;
       vertical-align: middle; }
     .login-form .form-container .form-input {
       display: table-cell;
@@ -125,11 +128,5 @@ body {
 
 .hidden {
   display: none; }
-
-a {
-  color: #fff; }
-
-a:hover {
-  color: #ccc; }
 
 /*# sourceMappingURL=site.css.map */
