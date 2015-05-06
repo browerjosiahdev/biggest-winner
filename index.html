@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="MasterApp">
+<html lang="en">
     <head>
         <meta http-equiv="cache-control" content="max-age=0" />
         <meta http-equiv="cache-control" content="no-cache" />
@@ -15,8 +15,21 @@
         <script type="text/javascript" language="javascript" src="js/angular.min.js"></script>
         <script type="text/javascript" language="javascript" src="js/modules.js"></script>
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
+        <script type="text/javascript" language="javascript">
+            function onCheckboxToggle( strCheckboxID )
+            {
+                var objCheckbox = $('#' + strCheckboxID);
+                if (objCheckbox.html() !== undefined)
+                {
+                    if (objCheckbox.prop('checked'))
+                        $('.' + strCheckboxID).removeClass('hidden');
+                    else
+                        $('.' + strCheckboxID).addClass('hidden');
+                }
+            }
+        </script>
     </head>
-    <body onload="javascript:checkLoggedIn();" ng-controller="MasterBodyCtrl">
+    <body onload="javascript:checkLoggedIn();">
         <div class="header">
             <div class="title">Biggest Winner</div>
         </div>
@@ -26,19 +39,57 @@
             <div class="link">Exercise</div>
         </div>
         <div class="point-forms-container">
-            <div class="point-form" ng-repeat="point in points">
-                <h2>{{point.name}}</h2>
+            <div class="point-form">
+                <h2>Scriptures</h2>
                 <div class="form-content">
                     <div class="input-container">
-                        <div class="description">{{point.description}}</div>
-                        <div class="input"><input class="checkbox" type="checkbox" ng-model="point.selected" ng-change></div>
+                        <div class="description">Did you read your scriptures today?</div>
+                        <div class="input"><input id="scripturesCheckbox" class="checkbox" type="checkbox" onclick="javascript:onCheckboxToggle('scripturesCheckbox');" data-point-type="scriptures"></div>
                     </div>
-                    <div class="fields-container {{point.selected}}">
-                        <div class="field" ng-repeat="field in point.fields">
-                            <p>{{field.label}} ({{field.maxLength}})</p>
-                            <textarea class="comment-textarea" maxlength="{{field.maxLength}}" rows="{{field.numLines}}"></textarea>
+                    <div class="fields-container scripturesCheckbox hidden">
+                        <div class="field">
+                            <p>Reference (200)</p>
+                            <textarea class="comment-textarea" maxlength="200" rows="1"></textarea>
                         </div>
-                        <button type="submit" ng-click="">Submit</button>
+                        <div class="field">
+                            <p>Comment (2000)</p>
+                            <textarea class="comment-textarea" maxlength="2000" rows="5"></textarea>
+                        </div>
+                        <button type="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="point-form">
+                <h2>Exercise</h2>
+                <div class="form-content">
+                    <div class="input-container">
+                        <div class="description">Did you exercise today?</div>
+                        <div class="input"><input id="exerciseCheckbox" class="checkbox" type="checkbox" onclick="javascript:onCheckboxToggle('exerciseCheckbox');" data-point-type="exercise"></div>
+                    </div>
+                    <div class="fields-container exerciseCheckbox hidden">
+                        <div class="field">
+                            <p>Comment (2000)</p>
+                            <textarea class="comment-textarea" maxlength="2000" rows="5"></textarea>
+                        </div>
+                        <button type="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="point-form">
+                <h2>Water</h2>
+                <div class="form-content">
+                    <div class="input-container">
+                        <div class="description">Did you drink 8 cups of water today?</div>
+                        <div class="input"><input id="waterCheckbox" class="checkbox" type="checkbox" onclick="javascript:onCheckboxToggle('waterCheckbox');" data-point-type="water"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="point-form">
+                <h2>Treats</h2>
+                <div class="form-content">
+                    <div class="input-container">
+                        <div class="description">Did you defeat the treats?</div>
+                        <div class="input"><input id="treatsCheckbox" class="checkbox" type="checkbox" onclick="javascript:onCheckboxToggle('treatsCheckbox');" data-point-type="treats"></div>
                     </div>
                 </div>
             </div>

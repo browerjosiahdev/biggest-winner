@@ -51,12 +51,6 @@ body {
       width: 50px;
       text-align: center;
       vertical-align: middle; }
-  .point-forms-container .point-form .form-content .fields-container {
-    display: none; }
-    .point-forms-container .point-form .form-content .fields-container.false {
-      display: none; }
-    .point-forms-container .point-form .form-content .fields-container.true {
-      display: block; }
 
 .filters-container .filter {
   display: inline-block;

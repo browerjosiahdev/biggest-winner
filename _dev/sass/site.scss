@@ -89,17 +89,7 @@ body
             
             .fields-container
             {
-                display: none;
                 
-                &.false
-                {
-                    display: none;  
-                }
-                
-                &.true
-                {
-                    display: block;   
-                }
             }
         }
     }
