@@ -27,5 +27,5 @@ var INPUTEMAIL = 'INPUT_EMAIL';
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 var SMTP            = 'aspmx.l.google.com';
-var MAILCLIENT      = 'browerjosiah@gmail.com';
+var MAILCLIENT      = 'biggestwinnertracker@gmail.com';
 var EMAILTEMPLATE   = '%USER_NAME% just posted to the %FORUM% page!\r\n%EMAIL_BODY%\r\nTell them your opinion, and post a comment!';
