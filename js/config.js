@@ -32,9 +32,15 @@ var INPUTEMAIL = 'INPUT_EMAIL';
 // Group: Email Configuration.
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-var SMTP            = 'aspmx.l.google.com';
-var MAILCLIENT      = 'biggestwinnertracker@gmail.com';
-var EMAILTEMPLATE   = '%USER_NAME% just posted to the %FORUM% page!\r\n\r\n%EMAIL_BODY%\r\n\r\nTell them your opinion, and post a comment!';
+// Gmail smtp setup.
+/*var SMTP            = 'aspmx.l.google.com';
+var MAILCLIENT      = 'biggestwinnertracker@gmail.com';*/
+
+// Godaddy smtp setup.
+var SMTP            = 'smtpout.secureserver.net';
+var MAILCLIENT      = 'admin@biggestwinnertracker.com';
+
+var EMAILTEMPLATE   = '<b>%USER_NAME%</b> just posted to the %FORUM% page!<br/><br/>%EMAIL_BODY%<br/><br/>Join in on the conversation by posting a <a href="http://www.biggestwinnertracker.com/%FORUM%.html">comment!</a>';
 
 var SMTP_URLSTRING  = 'smtp=' + SMTP + '&mailClient=' + MAILCLIENT + '&mailTo=%MAIL_TO%&subject=%SUBJECT%&message=%MESSAGE%';
 

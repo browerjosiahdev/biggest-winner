@@ -8,6 +8,15 @@ $(document).ready(function()
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Debug Methods.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function debug( strDebug )
+{
+    console.log(strDebug);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Group: User Methods.
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -107,12 +116,21 @@ function isValidInput( objInput, strType )
 
 function postScripture()
 {
+    showPreloader(true);
+    
+        // Get the reference and comment value.
     var strReference    = escape($('#scriptureReference').val());
     var srtComment      = escape($('#scriptureComment').val());
     
-    var strMessage  = EMAILTEMPLATE.split('%USER_NAME%').join(getUserName()).split('%FORUM%').join('scriptures').split('%EMAIL_BODY%').join(strReference + '\r\n\r\n' + srtComment);
-    var strData     = SMTP_URLSTRING.split('%MAIL_TO%').join('browerjosiah@gmail.com').split('%SUBJECT%').join('Someone posted a scripture!').split('%MESSAGE%').join(strMessage);
+        // Create the message and data string.
+    var strMessage  = EMAILTEMPLATE.split('%USER_NAME%').join(getUserName());
+        strMessage  = strMessage.split('%FORUM%').join('scriptures');
+        strMessage  = strMessage.split('%EMAIL_BODY%').join('<p><span style="font-size: 16px; font-weight: bold;">' + strReference + '</span></p>' + '<p><span style="font-size: 14px; font-weight: normal;">' + srtComment + '</span></p>');
+    var strData     = SMTP_URLSTRING.split('%MAIL_TO%').join('browerjosiah@gmail.com');
+        strData     = strData.split('%SUBJECT%').join('Someone posted a scripture!');
+        strData     = strData.split('%MESSAGE%').join(strMessage);
 
+        // Call to send the emails.
     $.ajax({
         url: 'php/send_mail.php',
         type: 'POST',
@@ -129,22 +147,34 @@ function onScripturePostSuccess( vData )
 
 function onScripturePostError()
 {
-    alert('There was an error posting your scripture, please try again. If the issue persists, contact your administrator.');
+    if (DEBUG)
+        debug('DEBUG: onScripturePostError() -- There was an error posting your scripture, please try again. If the issue persists, contact your administrator.');
 }
 
 function onSendPostEmailSuccess( vData )
 {
+    showPreloader(false);
+    
     if (vData == 'success')
     {
         if (DEBUG)
-            alert('You successfully sent an email!');
+            debug('DEBUG: onSendPostEmailSuccess() -- You successfully sent an email!');
     }
+    else if (DEBUG)
+        debug('DEBUG: onSendPostEmailSuccess() -- ' + vData);
 }
 
 function onSendPostEmailError()
 {
+    showPreloader(false);
     
+    if (DEBUG)
+        debug('DEBUG: onSendPostEmailError() -- There was an error sending the notification email.');
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Date Methods.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function getCurrentDate() 
 {
@@ -164,6 +194,16 @@ function getCurrentDate()
 function dateDiffDays( strSelectedDate ) 
 {
     return (new Date(strSelectedDate) - new Date(getCurrentDate())) / (1000 * 60 * 60 * 24);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Preloader Methods.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function showPreloader( bShow )
+{
+    $('#preloaderContainer')[bShow? 'removeClass' : 'addClass']('hidden');
+    $('#preloader')[bShow? 'removeClass' : 'addClass']('hidden');
 }
 
 
