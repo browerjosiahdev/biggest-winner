@@ -131,13 +131,13 @@ function postScripture()
         strData     = strData.split('%MESSAGE%').join(strMessage);
 
         // Call to send the emails.
-    $.ajax({
+    /*$.ajax({
         url: 'php/send_mail.php',
         type: 'POST',
         data: strData + '&' + DB_URLSTRING,
         success: onSendPostEmailSuccess,
         error: onSendPostEmailError
-    });
+    });*/
 }
 
 function onScripturePostSuccess( vData )
@@ -173,6 +173,52 @@ function onSendPostEmailError()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Point Methods.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function togglePoint(intPointType, bAdd)
+{
+    showPreloader(true);
+    
+    if (intPointType > 0)
+    {
+        var strData = 'userID=' + getUserID() + 
+                      '&pointID=' + intPointType.toString() + 
+                      '&add=' + bAdd.toString() + 
+                      '&dateCreated=' + mysqlDate(getSelectedDate());
+
+        $.ajax({
+            url: 'php/toggle_point.php',
+            type: 'POST',
+            data: strData + '&' + DB_URLSTRING,
+            success: onTogglePointSuccess,
+            error: onTogglePointError
+        });
+    }
+}
+
+function onTogglePointSuccess( vData )
+{
+    showPreloader(false);
+    
+    if (vData == 'success')
+    {
+        if (DEBUG)
+            debug('DEBUG: onTogglePointSuccess() -- You successfully added/removed a point!');
+    }
+    else if (DEBUG)
+        debug('DEBUG: onTogglePointSuccess() -- ' + vData);
+}
+
+function onTogglePointError()
+{   
+    showPreloader(false);
+    
+    if (DEBUG)
+        debug('DEBUG: onTogglePointError() -- There was an error adding/removing the point.');
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Group: Date Methods.
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -191,10 +237,31 @@ function getCurrentDate()
     return intMonth.toString() + "/" + intDay.toString() + "/" + intYear.toString();
 }
 
+function getSelectedDate()
+{
+    return m_strSelectedDate;
+}
+
+function setSelectedDate( value )
+{
+    m_strSelectedDate = value;
+}
+
 function dateDiffDays( strSelectedDate ) 
 {
     return (new Date(strSelectedDate) - new Date(getCurrentDate())) / (1000 * 60 * 60 * 24);
 }
+
+function mysqlDate( strDate )
+{
+    var arrDateInfo = strDate.split('/');
+    if (arrDateInfo.length == 3)
+        return arrDateInfo[2] + '-' + arrDateInfo[0] + '-' + arrDateInfo[1] + ' 00:00:00.0';
+    else
+        return '';
+}
+
+var m_strSelectedDate = getCurrentDate();
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Group: Preloader Methods.
@@ -202,8 +269,25 @@ function dateDiffDays( strSelectedDate )
 
 function showPreloader( bShow )
 {
-    $('#preloaderContainer')[bShow? 'removeClass' : 'addClass']('hidden');
-    $('#preloader')[bShow? 'removeClass' : 'addClass']('hidden');
+    var objPreloaderContainer = $('#preloaderContainer');
+    
+    if (bShow)
+    {
+        objPreloaderContainer.removeClass('hidden');
+        objPreloaderContainer.removeClass('fade-out');
+        
+        if (objPreloaderContainer.css('opacity') < 1)
+            objPreloaderContainer.addClass('fade-in');
+    }
+    else
+    {
+        objPreloaderContainer.removeClass('fade-in');
+        
+        if (objPreloaderContainer.css('opacity') > 0)
+            objPreloaderContainer.addClass('fade-out');
+        else
+            objPreloaderContainer.addClass('hidden');
+    }
 }
 
 

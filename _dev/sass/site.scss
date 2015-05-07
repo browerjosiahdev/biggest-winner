@@ -1,3 +1,6 @@
+@import 'mixins';
+@import 'effects';
+
 body
 {
     font-family: 'cabin_condensed', Arial, sans-serif;
@@ -246,6 +249,7 @@ body
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
     z-index: 1000;
+    opacity: 0;
     
     #preloader
     {
@@ -259,4 +263,18 @@ body
         background-position: 0 0;
         margin: -30px 0 0 -30px;
     }
+}
+
+.fade-in
+{
+    opacity: 0;
+    
+    @include animation(fadeIn, ease-in, 1s, 0.25s);
+}
+
+.fade-out
+{
+    opacity: 1;
+    
+    @include animation(fadeOut, ease-in, 1s, 0.25s);
 }

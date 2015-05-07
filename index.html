@@ -18,6 +18,8 @@
         <script type="text/javascript" language="javascript" src="js/modules.js"></script>
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
         <script type="text/javascript" language="javascript">
+            var m_strSelectedDate = getCurrentDate();
+            
             function onCheckboxToggle( strCheckboxID )
             {
                 var objCheckbox = $('#' + strCheckboxID);
@@ -28,45 +30,48 @@
                     else
                         $('.' + strCheckboxID).addClass('hidden');
                     
-                    var intPointType = POINTTYPES[objCheckbox.data('point-type')];
-                    if (intPointType > 0)
-                    {
-                        var strData = 'userID=' + getUserID() + '&pointID=' + intPointType.toString() + '&add=' + objCheckbox.prop('checked').toString();
-                        
-                        $.ajax({
-                            url: 'php/toggle_point.php',
-                            type: 'POST',
-                            data: strData + '&' + DB_URLSTRING,
-                            success: onTogglePointSuccess,
-                            error: onTogglePointError
-                        });
-                    }
+                    togglePoint(POINTTYPES[objCheckbox.data('point-type')], objCheckbox.prop('checked'));
                 }
-            }
-            
-            function onTogglePointSuccess( vData )
-            {
-                
-            }
-            
-            function onTogglePointError()
-            {
-                
             }
             
             function setupDatePicker()
             {
+                var intMaxDays = Math.min(0, dateDiffDays(ENDDATE));
+                
                 $('#datePicker').datepicker({
-                    defaultDate: getCurrentDate(),
+                    defaultDate: m_strSelectedDate,
                     onSelect: onDatePickerSelect,
                     minDate: dateDiffDays(STARTDATE),
-                    maxDate: dateDiffDays(ENDDATE)
-                }).val(getCurrentDate());
+                    maxDate: intMaxDays
+                }).val(m_strSelectedDate);
             }
             
-            function onDatePickerSelect()
+            function onDatePickerSelect( strDate )
             {
+                setSelectedDate(strDate);
                 
+                var strData = 'queryTable=users_points' + 
+                              '&queryColumns=point_id' + 
+                              '&queryRequirements=user_id[eq]' + getUserID() + 
+                                            " AND date_created[eq]'" + mysqlDate(strDate) + "'";
+                
+                $.ajax({
+                    url: 'php/query.php',
+                    method: 'POST',
+                    data: strData + '&' + DB_URLSTRING,
+                    success: onQueryPointsSuccess,
+                    error: onQueryPointsError
+                });
+            }
+            
+            function onQueryPointsSuccess( vData )
+            {
+                console.log('onQueryPointsSuccess() -- vData == ' + vData);
+            }
+            
+            function onQueryPointsError()
+            {
+                   
             }
         </script>
     </head>
@@ -137,8 +142,8 @@
                 </div>
             </div>
         </div>
-        <div id="preloaderContainer hidden">
-            <div id="preloader hidden"></div>
+        <div id="preloaderContainer" class="hidden">
+            <div id="preloader"></div>
         </div>
     </body>
 </html>
