@@ -46,11 +46,12 @@
                         if (objData.length > 0)
                             logUserIn(objData[0].id, objData[0].name, $('#rememberMe').prop('checked'));
                         else
-                            alert('Unable to find user with matching login and password. Please try again.');
+                            alert('Unable to find user with matching login and password, please try again.');
                     }
                     catch ( error )
                     {
-                        alert('ERROR: ' + error);
+                        if (DEBUG)
+                            alert('ERROR: ' + error);
                     }
                 }
             }

@@ -10,8 +10,10 @@
         <title>Biggest Winner</title>
         <link type="text/css" rel="stylesheet" href="css/font.css">
         <link type="text/css" rel="stylesheet" href="css/site.css">
+        <link type="text/css" rel="stylesheet" href="css/jquery-ui.min.css">
         <script type="text/javascript" language="javascript" src="js/config.js"></script>
         <script type="text/javascript" language="javascript" src="js/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" language="javascript" src="js/jquery-ui.min.js"></script>
         <script type="text/javascript" language="javascript" src="js/angular.min.js"></script>
         <script type="text/javascript" language="javascript" src="js/modules.js"></script>
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
@@ -25,11 +27,50 @@
                         $('.' + strCheckboxID).removeClass('hidden');
                     else
                         $('.' + strCheckboxID).addClass('hidden');
+                    
+                    var intPointType = POINTTYPES[objCheckbox.data('point-type')];
+                    if (intPointType > 0)
+                    {
+                        var strData = 'userID=' + getUserID() + '&pointID=' + intPointType.toString() + '&add=' + objCheckbox.prop('checked').toString();
+                        
+                        $.ajax({
+                            url: 'php/toggle_point.php',
+                            type: 'POST',
+                            data: strData + '&' + DB_URLSTRING,
+                            success: onTogglePointSuccess,
+                            error: onTogglePointError
+                        });
+                    }
                 }
+            }
+            
+            function onTogglePointSuccess( vData )
+            {
+                
+            }
+            
+            function onTogglePointError()
+            {
+                
+            }
+            
+            function setupDatePicker()
+            {
+                $('#datePicker').datepicker({
+                    defaultDate: getCurrentDate(),
+                    onSelect: onDatePickerSelect,
+                    minDate: dateDiffDays(STARTDATE),
+                    maxDate: dateDiffDays(ENDDATE)
+                }).val(getCurrentDate());
+            }
+            
+            function onDatePickerSelect()
+            {
+                
             }
         </script>
     </head>
-    <body onload="javascript:checkLoggedIn();">
+    <body onload="javascript:checkLoggedIn(); setupDatePicker();">
         <div class="header">
             <div class="title">Biggest Winner</div>
         </div>
@@ -39,6 +80,7 @@
             <div class="link">Exercise</div>
         </div>
         <div class="logout">Logout</div>
+        <input id="datePicker" type="text" style="margin-top:10px;">
         <div class="point-forms-container">
             <div class="point-form">
                 <h2>Scriptures</h2>

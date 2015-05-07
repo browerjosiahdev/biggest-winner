@@ -40,7 +40,9 @@
             $strData .= '},';
         }
         
-        $strData = substr($strData, 0, -1);
+        if (strlen($strData) > 1)
+            $strData = substr($strData, 0, -1);
+        
         $strData .= ']';
         
         echo $strData;

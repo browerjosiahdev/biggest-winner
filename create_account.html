@@ -35,7 +35,7 @@
                 
                 if (strPassword != strConfirmPassword)
                 {
-                    alert('Sorry, your passwords don&apos;t match.');
+                    alert("Sorry, your passwords don't match.");
                     
                     return;
                 }
@@ -64,11 +64,12 @@
                         if (objData.length > 0)
                             logUserIn(objData[0].id, objData[0].name, $('#rememberMe').prop('checked'));
                         else
-                            alert('Unable to find user with matching login and password. Please try again.');
+                            alert('Unable to log you in, please go to the login page and try logging in again.');
                     }
                     catch ( error )
                     {
-                        alert(error);
+                        if (DEBUG)
+                        alert('ERROR: ' + error);
                     }
                 }
             }

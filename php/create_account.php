@@ -32,7 +32,9 @@
              while ($row = $result->fetch_object())
                 $strData .= '{"id":"' . $row->id . '","name":"' . $row->name . '"},';
 
-            $strData = substr($strData, 0, -1);
+            if (strlen($strData) > 1)
+                $strData = substr($strData, 0, -1);
+            
             $strData .= ']';
 
             echo $strData;

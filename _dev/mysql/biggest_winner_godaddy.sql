@@ -30,6 +30,8 @@ INSERT IGNORE INTO points (type)
                     VALUE ('water');
 INSERT IGNORE INTO points (type)
                     VALUE ('treats');
+INSERT IGNORE INTO points (type)
+                    VALUE ('scriptures_post');                    
                     
 CREATE TABLE IF NOT EXISTS users_points (id INT AUTO_INCREMENT, 
                                          user_id INT NOT NULL, 

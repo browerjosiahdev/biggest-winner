@@ -134,8 +134,11 @@ function onScripturePostError()
 
 function onSendPostEmailSuccess( vData )
 {
-    if (typeof vData == 'number' && vData == 1)
-        alert('You successfully sent an email!');
+    if (vData == 'success')
+    {
+        if (DEBUG)
+            alert('You successfully sent an email!');
+    }
 }
 
 function onSendPostEmailError()
@@ -143,6 +146,25 @@ function onSendPostEmailError()
     
 }
 
+function getCurrentDate() 
+{
+    var date        = new Date();
+    var intDay      = date.getDate();
+    var intMonth    = date.getMonth() + 1;
+    var intYear     = date.getFullYear();
+    
+    if (intDay < 10)
+        intDay = "0" + intDay;
+    if (intMonth < 10)
+        intMonth = "0" + intMonth;
+    
+    return intMonth.toString() + "/" + intDay.toString() + "/" + intYear.toString();
+}
+
+function dateDiffDays( strSelectedDate ) 
+{
+    return (new Date(strSelectedDate) - new Date(getCurrentDate())) / (1000 * 60 * 60 * 24);
+}
 
 
 

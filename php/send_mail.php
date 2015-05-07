@@ -11,5 +11,5 @@
 
     mail($mailTo, $subject, $message, $headers);
 
-    echo 1;
+    echo 'success';
 ?>
