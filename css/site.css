@@ -36,6 +36,16 @@ body {
       .menu .link a:hover {
         color: #ccc; }
 
+.logout {
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: #fff;
+  text-decoration: underline; }
+  .logout:hover {
+    color: #ccc; }
+
 .point-forms-container .point-form .form-content {
   background-color: #bbb;
   padding: 5px; }

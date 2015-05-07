@@ -6,14 +6,22 @@
 
     if ($mysqli->connect_errno) 
     {
-        echo 'Connection failed:', $mysqli->connect_error;
+        echo 'ERROR:', $mysqli->connect_error;
         
         exit();
     }
     
-    if ($result = $mysqli->query('SELECT id FROM users WHERE login="' . $userName . '" AND password="' . $password . '"'))
+    if ($result = $mysqli->query('SELECT id,name FROM users WHERE login="' . $userName . '" AND password="' . $password . '"'))
     {
-        echo $result->fetch_row()[0];
+        $strData = '[';
+        
+         while ($row = $result->fetch_object())
+            $strData .= '{"id":"' . $row->id . '","name":"' . $row->name . '"},';
+        
+        $strData = substr($strData, 0, -1);
+        $strData .= ']';
+        
+        echo $strData;
         
         exit();
     }

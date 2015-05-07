@@ -28,4 +28,6 @@ var INPUTEMAIL = 'INPUT_EMAIL';
 
 var SMTP            = 'aspmx.l.google.com';
 var MAILCLIENT      = 'biggestwinnertracker@gmail.com';
-var EMAILTEMPLATE   = '%USER_NAME% just posted to the %FORUM% page!\r\n%EMAIL_BODY%\r\nTell them your opinion, and post a comment!';
+var EMAILTEMPLATE   = '%USER_NAME% just posted to the %FORUM% page!\r\n\r\n%EMAIL_BODY%\r\n\r\nTell them your opinion, and post a comment!';
+
+var SMTP_URLSTRING  = 'smtp=' + SMTP + '&mailClient=' + MAILCLIENT + '&mailTo=%MAIL_TO%&subject=%SUBJECT%&message=%MESSAGE%';

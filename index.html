@@ -38,6 +38,7 @@
             <div class="link"><a href="scriptures.html">Scriptures</a></div>
             <div class="link">Exercise</div>
         </div>
+        <div class="logout">Logout</div>
         <div class="point-forms-container">
             <div class="point-form">
                 <h2>Scriptures</h2>
@@ -49,13 +50,13 @@
                     <div class="fields-container scripturesCheckbox hidden">
                         <div class="field">
                             <p>Reference (200)</p>
-                            <textarea class="comment-textarea" maxlength="200" rows="1"></textarea>
+                            <textarea id="scriptureReference" class="comment-textarea" maxlength="200" rows="1"></textarea>
                         </div>
                         <div class="field">
                             <p>Comment (2000)</p>
-                            <textarea class="comment-textarea" maxlength="2000" rows="5"></textarea>
+                            <textarea id="scriptureComment" class="comment-textarea" maxlength="2000" rows="5"></textarea>
                         </div>
-                        <button type="submit">Submit</button>
+                        <button type="submit" onclick="javascript:postScripture();">Submit</button>
                     </div>
                 </div>
             </div>
@@ -69,7 +70,7 @@
                     <div class="fields-container exerciseCheckbox hidden">
                         <div class="field">
                             <p>Comment (2000)</p>
-                            <textarea class="comment-textarea" maxlength="2000" rows="5"></textarea>
+                            <textarea id="exerciseComment" class="comment-textarea" maxlength="2000" rows="5"></textarea>
                         </div>
                         <button type="submit">Submit</button>
                     </div>

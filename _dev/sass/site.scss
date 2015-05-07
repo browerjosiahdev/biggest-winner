@@ -57,6 +57,21 @@ body
     }
 }
 
+.logout
+{
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: #fff;
+    text-decoration: underline;
+    
+    &:hover
+    {
+        color: #ccc;   
+    }
+}
+
 .point-forms-container
 {
     .point-form

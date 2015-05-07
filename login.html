@@ -38,20 +38,21 @@
             
             function onLoginPostSuccess( vData )
             {
-                var intData = Number(vData);
-                if (!isNaN(intData) && intData > 0)
+                if (typeof vData == 'string')
                 {
-                    if ($('#rememberMe').prop('checked'))
-                        localStorage.setItem('userID', intData);
-                    else
-                        sessionStorage.setItem('userID', intData);
-                    
-                    window.location.href = 'index.html';
+                    try
+                    {
+                        var objData = JSON.parse(vData);
+                        if (objData.length > 0)
+                            logUserIn(objData[0].id, objData[0].name, $('#rememberMe').prop('checked'));
+                        else
+                            alert('Unable to find user with matching login and password. Please try again.');
+                    }
+                    catch ( error )
+                    {
+                        alert('ERROR: ' + error);
+                    }
                 }
-                else if (typeof vData == 'string')
-                    alert(vData);
-                else
-                    alert('Unable to find user with matching login and password. Please try again.');
             }
             
             function onLoginPostError()
