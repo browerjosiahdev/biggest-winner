@@ -136,24 +136,25 @@ function postScripture()
         error: onScripturePostError
     });
     
-        // Create the message and data string.
-    var strMessage  = EMAILTEMPLATE.split('%USER_NAME%').join(getUserName());
-        strMessage  = strMessage.split('%FORUM%').join('scriptures');
-        strMessage  = strMessage.split('%EMAIL_BODY%').join('<p><span style="font-size: 16px; font-weight: bold;">' + strReference + '</span></p>' + '<p><span style="font-size: 14px; font-weight: normal;">' + strComment + '</span></p>');
-    var strData     = SMTP_URLSTRING.split('%MAIL_TO%').join('browerjosiah@gmail.com');
-        strData     = strData.split('%SUBJECT%').join('Someone posted a scripture!');
-        strData     = strData.split('%MESSAGE%').join(strMessage);    
-    
-console.log(strData);
-    
-        // Call to send the emails.
-    $.ajax({
-        url: 'php/send_mail.php',
-        type: 'POST',
-        dataType: 'json',
-        data: strData + '&' + DB_URLSTRING,
-        success: onSendPostEmailSuccess,
-        error: onSendPostEmailError
+    getUsersEmails().then(function( data )
+    {
+            // Create the message and data string.
+        var strMessage  = EMAILTEMPLATE.split('%USER_NAME%').join(getUserName());
+            strMessage  = strMessage.split('%FORUM%').join('scriptures');
+            strMessage  = strMessage.split('%EMAIL_BODY%').join('<p><span style="font-size: 16px; font-weight: bold;">' + strReference + '</span></p>' + '<p><span style="font-size: 14px; font-weight: normal;">' + strComment + '</span></p>');
+
+        var strData     = SMTP_URLSTRING.split('%MAIL_TO%').join(data.join(', '));
+            strData     = strData.split('%SUBJECT%').join('Someone posted a scripture!');
+            strData     = strData.split('%MESSAGE%').join(strMessage);    
+
+            // Call to send the emails.
+        $.ajax({
+            url: 'php/send_mail.php',
+            type: 'POST',
+            data: strData + '&' + DB_URLSTRING,
+            success: onSendPostEmailSuccess,
+            error: onSendPostEmailError
+        });
     });
 }
 
@@ -173,7 +174,7 @@ function onScripturePostSuccess( jsonData )
     togglePoint(POINTTYPES['scripturesPost'], true);
 }
 
-function onScripturePostError()
+function onScripturePostError( jqXHR, textStatus, errorThrown )
 {
     
 }
@@ -191,9 +192,9 @@ function onSendPostEmailSuccess( jsonData )
         debug(jsonData.message);
 }
 
-function onSendPostEmailError()
+function onSendPostEmailError( jqXHR, textStatus, errorThrown )
 {
-    showPreloader(false);
+    showPreloader(false);    
 }
 
 function getScripturePosts()
@@ -222,14 +223,13 @@ function getScripturePosts()
                         var intPostID   = objData.id;
 
                         objData.comments = [];
-
-                        getScriptureComments(intPostID).then(function( data )
+                        
+                        getScriptureComments(intPostID, objData).then(function( data )
                         {
-                            if (data.length > 0)
-                                objData.comments = data;
+                            $('.post[data-post-id="' + data.postID + '"]').append('<p />');
                         });
                     }
-
+                    
                     resolve(jsonData.data);
                 }
                 else if (DEBUG)
@@ -243,8 +243,10 @@ function getScripturePosts()
     });
 }
 
-function getScriptureComments( intPostID )
+function getScriptureComments( intPostID, objData )
 {
+    showPreloader(true);
+    
     return new Promise(function( resolve, reject )
     {
         var strData = 'queryTable=scriptures_comments' + 
@@ -258,19 +260,26 @@ function getScriptureComments( intPostID )
             data: strData + '&' + DB_URLSTRING,
             success: function( jsonData )
             {
+                showPreloader(false);
+                
                 if (jsonData.success)
                 {
                     if (DEBUG)
                         debug(jsonData.message);                    
                     
-                    resolve(jsonData.data);
+                    objData.comments = jsonData.data;
+                    objData.postID   = intPostID;
+                    
+                    resolve(objData);
                 }
                 else if (DEBUG)
                     debug(jsonData.message);
             },
-            error: function()
+            error: function( jqXHR, textStatus, errorThrown )
             {
-                reject('ajax error');
+                showPreloader(false);
+                
+                reject(errorThrown);
             }
         });
     });
@@ -278,6 +287,8 @@ function getScriptureComments( intPostID )
 
 function postScriptureComment( objPostBtn )
 {
+    showPreloader(true);
+    
     objPostBtn = $(objPostBtn);
     
     var intPostID = Number(objPostBtn.data('post-id'));
@@ -308,6 +319,8 @@ function postScriptureComment( objPostBtn )
 
 function onPostScriptureCommentSuccess( jsonData )
 {
+    showPreloader(false);
+    
     if (jsonData.success)
     {
         if (DEBUG)
@@ -327,9 +340,47 @@ function onPostScriptureCommentSuccess( jsonData )
         debug(jsonData.message);
 }
 
-function onPostScriptureCommentError()
+function onPostScriptureCommentError( jqXHR, textStatus, errorThrown )
 {
-    
+    showPreloader(false);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Email Methods.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function getUsersEmails()
+{
+    return new Promise(function( resolve, reject )
+    {
+        var strData = 'queryTable=users' + 
+                      '&queryColumns=email' + 
+                      '&queryRequirements=recieve_emails[eq]1 ' + 
+                                     'AND archived[eq]0';
+        
+        $.ajax({
+            url: 'php/query.php',
+            type: 'POST',
+            dataType: 'json',
+            data: strData + '&' + DB_URLSTRING,
+            success: function( jsonData )
+            {
+                var arrEmails = [];
+                for (var inEmail = 0; inEmail < jsonData.data.length; inEmail++)
+                {
+                    var objEmail = jsonData.data[inEmail];   
+                    
+                    arrEmails.push(objEmail.email);
+                }
+                
+                resolve(arrEmails);
+            },
+            error: function ( jqXHR, textStatus, errorThrown )
+            {
+                reject(errorThrown);
+            }
+        });  
+    });
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -371,7 +422,7 @@ function onTogglePointSuccess( jsonData )
         debug(jsonData.message);
 }
 
-function onTogglePointError()
+function onTogglePointError( jqXHR, textStatus, errorThrown )
 {   
     showPreloader(false);
 }
@@ -379,6 +430,7 @@ function onTogglePointError()
 function queryPoints()
 {
     showPreloader(true);
+    
     toggleCheckboxes();
 
    var strData = 'queryTable=users_points' + 

@@ -16,6 +16,8 @@
         <script type="text/javascript" language="javascript">
             function login()
             {
+                showPreloader(true);
+                
                 var strUserName = isValidInput($('#userName'));
                 var strPassword = isValidInput($('#password'));
                 
@@ -39,6 +41,8 @@
             
             function onLoginPostSuccess( jsonData )
             {
+                showPreloader(false);
+                
                 if (jsonData.success)
                 {
                     if (DEBUG)
@@ -53,9 +57,9 @@
                     debug(jsonData.message);
             }
             
-            function onLoginPostError()
+            function onLoginPostError( jqXHR, textStatus, errorThrown )
             {
-                
+                showPreloader(false);
             }
         </script>
     </head>

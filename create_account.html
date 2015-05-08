@@ -16,6 +16,8 @@
         <script type="text/javascript" language="javascript">
             function createAccount()
             {
+                showPreloader(true);
+                
                 var strName             = isValidInput($('#name'));
                 var strEmail            = isValidInput($('#email'), INPUTEMAIL);
                 var strLogin            = isValidInput($('#login'));
@@ -57,6 +59,8 @@
             
             function onCreateAccountSuccess( jsonData )
             {
+                showPreloader(false);
+                
                 if (jsonData.success)
                 {
                     if (DEBUG)
@@ -71,9 +75,9 @@
                     debug(jsonData.message);
             }
             
-            function onCreateAccountError()
+            function onCreateAccountError( jqXHR, textStatus, errorThrown )
             {
-                
+                showPreloader(false);
             }
         </script>
     </head>

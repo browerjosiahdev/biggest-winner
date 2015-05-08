@@ -33,13 +33,18 @@
     $mail->SetFrom          = 'Biggest Winner';
     $mail->FromName         = 'Biggest Winner';
 
-    $mail->AddAddress('browerjosiah@gmail.com');
+    $arrMailTo = explode(', ', $mailTo);
 
+    for ($inMailTo = 0; $inMailTo < count($arrMailTo); $inMailTo++)
+    {
+        $mail->AddAddress($arrMailTo[$inMailTo]);
+    }
+        
     $mail->Subject = $subject;
     $mail->Body    = $message;
 
     if (!$mail->send())
-        echo '{"success":false,"message":"error: ' . $mail->errorInfo . '"}'
+        echo '{"success":false,"message":"error: ' . rawurlencode($mail->errorInfo) . '"}';
     else
         echo '{"success":true,"message":"success: email has been sent"}';
 

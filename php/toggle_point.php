@@ -8,7 +8,7 @@
 
     if ($mysqli->connect_errno) 
     {
-        echo '{"success":false,"message":"error: ' . $mysqli->connect_error . '"}';
+        echo '{"success":false,"message":"error: ' . rawurlencode($mysqli->connect_error) . '"}';
         
         exit();
     }
