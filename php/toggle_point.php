@@ -1,7 +1,8 @@
 <?php
-    $userID     = $_POST['userID'];
-    $pointID    = $_POST['pointID'];
-    $add        = $_POST['add'];
+    $userID      = $_POST['userID'];
+    $pointID     = $_POST['pointID'];
+    $add         = $_POST['add'];
+    $dateCreated = $_POST['dateCreated'];
 
     $mysqli = new mysqli($_POST['dbIP'], $_POST['dbUserName'], $_POST['dbPassword'], $_POST['dbName']);
 
@@ -12,20 +13,32 @@
         exit();
     }
     
-    if ($result = $mysqli->query('SELECT id FROM users_points WHERE user_id=' . $userID . ' AND point_id=' . $pointID . ' AND DATE(date_created)=CURDATE()'))
+    if ($result = $mysqli->query("SELECT id FROM users_points WHERE user_id=" . $userID . " AND point_id=" . $pointID . " AND date_created='" . $dateCreated . "';"))
     {
         if ($result->num_rows > 0)
         {
             if ($add != 'true')
-                $mysqli->query('DELETE FROM users_points WHERE user_id=' . $userID . ' AND point_id=' . $pointID . ' AND DATE(date_created)=CURDATE()');
+            {
+                if ($mysqli->query("DELETE FROM users_points WHERE user_id=" . $userID . " AND point_id=" . $pointID . " AND date_created='" . $dateCreated . "');"))
+                    echo 'success';
+                else
+                    echo 'ERROR';
+            }
+            else
+                echo 'ERROR: Point already exists.';
         }
         else
         {
             if ($add == 'true')
-                $mysqli->query('INSERT INTO users_points (user_id, point_id) VALUES (' . $userID . ', ' . $pointID . ')');
+            {
+                if ($mysqli->query("INSERT INTO users_points (user_id, point_id, date_created) VALUES (" . $userID . "," . $pointID . ",'" . $dateCreated . "');"))
+                    echo 'success';
+                else
+                    echo 'ERROR';                
+            }
+            else
+                echo 'ERROR: Point doesn\'t exist.';
         }
-        
-        echo 'success';
         
         exit();
     }

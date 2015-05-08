@@ -69,14 +69,15 @@
                     catch ( error )
                     {
                         if (DEBUG)
-                        alert('ERROR: ' + error);
+                            debug('DEBUG: onCreateAccountSuccess() -- ' + error);
                     }
                 }
             }
             
             function onCreateAccountError()
             {
-                alert('There was an issue creating your account, please try again. If the issue persists, contact your system administrator.');
+                if (DEBUG)
+                    debug('DEBUG: onCreateAccountError() -- There was an issue creating your account, please try again. If the issue persists, contact your system administrator.');
             }
         </script>
     </head>

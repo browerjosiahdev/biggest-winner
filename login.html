@@ -51,14 +51,15 @@
                     catch ( error )
                     {
                         if (DEBUG)
-                            alert('ERROR: ' + error);
+                            debug('DEBUG: onLoginPostSuccess() -- ' + error);
                     }
                 }
             }
             
             function onLoginPostError()
             {
-                alert('There was an issue logging you in, please try again. If the issue persists, contact your system administrator.');
+                if (DEBUG)
+                    debug('DEBUG: onLoginPostError() -- There was an issue logging you in, please try again. If the issue persists, contact your system administrator.');
             }
         </script>
     </head>
