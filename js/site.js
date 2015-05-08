@@ -144,13 +144,14 @@ function postScripture()
             strMessage  = strMessage.split('%EMAIL_BODY%').join('<p><span style="font-size: 16px; font-weight: bold;">' + strReference + '</span></p>' + '<p><span style="font-size: 14px; font-weight: normal;">' + strComment + '</span></p>');
 
         var strData     = SMTP_URLSTRING.split('%MAIL_TO%').join(data.join(', '));
-            strData     = strData.split('%SUBJECT%').join('Someone posted a scripture!');
+            strData     = strData.split('%SUBJECT%').join((getUserName() + ' posted to the scriptures page!'));
             strData     = strData.split('%MESSAGE%').join(strMessage);    
 
             // Call to send the emails.
         $.ajax({
             url: 'php/send_mail.php',
             type: 'POST',
+            dataType: 'json',
             data: strData + '&' + DB_URLSTRING,
             success: onSendPostEmailSuccess,
             error: onSendPostEmailError
@@ -199,6 +200,8 @@ function onSendPostEmailError( jqXHR, textStatus, errorThrown )
 
 function getScripturePosts()
 {
+    showPreloader(true);
+    
     return new Promise(function( resolve, reject )
     {
         var strData = 'queryTable=scriptures' + 
@@ -217,6 +220,7 @@ function getScripturePosts()
                     if (DEBUG)
                         debug(jsonData.message);                    
                     
+                    var intCommentsQueried = 0;
                     for (var inData = 0; inData < jsonData.data.length; inData++)
                     {
                         var objData     = jsonData.data[inData];
@@ -225,12 +229,17 @@ function getScripturePosts()
                         objData.comments = [];
                         
                         getScriptureComments(intPostID, objData).then(function( data )
-                        {
-                            $('.post[data-post-id="' + data.postID + '"]').append('<p />');
+                        {   
+                            intCommentsQueried++;
+                            
+                            if (intCommentsQueried == jsonData.data.length)
+                            {
+                                resolve(jsonData.data);
+                                
+                                showPreloader(false);
+                            }
                         });
                     }
-                    
-                    resolve(jsonData.data);
                 }
                 else if (DEBUG)
                     debug(jsonData.message);
@@ -245,8 +254,6 @@ function getScripturePosts()
 
 function getScriptureComments( intPostID, objData )
 {
-    showPreloader(true);
-    
     return new Promise(function( resolve, reject )
     {
         var strData = 'queryTable=scriptures_comments' + 

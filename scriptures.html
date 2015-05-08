@@ -16,7 +16,7 @@
         <script type="text/javascript" language="javascript" src="js/modules.js"></script>
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
     </head>
-    <body onload="javascript:checkLoggedIn();" ng-controller="PostsBodyCtrl">
+    <body onload="" ng-controller="PostsBodyController as postsBodyCtrl">
         <div class="header">
             <div class="title">Biggest Winner</div>
         </div>
@@ -54,11 +54,13 @@
                         <div class="comment">{{comment.post_comment}}</div>
                     </div>
                 </div>
-                <div class="add-comment">
-                    <p>Comment (2000)</p>
-                    <textarea class="comment-textarea" maxlength="2000" rows="3" style="width: 100%;"></textarea><br/>
-                    <button type="submit" onclick="javascript:postScriptureComment(this)" data-post-id="{{post.id}}">Post</button>
-                </div>
+                <form name="commentForm" ng-controller="CommentController as commentCtrl" ng-submit="commentCtrl.addComment(post);">
+                    <div class="add-comment">
+                        <p>Comment (2000)</p>
+                        <textarea class="comment-textarea" maxlength="2000" rows="3" style="width: 100%;" ng-model="commentCtrl.comment.post_comment"></textarea><br/>
+                        <button type="submit" onclick="javascript:postScriptureComment(this)" data-post-id="{{post.id}}">Post</button>
+                    </div>
+                </form>
             </div>
         </div>
     </body>

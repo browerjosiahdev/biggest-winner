@@ -44,7 +44,12 @@
     $mail->Body    = $message;
 
     if (!$mail->send())
-        echo '{"success":false,"message":"error: ' . rawurlencode($mail->errorInfo) . '"}';
+    {
+        $errorInfo = explode('"', $mail->errorInfo);
+        $errorInfo = implode('\"', $errorInfo);
+        
+        echo '{"success":false,"message":"error: ' . $errorInfo . '"}';
+    }
     else
         echo '{"success":true,"message":"success: email has been sent"}';
 
