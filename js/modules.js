@@ -10,8 +10,13 @@ var m_postsApp = angular.module('PostsApp', []);
 
 m_postsApp.controller('PostsBodyCtrl', ['$scope', '$http', function( $scope, $http )
 {
-    $http.get('data/scriptures.json').success(function( data )
+    getScripturePosts().then(function( data )
     {
         $scope.posts = data;
     });
+    
+    /*$http.get('data/scriptures.json').success(function( data )
+    {
+        $scope.posts = data;
+    });*/
 }]);

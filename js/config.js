@@ -55,6 +55,13 @@ var POINTTYPES = {
     "treats": 4,
     "scripturesPost": 5
 };
+var POINTTYPELOOKUP = {
+    "1": "scriptures",
+    "2": "exercise",
+    "3": "water",
+    "4": "treats",
+    "5": "scripturesPost"
+};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // Group: Date Configuration.

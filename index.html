@@ -18,64 +18,15 @@
         <script type="text/javascript" language="javascript" src="js/modules.js"></script>
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
         <script type="text/javascript" language="javascript">
-            var m_strSelectedDate = getCurrentDate();
-            
-            function onCheckboxToggle( strCheckboxID )
-            {
-                var objCheckbox = $('#' + strCheckboxID);
-                if (objCheckbox.html() !== undefined)
-                {
-                    if (objCheckbox.prop('checked'))
-                        $('.' + strCheckboxID).removeClass('hidden');
-                    else
-                        $('.' + strCheckboxID).addClass('hidden');
-                    
-                    togglePoint(POINTTYPES[objCheckbox.data('point-type')], objCheckbox.prop('checked'));
-                }
-            }
-            
-            function setupDatePicker()
-            {
-                var intMaxDays = Math.min(0, dateDiffDays(ENDDATE));
-                
-                $('#datePicker').datepicker({
-                    defaultDate: m_strSelectedDate,
-                    onSelect: onDatePickerSelect,
-                    minDate: dateDiffDays(STARTDATE),
-                    maxDate: intMaxDays
-                }).val(m_strSelectedDate);
-            }
-            
-            function onDatePickerSelect( strDate )
+            onDatePickerSelect = function( strDate )
             {
                 setSelectedDate(strDate);
                 
-                var strData = 'queryTable=users_points' + 
-                              '&queryColumns=point_id' + 
-                              '&queryRequirements=user_id[eq]' + getUserID() + 
-                                            " AND date_created[eq]'" + mysqlDate(strDate) + "'";
-                
-                $.ajax({
-                    url: 'php/query.php',
-                    method: 'POST',
-                    data: strData + '&' + DB_URLSTRING,
-                    success: onQueryPointsSuccess,
-                    error: onQueryPointsError
-                });
-            }
-            
-            function onQueryPointsSuccess( vData )
-            {
-                console.log('onQueryPointsSuccess() -- vData == ' + vData);
-            }
-            
-            function onQueryPointsError()
-            {
-                   
+                onQueryPoints();
             }
         </script>
     </head>
-    <body onload="javascript:checkLoggedIn(); setupDatePicker();">
+    <body onload="javascript:checkLoggedIn(); setupDatePicker(); onQueryPoints();">
         <div class="header">
             <div class="title">Biggest Winner</div>
         </div>

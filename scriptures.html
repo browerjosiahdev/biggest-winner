@@ -10,6 +10,7 @@
         <title>Biggest Winner</title>
         <link type="text/css" rel="stylesheet" href="css/font.css">
         <link type="text/css" rel="stylesheet" href="css/site.css">
+        <script type="text/javascript" language="javascript" src="js/config.js"></script>
         <script type="text/javascript" language="javascript" src="js/jquery-1.11.2.min.js"></script>
         <script type="text/javascript" language="javascript" src="js/angular.min.js"></script>
         <script type="text/javascript" language="javascript" src="js/modules.js"></script>
@@ -45,8 +46,8 @@
         </div>
         <div class="posts-container">
             <div class="post" ng-repeat="post in posts | filter:search | orderBy:sort">
-                <div class="user-name">{{post.userName}}</div><div class="time-stamp">{{post.timeStamp}}</div>
-                <div class="comment">{{post.comment}}</div>
+                <div class="user-name">{{post.user_name}}</div><div class="time-stamp">{{post.date_created}}</div>
+                <div class="comment"><b>{{post.post_reference}}</b><br /><br />{{post.post_comment}}</div>
                 <div class="user-comments-container">
                     <div class="user-comment" ng-repeat="comment in post.comments">
                         <div class="user-name">{{comment.userName}}</div><div class="time-stamp">{{comment.timeStamp}}</div>

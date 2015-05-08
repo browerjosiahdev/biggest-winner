@@ -119,17 +119,30 @@ function postScripture()
     showPreloader(true);
     
         // Get the reference and comment value.
-    var strReference    = escape($('#scriptureReference').val());
-    var srtComment      = escape($('#scriptureComment').val());
+    var strReference = escape($('#scriptureReference').val());
+    var strComment   = escape($('#scriptureComment').val());
+    var strPostData  = 'reference=' + strReference +
+                       '&comment=' + strComment + 
+                       '&userID=' + getUserID() + 
+                       '&userName=' + getUserName();
+    
+        // Call to post the scripture
+    $.ajax({
+        url: 'php/post_scripture.php',
+        type: 'POST',
+        data: strPostData + '&' + DB_URLSTRING,
+        success: onScripturePostSuccess,
+        error: onScripturePostError
+    });
     
         // Create the message and data string.
     var strMessage  = EMAILTEMPLATE.split('%USER_NAME%').join(getUserName());
         strMessage  = strMessage.split('%FORUM%').join('scriptures');
-        strMessage  = strMessage.split('%EMAIL_BODY%').join('<p><span style="font-size: 16px; font-weight: bold;">' + strReference + '</span></p>' + '<p><span style="font-size: 14px; font-weight: normal;">' + srtComment + '</span></p>');
+        strMessage  = strMessage.split('%EMAIL_BODY%').join('<p><span style="font-size: 16px; font-weight: bold;">' + strReference + '</span></p>' + '<p><span style="font-size: 14px; font-weight: normal;">' + strComment + '</span></p>');
     var strData     = SMTP_URLSTRING.split('%MAIL_TO%').join('browerjosiah@gmail.com');
         strData     = strData.split('%SUBJECT%').join('Someone posted a scripture!');
-        strData     = strData.split('%MESSAGE%').join(strMessage);
-
+        strData     = strData.split('%MESSAGE%').join(strMessage);    
+    
         // Call to send the emails.
     /*$.ajax({
         url: 'php/send_mail.php',
@@ -142,7 +155,18 @@ function postScripture()
 
 function onScripturePostSuccess( vData )
 {
+    if (vData == 'success')
+    {
+        if (DEBUG)
+            debug('DEBUG: onScripturePostSuccess() -- Successfully posted your scripture.');
+        
+        $('#scriptureReference').val('');
+        $('#scriptureComment').val('');
+    }
+    else if (DEBUG)
+        debug('DEBUG: onScripturePostSuccess() -- ' + vData);
     
+    togglePoint(POINTTYPES['scripturesPost'], true);
 }
 
 function onScripturePostError()
@@ -170,6 +194,42 @@ function onSendPostEmailError()
     
     if (DEBUG)
         debug('DEBUG: onSendPostEmailError() -- There was an error sending the notification email.');
+}
+
+function getScripturePosts()
+{
+    return new Promise(function( resolve, reject )
+    {
+        var strData = 'queryTable=scriptures' + 
+                      '&queryColumns=user_name, post_reference, post_comment, date_created' + 
+                      '&queryRequirements=';
+
+        $.ajax({
+            url: 'php/query.php',
+            type: 'POST',
+            data: strData + '&' + DB_URLSTRING,
+            success: function( vData )
+            {
+                debug(vData);
+                
+                if (typeof vData == 'string')
+                {
+                    try
+                    {
+                        resolve(JSON.parse(vData));
+                    }
+                    catch ( error )
+                    {
+                        reject(error);   
+                    }
+                }
+            },
+            error: function()
+            {
+                reject('ajax error');   
+            }
+        });
+    });
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -218,6 +278,94 @@ function onTogglePointError()
         debug('DEBUG: onTogglePointError() -- There was an error adding/removing the point.');
 }
 
+function onQueryPoints()
+{
+    showPreloader(true);
+    toggleCheckboxes();
+
+   var strData = 'queryTable=users_points' + 
+              '&queryColumns=point_id' + 
+              '&queryRequirements=user_id[eq]' + getUserID() + 
+                            " AND date_created[eq]'" + mysqlDate(getSelectedDate()) + "'";
+
+    $.ajax({
+        url: 'php/query.php',
+        method: 'POST',
+        data: strData + '&' + DB_URLSTRING,
+        success: onQueryPointsSuccess,
+        error: onQueryPointsError
+    });
+}
+
+function onQueryPointsSuccess( vData )
+{
+    showPreloader(false);
+
+    if (typeof vData == 'string')
+    {
+        try
+        {
+            var objData = JSON.parse(vData);
+            for (var inData = 0; inData < objData.length; inData++)
+            {
+                var intPointType  = objData[inData].point_id; 
+                var strCheckboxID = POINTTYPELOOKUP[intPointType.toString()] + 'Checkbox';
+
+                var objCheckbox = $('#' + strCheckboxID);
+                if (objCheckbox.html() !== undefined)
+                {
+                    objCheckbox.prop('checked', true);
+
+                    onCheckboxToggle(strCheckboxID, true);
+                }
+            }
+            
+            if (DEBUG)
+                debug('DEBUG: onQueryPointsSuccess() -- Point query successfull.');
+        }
+        catch ( error )
+        {
+            if (DEBUG)
+                debug('DEBUG: ' + error);
+        }
+    }
+}
+
+function onQueryPointsError()
+{
+    showPreloader(false);
+
+    if (DEBUG)
+        debug('DEBUG: Unable to query point data for this user.');
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Checkbox Methods.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function toggleCheckboxes()
+{
+    $('.checkbox').prop('checked', false);
+
+    for (var strProp in POINTTYPES)
+        onCheckboxToggle((strProp + 'Checkbox'), true);
+}
+
+function onCheckboxToggle( strCheckboxID, bIgnore )
+{
+    var objCheckbox = $('#' + strCheckboxID);
+    if (objCheckbox.html() !== undefined)
+    {
+        if (objCheckbox.prop('checked'))
+            $('.' + strCheckboxID).removeClass('hidden');
+        else
+            $('.' + strCheckboxID).addClass('hidden');
+
+        if (bIgnore !== true)
+            togglePoint(POINTTYPES[objCheckbox.data('point-type')], objCheckbox.prop('checked'));
+    }
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Group: Date Methods.
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -262,6 +410,27 @@ function mysqlDate( strDate )
 }
 
 var m_strSelectedDate = getCurrentDate();
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Date Picker Methods.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function setupDatePicker()
+{
+    var intMaxDays = Math.min(0, dateDiffDays(ENDDATE));
+
+    $('#datePicker').datepicker({
+        defaultDate: m_strSelectedDate,
+        onSelect: onDatePickerSelect,
+        minDate: dateDiffDays(STARTDATE),
+        maxDate: intMaxDays
+    }).val(m_strSelectedDate);
+}
+
+function onDatePickerSelect( strDate )
+{
+    
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Group: Preloader Methods.
