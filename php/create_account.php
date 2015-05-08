@@ -3,6 +3,11 @@
     $strEmail       = $_POST['email'];
     $strLogin       = $_POST['login'];
     $strPassword    = $_POST['password'];
+    $recieveEmails  = 1;
+
+    if ($_POST['recieveEmails'] != 'true')
+        $recieveEmails = 0;
+        
 
     $mysqli = new mysqli($_POST['dbIP'], $_POST['dbUserName'], $_POST['dbPassword'], $_POST['dbName']);
 
@@ -23,7 +28,7 @@
         }
     }
     
-    if ($mysqli->query("INSERT INTO users (name, email, login, password) VALUES ('" . $strName . "', '" . $strEmail . "', '" . $strLogin . "', '" . $strPassword . "')"))
+    if ($mysqli->query('INSERT INTO users (name, email, login, password, recieve_emails) VALUES (\'' . $strName . '\', \'' . $strEmail . '\', \'' . $strLogin . '\', \'' . $strPassword . '\', ' . $recieveEmails . ')'))
     {
         if ($result = $mysqli->query("SELECT id,name FROM users WHERE email='" . $strEmail . "' OR login='" . $strLogin . "'"))
         {
