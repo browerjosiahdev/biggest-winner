@@ -30,36 +30,32 @@
                 $.ajax({
                     url: 'php/login.php',
                     method: 'POST',
+                    dataType: 'json',
                     data: strData + '&' + DB_URLSTRING,
                     success: onLoginPostSuccess,
                     error: onLoginPostError
                 });
             }
             
-            function onLoginPostSuccess( vData )
+            function onLoginPostSuccess( jsonData )
             {
-                if (typeof vData == 'string')
+                if (jsonData.success)
                 {
-                    try
-                    {
-                        var objData = JSON.parse(vData);
-                        if (objData.length > 0)
-                            logUserIn(objData[0].id, objData[0].name, $('#rememberMe').prop('checked'));
-                        else
-                            alert('Unable to find user with matching login and password, please try again.');
-                    }
-                    catch ( error )
-                    {
-                        if (DEBUG)
-                            debug('DEBUG: onLoginPostSuccess() -- ' + error);
-                    }
+                    if (DEBUG)
+                        debug(jsonData.message);
+                    
+                    if (jsonData.data.length > 0)
+                        logUserIn(jsonData.data[0].id, jsonData.data[0].name, $('#rememberMe').prop('checked'));
+                    else
+                        alert('Unable to find user with matching login and password, please try again.');
                 }
+                else if (DEBUG)
+                    debug(jsonData.message);
             }
             
             function onLoginPostError()
             {
-                if (DEBUG)
-                    debug('DEBUG: onLoginPostError() -- There was an issue logging you in, please try again. If the issue persists, contact your system administrator.');
+                
             }
         </script>
     </head>

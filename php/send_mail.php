@@ -39,9 +39,9 @@
     $mail->Body    = $message;
 
     if (!$mail->send())
-        echo 'ERROR: ' . $mail->errorInfo;   
+        echo '{"success":false,"message":"error: ' . $mail->errorInfo . '"}'
     else
-        echo 'success';
+        echo '{"success":true,"message":"success: email has been sent"}';
 
     exit();
 ?>

@@ -48,36 +48,32 @@
                 $.ajax({
                     url: 'php/create_account.php',
                     method: 'POST',
+                    dataType: 'json',
                     data: strData + '&' + DB_URLSTRING,
                     success: onCreateAccountSuccess,
                     error: onCreateAccountError
                 });
             }
             
-            function onCreateAccountSuccess( vData )
+            function onCreateAccountSuccess( jsonData )
             {
-                if (typeof vData == 'string')
+                if (jsonData.success)
                 {
-                    try
-                    {
-                        var objData = JSON.parse(vData);
-                        if (objData.length > 0)
-                            logUserIn(objData[0].id, objData[0].name, $('#rememberMe').prop('checked'));
-                        else
-                            alert('Unable to log you in, please go to the login page and try logging in again.');
-                    }
-                    catch ( error )
-                    {
-                        if (DEBUG)
-                            debug('DEBUG: onCreateAccountSuccess() -- ' + error);
-                    }
+                    if (DEBUG)
+                        debug(jsonData.message);                    
+                    
+                    if (jsonData.data.length > 0)
+                        logUserIn(jsonData.data[0].id, jsonData.data[0].name, $('#rememberMe').prop('checked'));
+                    else
+                        alert('Unable to log you in, please go to the login page and try logging in again.');
                 }
+                else if (DEBUG)
+                    debug(jsonData.message);
             }
             
             function onCreateAccountError()
             {
-                if (DEBUG)
-                    debug('DEBUG: onCreateAccountError() -- There was an issue creating your account, please try again. If the issue persists, contact your system administrator.');
+                
             }
         </script>
     </head>

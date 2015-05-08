@@ -130,6 +130,7 @@ function postScripture()
     $.ajax({
         url: 'php/post_scripture.php',
         type: 'POST',
+        dataType: 'json',
         data: strPostData + '&' + DB_URLSTRING,
         success: onScripturePostSuccess,
         error: onScripturePostError
@@ -143,57 +144,56 @@ function postScripture()
         strData     = strData.split('%SUBJECT%').join('Someone posted a scripture!');
         strData     = strData.split('%MESSAGE%').join(strMessage);    
     
+console.log(strData);
+    
         // Call to send the emails.
-    /*$.ajax({
+    $.ajax({
         url: 'php/send_mail.php',
         type: 'POST',
+        dataType: 'json',
         data: strData + '&' + DB_URLSTRING,
         success: onSendPostEmailSuccess,
         error: onSendPostEmailError
-    });*/
+    });
 }
 
-function onScripturePostSuccess( vData )
+function onScripturePostSuccess( jsonData )
 {
-    if (vData == 'success')
+    if (jsonData.success)
     {
         if (DEBUG)
-            debug('DEBUG: onScripturePostSuccess() -- Successfully posted your scripture.');
+            debug(jsonData.message);        
         
         $('#scriptureReference').val('');
         $('#scriptureComment').val('');
     }
     else if (DEBUG)
-        debug('DEBUG: onScripturePostSuccess() -- ' + vData);
+        debug(jsonData.message);
     
     togglePoint(POINTTYPES['scripturesPost'], true);
 }
 
 function onScripturePostError()
 {
-    if (DEBUG)
-        debug('DEBUG: onScripturePostError() -- There was an error posting your scripture, please try again. If the issue persists, contact your administrator.');
+    
 }
 
-function onSendPostEmailSuccess( vData )
+function onSendPostEmailSuccess( jsonData )
 {
     showPreloader(false);
     
-    if (vData == 'success')
+    if (jsonData.success)
     {
         if (DEBUG)
-            debug('DEBUG: onSendPostEmailSuccess() -- You successfully sent an email!');
+            debug(jsonData.message);        
     }
     else if (DEBUG)
-        debug('DEBUG: onSendPostEmailSuccess() -- ' + vData);
+        debug(jsonData.message);
 }
 
 function onSendPostEmailError()
 {
     showPreloader(false);
-    
-    if (DEBUG)
-        debug('DEBUG: onSendPostEmailError() -- There was an error sending the notification email.');
 }
 
 function getScripturePosts()
@@ -201,28 +201,39 @@ function getScripturePosts()
     return new Promise(function( resolve, reject )
     {
         var strData = 'queryTable=scriptures' + 
-                      '&queryColumns=user_name, post_reference, post_comment, date_created' + 
+                      '&queryColumns=id, user_name, post_reference, post_comment, date_created' + 
                       '&queryRequirements=';
 
         $.ajax({
             url: 'php/query.php',
             type: 'POST',
+            dataType: 'json',
             data: strData + '&' + DB_URLSTRING,
-            success: function( vData )
+            success: function( jsonData )
             {
-                debug(vData);
-                
-                if (typeof vData == 'string')
+                if (jsonData.success)
                 {
-                    try
+                    if (DEBUG)
+                        debug(jsonData.message);                    
+                    
+                    for (var inData = 0; inData < jsonData.data.length; inData++)
                     {
-                        resolve(JSON.parse(vData));
+                        var objData     = jsonData.data[inData];
+                        var intPostID   = objData.id;
+
+                        objData.comments = [];
+
+                        getScriptureComments(intPostID).then(function( data )
+                        {
+                            if (data.length > 0)
+                                objData.comments = data;
+                        });
                     }
-                    catch ( error )
-                    {
-                        reject(error);   
-                    }
+
+                    resolve(jsonData.data);
                 }
+                else if (DEBUG)
+                    debug(jsonData.message);
             },
             error: function()
             {
@@ -230,6 +241,95 @@ function getScripturePosts()
             }
         });
     });
+}
+
+function getScriptureComments( intPostID )
+{
+    return new Promise(function( resolve, reject )
+    {
+        var strData = 'queryTable=scriptures_comments' + 
+                      '&queryColumns=user_name, post_comment, date_created' + 
+                      '&queryRequirements=post_id[eq]' + intPostID;
+
+        $.ajax({
+            url: 'php/query.php',
+            type: 'POST',
+            dataType: 'json',
+            data: strData + '&' + DB_URLSTRING,
+            success: function( jsonData )
+            {
+                if (jsonData.success)
+                {
+                    if (DEBUG)
+                        debug(jsonData.message);                    
+                    
+                    resolve(jsonData.data);
+                }
+                else if (DEBUG)
+                    debug(jsonData.message);
+            },
+            error: function()
+            {
+                reject('ajax error');
+            }
+        });
+    });
+}
+
+function postScriptureComment( objPostBtn )
+{
+    objPostBtn = $(objPostBtn);
+    
+    var intPostID = Number(objPostBtn.data('post-id'));
+    var objPost   = $('.post[data-post-id="' + intPostID + '"]');
+    
+    if (objPost.html() !== undefined)
+    {
+        var objAddComment = objPost.find('.add-comment');   
+        if (objAddComment.html() !== undefined)
+        {
+            var strComment = objAddComment.find('.comment-textarea').val();   
+            var strData    = 'userID=' + getUserID() + 
+                             '&userName=' + getUserName() + 
+                             '&comment=' + escape(strComment) + 
+                             '&postID=' + intPostID.toString();
+            
+            $.ajax({
+                url: 'php/post_scripture_comment.php',
+                type: 'POST',
+                dataType: 'json',
+                data: strData + '&' + DB_URLSTRING,
+                success: onPostScriptureCommentSuccess,
+                error: onPostScriptureCommentError
+            });
+        }
+    }
+}
+
+function onPostScriptureCommentSuccess( jsonData )
+{
+    if (jsonData.success)
+    {
+        if (DEBUG)
+            debug(jsonData.message);        
+        
+        var intPostID = Number(jsonData.postID);
+        var objPost   = $('.post[data-post-id="' + intPostID + '"]');
+
+        if (objPost.html() !== undefined)
+        {
+            var objAddComment = objPost.find('.add-comment');   
+            if (objAddComment.html() !== undefined)
+                objAddComment.find('.comment-textarea').val(''); 
+        }
+    }
+    else if (DEBUG)
+        debug(jsonData.message);
+}
+
+function onPostScriptureCommentError()
+{
+    
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -250,6 +350,7 @@ function togglePoint(intPointType, bAdd)
         $.ajax({
             url: 'php/toggle_point.php',
             type: 'POST',
+            dataType: 'json',
             data: strData + '&' + DB_URLSTRING,
             success: onTogglePointSuccess,
             error: onTogglePointError
@@ -257,76 +358,59 @@ function togglePoint(intPointType, bAdd)
     }
 }
 
-function onTogglePointSuccess( vData )
+function onTogglePointSuccess( jsonData )
 {
     showPreloader(false);
     
-    if (vData == 'success')
+    if (jsonData.success)
     {
         if (DEBUG)
-            debug('DEBUG: onTogglePointSuccess() -- You successfully added/removed a point!');
+            debug(jsonData.message);
     }
     else if (DEBUG)
-        debug('DEBUG: onTogglePointSuccess() -- ' + vData);
+        debug(jsonData.message);
 }
 
 function onTogglePointError()
 {   
     showPreloader(false);
-    
-    if (DEBUG)
-        debug('DEBUG: onTogglePointError() -- There was an error adding/removing the point.');
 }
 
-function onQueryPoints()
+function queryPoints()
 {
     showPreloader(true);
     toggleCheckboxes();
 
    var strData = 'queryTable=users_points' + 
-              '&queryColumns=point_id' + 
-              '&queryRequirements=user_id[eq]' + getUserID() + 
-                            " AND date_created[eq]'" + mysqlDate(getSelectedDate()) + "'";
+                 '&queryColumns=point_id' + 
+                 '&queryRequirements=user_id[eq]' + getUserID() + 
+                                   ' AND date_created[eq]\'' + mysqlDate(getSelectedDate()) + '\'';
 
     $.ajax({
         url: 'php/query.php',
         method: 'POST',
+        dataType: 'json',
         data: strData + '&' + DB_URLSTRING,
         success: onQueryPointsSuccess,
         error: onQueryPointsError
     });
 }
 
-function onQueryPointsSuccess( vData )
+function onQueryPointsSuccess( jsonData )
 {
     showPreloader(false);
 
-    if (typeof vData == 'string')
+    for (var inData = 0; inData < jsonData.data.length; inData++)
     {
-        try
-        {
-            var objData = JSON.parse(vData);
-            for (var inData = 0; inData < objData.length; inData++)
-            {
-                var intPointType  = objData[inData].point_id; 
-                var strCheckboxID = POINTTYPELOOKUP[intPointType.toString()] + 'Checkbox';
+        var intPointType  = jsonData.data[inData].point_id; 
+        var strCheckboxID = POINTTYPELOOKUP[intPointType.toString()] + 'Checkbox';
 
-                var objCheckbox = $('#' + strCheckboxID);
-                if (objCheckbox.html() !== undefined)
-                {
-                    objCheckbox.prop('checked', true);
-
-                    onCheckboxToggle(strCheckboxID, true);
-                }
-            }
-            
-            if (DEBUG)
-                debug('DEBUG: onQueryPointsSuccess() -- Point query successfull.');
-        }
-        catch ( error )
+        var objCheckbox = $('#' + strCheckboxID);
+        if (objCheckbox.html() !== undefined)
         {
-            if (DEBUG)
-                debug('DEBUG: ' + error);
+            objCheckbox.prop('checked', true);
+
+            onCheckboxToggle(strCheckboxID, true);
         }
     }
 }
@@ -334,9 +418,6 @@ function onQueryPointsSuccess( vData )
 function onQueryPointsError()
 {
     showPreloader(false);
-
-    if (DEBUG)
-        debug('DEBUG: Unable to query point data for this user.');
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

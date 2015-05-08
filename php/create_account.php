@@ -8,7 +8,7 @@
 
     if ($mysqli->connect_errno) 
     {
-        echo 'ERROR:', $mysqli->connect_error;
+        echo '{"success":false,"message":"error: ' . $mysqli->connect_error . '"}';
         
         exit();
     }
@@ -17,7 +17,7 @@
     {
         if ($result->num_rows > 0)
         {
-            echo 'Sorry, there appears to already be a user with the given email address, or login.';
+            echo '{"success":false,"message":"error: there is already a user with the given email address and/or login"}';
             
             exit();
         }
@@ -37,7 +37,7 @@
             
             $strData .= ']';
 
-            echo $strData;
+            echo '{"success":true,"message":"success: user was added, and data was retrieved","data":' . $strData . '}';
         
             exit();      
         }

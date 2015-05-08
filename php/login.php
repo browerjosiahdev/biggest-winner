@@ -6,7 +6,7 @@
 
     if ($mysqli->connect_errno) 
     {
-        echo 'ERROR:', $mysqli->connect_error;
+        echo '{"success":false,"message":"error: ' . $mysqli->connect_error . '"}';
         
         exit();
     }
@@ -23,7 +23,7 @@
         
         $strData .= ']';
         
-        echo $strData;
+        echo '{"success":true,"message":"success: user data was retrieved","data":' . $strData . '}';
         
         exit();
     }
