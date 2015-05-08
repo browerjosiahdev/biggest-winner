@@ -111,7 +111,7 @@ function postScripture()
     var srtComment      = escape($('#scriptureComment').val());
     
     var strMessage  = EMAILTEMPLATE.split('%USER_NAME%').join(getUserName()).split('%FORUM%').join('scriptures').split('%EMAIL_BODY%').join(strReference + '\r\n\r\n' + srtComment);
-    var strData     = SMTP_URLSTRING.split('%MAIL_TO%').join('browerjosiah@gmail.com').split('%SUBJECT%').join('Someone posted a scripture!').split('%MESSAGE%').join(strMessage);
+    var strData     = SMTP_URLSTRING.split('%MAIL_TO%').join('emily.tryon@gmail.com').split('%SUBJECT%').join('Someone posted a scripture!').split('%MESSAGE%').join(strMessage);
 
     $.ajax({
         url: 'php/send_mail.php',
