@@ -654,6 +654,7 @@ function fromURLSafeFormat( vValue )
     if (typeof vValue == 'object')
     {
         vValue = JSON.stringify(vValue);
+        vValue = vValue.replace(/(%22)/gm, '\\"');
         vValue = unescape(vValue);
         
         return JSON.parse(vValue);
