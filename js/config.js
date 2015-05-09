@@ -11,14 +11,14 @@ var DEBUG = true;
 var DB_IPADDRESS    = '50.62.209.12';
 
 // Live site settings.
-var DB_USERNAME     = 'sysadmin';
+/*var DB_USERNAME     = 'sysadmin';
 var DB_PASSWORD     = 'Zikj3?67';
-var DB_NAME         = 'biggest_winner';
+var DB_NAME         = 'biggest_winner';*/
 
 // Test site settings.
-/*var DB_USERNAME     = 'sysadmin_test';
+var DB_USERNAME     = 'sysadmin_test';
 var DB_PASSWORD     = 'ysdM70?8';
-var DB_NAME         = 'biggest_winner_test';*/
+var DB_NAME         = 'biggest_winner_test';
 
 var DB_URLSTRING    = 'dbUserName=' + DB_USERNAME + '&dbPassword=' + DB_PASSWORD + '&dbIP=' + DB_IPADDRESS + '&dbName=' + DB_NAME;
 

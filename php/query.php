@@ -1,7 +1,7 @@
 <?php
-    $strTable           = $_POST['queryTable'];
-    $strColumns         = $_POST['queryColumns'];
-    $strRequirements    = $_POST['queryRequirements'];
+    $strTable           = $_POST['table'];
+    $strColumns         = $_POST['columns'];
+    $strRequirements    = $_POST['restrictions'];
 
     $strRequirements = explode('[eq]', $strRequirements);
     $strRequirements = implode('=', $strRequirements);

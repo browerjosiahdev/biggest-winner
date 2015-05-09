@@ -19,10 +19,10 @@ body
     .title
     {
         display: table-cell;
-        min-width: 775px;
         color: #fff;
         font-size: 35px;
         vertical-align: middle;
+        white-space: nowrap;
     }
 }
 

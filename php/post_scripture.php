@@ -1,8 +1,8 @@
 <?php
     $userID    = $_POST['userID'];
     $userName  = $_POST['userName'];
-    $reference = $_POST['reference'];
-    $comment   = $_POST['comment'];
+    $reference = rawurlencode($_POST['reference']);
+    $comment   = rawurlencode($_POST['comment']);
 
     $mysqli = new mysqli($_POST['dbIP'], $_POST['dbUserName'], $_POST['dbPassword'], $_POST['dbName']);
 

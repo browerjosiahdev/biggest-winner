@@ -143,8 +143,6 @@ function postScripture()
                        '&userID=' + getUserID() + 
                        '&userName=' + getUserName();
     
-console.log(strPostData);    
-    
         // Call to post the scripture
     $.ajax({
         url: 'php/post_scripture.php',
@@ -158,13 +156,15 @@ console.log(strPostData);
     getUsersEmails().then(function( data )
     {
             // Create the message and data string.
-        var strMessage  = EMAILTEMPLATE.split('%USER_NAME%').join(getUserName());
-            strMessage  = strMessage.split('%FORUM%').join('scriptures');
-            strMessage  = strMessage.split('%EMAIL_BODY%').join('<p><span style="font-size: 16px; font-weight: bold;">' + strReference + '</span></p>' + '<p><span style="font-size: 14px; font-weight: normal;">' + strComment + '</span></p>');
+        var strMessage = EMAILTEMPLATE.split('%USER_NAME%').join(getUserName());
+            strMessage = strMessage.split('%FORUM%').join('scriptures');
+            strMessage = strMessage.split('%EMAIL_BODY%').join('<p><span style="font-size: 16px; font-weight: bold;">' + strReference + '</span></p>' + '<p><span style="font-size: 14px; font-weight: normal;">' + strComment + '</span></p>');
+            strMessage = toURLSafeFormat(strMessage);
 
-        var strData     = SMTP_URLSTRING.split('%MAIL_TO%').join(data.join(', '));
-            strData     = strData.split('%SUBJECT%').join((getUserName() + ' posted to the scriptures page!'));
-            strData     = strData.split('%MESSAGE%').join(strMessage);    
+        var strData = SMTP_URLSTRING.split('%MAIL_TO%').join(data.join(', '));
+            strData = strData.split('%SUBJECT%').join((getUserName() + ' posted to the scriptures page!'));
+            strData = strData.split('%MESSAGE%').join(strMessage); 
+            strData = toURLSafeFormat(strData);
 
             // Call to send the emails.
         $.ajax({
@@ -223,9 +223,9 @@ function getScripturePosts()
     
     return new Promise(function( resolve, reject )
     {
-        var strData = 'queryTable=scriptures' + 
-                      '&queryColumns=id, user_name, post_reference, post_comment, date_created' + 
-                      '&queryRequirements=';
+        var strData = 'table=scriptures' + 
+                      '&columns=id, user_name, post_reference, post_comment, date_created' + 
+                      '&restrictions=';
 
         $.ajax({
             url: 'php/query.php',
@@ -253,7 +253,9 @@ function getScripturePosts()
                             
                             if (intCommentsQueried == jsonData.data.length)
                             {
-                                resolve(jsonData.data);
+                                var jsonResolveData = fromURLSafeFormat(jsonData.data);
+                                
+                                resolve(jsonResolveData);
                                 
                                 showPreloader(false);
                             }
@@ -265,6 +267,8 @@ function getScripturePosts()
             },
             error: function( jqXHR, textStatus, errorThrown )
             {
+                showPreloader(false);
+                
                 reject('getScripturePosts(): ' + errorThrown);   
             }
         });
@@ -275,9 +279,9 @@ function getScriptureComments( intPostID, objData )
 {
     return new Promise(function( resolve, reject )
     {
-        var strData = 'queryTable=scriptures_comments' + 
-                      '&queryColumns=user_name, post_comment, date_created' + 
-                      '&queryRequirements=post_id[eq]' + intPostID;
+        var strData = 'table=scriptures_comments' + 
+                      '&columns=user_name, post_comment, date_created' + 
+                      '&restrictions=post_id[eq]' + intPostID;
 
         $.ajax({
             url: 'php/query.php',
@@ -286,8 +290,6 @@ function getScriptureComments( intPostID, objData )
             data: strData + '&' + DB_URLSTRING,
             success: function( jsonData )
             {
-                showPreloader(false);
-                
                 if (jsonData.success)
                 {
                     if (DEBUG)
@@ -303,8 +305,6 @@ function getScriptureComments( intPostID, objData )
             },
             error: function( jqXHR, textStatus, errorThrown )
             {
-                showPreloader(false);
-                
                 reject('getScriptureComments() -- ' + errorThrown);
             }
         });
@@ -325,10 +325,10 @@ function postScriptureComment( objPostBtn )
         var objAddComment = objPost.find('.add-comment');   
         if (objAddComment.html() !== undefined)
         {
-            var strComment = objAddComment.find('.comment-textarea').val();   
+            var strComment = toURLSafeFormat(objAddComment.find('.comment-textarea').val());
             var strData    = 'userID=' + getUserID() + 
                              '&userName=' + getUserName() + 
-                             '&comment=' + escape(strComment) + 
+                             '&comment=' + strComment + 
                              '&postID=' + intPostID.toString();
             
             $.ajax({
@@ -379,10 +379,10 @@ function getUsersEmails()
 {
     return new Promise(function( resolve, reject )
     {
-        var strData = 'queryTable=users' + 
-                      '&queryColumns=email' + 
-                      '&queryRequirements=recieve_emails[eq]1 ' + 
-                                     'AND archived[eq]0';
+        var strData = 'table=users' + 
+                      '&columns=email' + 
+                      '&restrictions=recieve_emails[eq]1 ' + 
+                                    'AND archived[eq]0';
         
         $.ajax({
             url: 'php/query.php',
@@ -459,10 +459,10 @@ function queryPoints()
     
     toggleCheckboxes();
 
-   var strData = 'queryTable=users_points' + 
-                 '&queryColumns=point_id' + 
-                 '&queryRequirements=user_id[eq]' + getUserID() + 
-                                   ' AND date_created[eq]\'' + mysqlDate(getSelectedDate()) + '\'';
+   var strData = 'table=users_points' + 
+                 '&columns=point_id' + 
+                 '&restrictions=user_id[eq]' + getUserID() + 
+                              ' AND date_created[eq]\'' + mysqlDate(getSelectedDate()) + '\'';
 
     $.ajax({
         url: 'php/query.php',
@@ -624,17 +624,23 @@ function showPreloader( bShow )
 
 function toURLSafeFormat( strValue )
 {
-    strValue = strValue.replace(/(\r\n|\r|\n)/gm, '');
+    strValue = strValue.replace(/(\r\n|\r|\n)/gm, ' ');
     strValue = escape(strValue);
     
     return strValue;
 }
 
-function fromURLSafeFormat( strValue )
+function fromURLSafeFormat( vValue )
 {
-    strValue = unescape(strValue);
-    
-    return strValue;
+    if (typeof vValue == 'object')
+    {
+        vValue = JSON.stringify(vValue);
+        vValue = unescape(vValue);
+        
+        return JSON.parse(vValue);
+    }
+    else
+        return unescape(vValue);
 }
 
 
