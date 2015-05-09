@@ -2,8 +2,8 @@
     $smtp       = $_POST['smtp'];
     $mailClient = $_POST['mailClient'];
     $mailTo     = $_POST['mailTo'];
-    $subject    = rawurlencode($_POST['subject']);
-    $message    = rawurlencode($_POST['message']);
+    $subject    = $_POST['subject'];
+    $message    = $_POST['message'];
 
         // Mail smtp without validation (for gmail smtp)
     /*$headers = 'From: ' . $mailClient;

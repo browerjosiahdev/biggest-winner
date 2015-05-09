@@ -65,21 +65,22 @@
                 
                 if (jsonData.success)
                 {
-                    if (DEBUG)
-                        debug(jsonData.message);                    
+                    debug('onCreateAccountSuccess(): ' + jsonData.message);                    
                     
                     if (jsonData.data.length > 0)
                         logUserIn(jsonData.data[0].id, jsonData.data[0].name, $('#rememberMe').prop('checked'));
                     else
                         alert('Unable to log you in, please go to the login page and try logging in again.');
                 }
-                else if (DEBUG)
-                    debug(jsonData.message);
+                else
+                    debug('onCreateAccountSuccess(): ' + jsonData.message);
             }
             
             function onCreateAccountError( jqXHR, textStatus, errorThrown )
             {
                 showPreloader(false);
+                
+                debug('onCreateAccountError(): ' + errorThrown);
             }
         </script>
     </head>

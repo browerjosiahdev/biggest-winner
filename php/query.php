@@ -2,6 +2,7 @@
     $strTable           = $_POST['table'];
     $strColumns         = $_POST['columns'];
     $strRequirements    = $_POST['restrictions'];
+    $strOrder           = $_POST['order'];
 
     $strRequirements = explode('[eq]', $strRequirements);
     $strRequirements = implode('=', $strRequirements);
@@ -19,6 +20,9 @@
 
     if (strlen($strRequirements) > 0)
         $query .= ' WHERE ' . $strRequirements;
+
+    if (strlen($strOrder) > 0)
+        $query .= ' ORDER BY ' . $strOrder;
 
     if ($result = $mysqli->query($query))
     {
