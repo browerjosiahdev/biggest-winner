@@ -45,21 +45,22 @@
                 
                 if (jsonData.success)
                 {
-                    if (DEBUG)
-                        debug(jsonData.message);
+                    debug('onLoginPostSuccess(): ' + jsonData.message);
                     
                     if (jsonData.data.length > 0)
                         logUserIn(jsonData.data[0].id, jsonData.data[0].name, $('#rememberMe').prop('checked'));
                     else
                         alert('Unable to find user with matching login and password, please try again.');
                 }
-                else if (DEBUG)
-                    debug(jsonData.message);
+                else
+                    debug('onLoginPostSuccess(): ' + jsonData.message);
             }
             
             function onLoginPostError( jqXHR, textStatus, errorThrown )
             {
                 showPreloader(false);
+                
+                debug('onLoginPostError(): ' + errorThrown);
             }
         </script>
     </head>

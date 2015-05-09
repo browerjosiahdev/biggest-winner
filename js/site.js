@@ -16,7 +16,8 @@ $(document).ready(function()
 
 function debug( strDebug )
 {
-    console.log(strDebug);
+    if (DEBUG)
+        console.log(strDebug);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -159,12 +160,12 @@ function postScripture()
         var strMessage = EMAILTEMPLATE.split('%USER_NAME%').join(getUserName());
             strMessage = strMessage.split('%FORUM%').join('scriptures');
             strMessage = strMessage.split('%EMAIL_BODY%').join('<p><span style="font-size: 16px; font-weight: bold;">' + strReference + '</span></p>' + '<p><span style="font-size: 14px; font-weight: normal;">' + strComment + '</span></p>');
-            strMessage = toURLSafeFormat(strMessage);
+//            strMessage = toURLSafeFormat(strMessage);
 
         var strData = SMTP_URLSTRING.split('%MAIL_TO%').join(data.join(', '));
             strData = strData.split('%SUBJECT%').join((getUserName() + ' posted to the scriptures page!'));
             strData = strData.split('%MESSAGE%').join(strMessage); 
-            strData = toURLSafeFormat(strData);
+//            strData = toURLSafeFormat(strData);
 
             // Call to send the emails.
         $.ajax({
@@ -182,21 +183,20 @@ function onScripturePostSuccess( jsonData )
 {
     if (jsonData.success)
     {
-        if (DEBUG)
-            debug(jsonData.message);        
+        debug('onScripturePostSuccess(): ' + jsonData.message);        
         
         $('#scriptureReference').val('');
         $('#scriptureComment').val('');
     }
-    else if (DEBUG)
-        debug(jsonData.message);
+    else
+        debug('onScripturePostSuccess(): ' + jsonData.message);
     
     togglePoint(POINTTYPES['scripturesPost'], true);
 }
 
 function onScripturePostError( jqXHR, textStatus, errorThrown )
 {
-    
+    debug('onScripturePostError(): ' + errorThrown);
 }
 
 function onSendPostEmailSuccess( jsonData )
@@ -204,17 +204,16 @@ function onSendPostEmailSuccess( jsonData )
     showPreloader(false);
     
     if (jsonData.success)
-    {
-        if (DEBUG)
-            debug(jsonData.message);        
-    }
-    else if (DEBUG)
-        debug(jsonData.message);
+        debug('onSendPostEmailSuccess(): ' + jsonData.message);        
+    else
+        debug('onSendPostEmailSuccess(): ' + jsonData.message);
 }
 
 function onSendPostEmailError( jqXHR, textStatus, errorThrown )
 {
-    showPreloader(false);    
+    showPreloader(false); 
+    
+    debug('onSendPostEmailError(): ' + errorThrown);
 }
 
 function getScripturePosts()
@@ -225,7 +224,7 @@ function getScripturePosts()
     {
         var strData = 'table=scriptures' + 
                       '&columns=id, user_name, post_reference, post_comment, date_created' + 
-                      '&restrictions=';
+                      '&order=date_created DESC';
 
         $.ajax({
             url: 'php/query.php',
@@ -236,8 +235,7 @@ function getScripturePosts()
             {
                 if (jsonData.success)
                 {
-                    if (DEBUG)
-                        debug(jsonData.message);                    
+                    debug('getScripturePosts(): php/query.php : success : ' + jsonData.message);                    
                     
                     var intCommentsQueried = 0;
                     for (var inData = 0; inData < jsonData.data.length; inData++)
@@ -262,14 +260,15 @@ function getScripturePosts()
                         });
                     }
                 }
-                else if (DEBUG)
-                    debug(jsonData.message);
+                else
+                    debug('getScripturePosts(): php/query.php : success : ' + jsonData.message);
             },
             error: function( jqXHR, textStatus, errorThrown )
             {
                 showPreloader(false);
                 
-                reject('getScripturePosts(): ' + errorThrown);   
+                debug('getScripturePosts(): php/query.php : error : ' + errorThrown);   
+                reject('getScripturePosts(): php/query.php : error : ' + errorThrown);
             }
         });
     });
@@ -292,20 +291,20 @@ function getScriptureComments( intPostID, objData )
             {
                 if (jsonData.success)
                 {
-                    if (DEBUG)
-                        debug(jsonData.message);                    
+                    debug('getScriptureComments(): php/query.php : success : ' + jsonData.message); 
                     
                     objData.comments = jsonData.data;
                     objData.postID   = intPostID;
                     
                     resolve(objData);
                 }
-                else if (DEBUG)
-                    debug(jsonData.message);
+                else
+                    debug('getScriptureComments(): php/query.php : success : ' + jsonData.message);
             },
             error: function( jqXHR, textStatus, errorThrown )
             {
-                reject('getScriptureComments() -- ' + errorThrown);
+                debug('getScriptureComments(): php/query.php : error : ' + errorThrown);
+                reject('getScriptureComments(): php/query.php : error : ' + errorThrown);
             }
         });
     });
@@ -349,8 +348,7 @@ function onPostScriptureCommentSuccess( jsonData )
     
     if (jsonData.success)
     {
-        if (DEBUG)
-            debug(jsonData.message);        
+        debug('onPostScriptureCommentSuccess(): ' + jsonData.message);        
         
         var intPostID = Number(jsonData.postID);
         var objPost   = $('.post[data-post-id="' + intPostID + '"]');
@@ -362,13 +360,15 @@ function onPostScriptureCommentSuccess( jsonData )
                 objAddComment.find('.comment-textarea').val(''); 
         }
     }
-    else if (DEBUG)
-        debug(jsonData.message);
+    else
+        debug('onPostScriptureCommentSuccess(): ' + jsonData.message);
 }
 
 function onPostScriptureCommentError( jqXHR, textStatus, errorThrown )
 {
     showPreloader(false);
+    
+    debug('onPostScriptureCommentError(): ' + errorThrown);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -391,19 +391,30 @@ function getUsersEmails()
             data: strData + '&' + DB_URLSTRING,
             success: function( jsonData )
             {
-                var arrEmails = [];
-                for (var inEmail = 0; inEmail < jsonData.data.length; inEmail++)
+                if (jsonData.success)
                 {
-                    var objEmail = jsonData.data[inEmail];   
+                    debug('getUsersEmails() : php/query.php : success : ' + jsonData.message);
                     
-                    arrEmails.push(objEmail.email);
+                    var arrEmails = [];
+                    for (var inEmail = 0; inEmail < jsonData.data.length; inEmail++)
+                    {
+                        var objEmail = jsonData.data[inEmail];   
+
+                        arrEmails.push(objEmail.email);
+                    }
+
+                    resolve(arrEmails);
                 }
-                
-                resolve(arrEmails);
+                else
+                {
+                    debug('getUsersEmails() : php/query.php : success : ' + jsonData.message);
+                    reject('getUsersEmails() : php/query.php : success : ' + jsonData.message);
+                }
             },
             error: function ( jqXHR, textStatus, errorThrown )
             {
-                reject('getUsersEmails(): ' + errorThrown);
+                debug('getUsersEmails() : php/query.php : error : ' + errorThrown);
+                reject('getUsersEmails() : php/query.php : error : ' + errorThrown);
             }
         });  
     });
@@ -440,17 +451,16 @@ function onTogglePointSuccess( jsonData )
     showPreloader(false);
     
     if (jsonData.success)
-    {
-        if (DEBUG)
-            debug(jsonData.message);
-    }
-    else if (DEBUG)
-        debug(jsonData.message);
+        debug('onTogglePointSuccess(): ' + jsonData.message);
+    else
+        debug('onTogglePointSuccess(): ' + jsonData.message);
 }
 
 function onTogglePointError( jqXHR, textStatus, errorThrown )
 {   
     showPreloader(false);
+    
+    debug('onTogglePointError(): ' + errorThrown);
 }
 
 function queryPoints()
@@ -478,24 +488,33 @@ function onQueryPointsSuccess( jsonData )
 {
     showPreloader(false);
 
-    for (var inData = 0; inData < jsonData.data.length; inData++)
+    if (jsonData.success)
     {
-        var intPointType  = jsonData.data[inData].point_id; 
-        var strCheckboxID = POINTTYPELOOKUP[intPointType.toString()] + 'Checkbox';
-
-        var objCheckbox = $('#' + strCheckboxID);
-        if (objCheckbox.html() !== undefined)
+        debug('onQueryPointsSuccess(): ' + jsonData.message);
+        
+        for (var inData = 0; inData < jsonData.data.length; inData++)
         {
-            objCheckbox.prop('checked', true);
+            var intPointType  = jsonData.data[inData].point_id; 
+            var strCheckboxID = POINTTYPELOOKUP[intPointType.toString()] + 'Checkbox';
 
-            onCheckboxToggle(strCheckboxID, true);
+            var objCheckbox = $('#' + strCheckboxID);
+            if (objCheckbox.html() !== undefined)
+            {
+                objCheckbox.prop('checked', true);
+
+                onCheckboxToggle(strCheckboxID, true);
+            }
         }
     }
+    else
+        debug('onQueryPointsSuccess(): ' + jsonData.message);
 }
 
-function onQueryPointsError()
+function onQueryPointsError( jqXHR, textStatus, errorThrown )
 {
     showPreloader(false);
+    
+    debug('onQueryPointsError(): ' + errorThrown);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
