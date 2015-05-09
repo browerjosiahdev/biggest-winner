@@ -15,6 +15,8 @@ m_postsApp.controller('PostsBodyController', ['$scope', function( $scope )
         $scope.posts = data;
         
         $scope.$apply();
+        
+        onScripturesPageLoaded();
     });
 }]);
 
@@ -23,9 +25,6 @@ m_postsApp.controller('CommentController', ['$scope', function( $scope )
     $scope.comment = {};
     $scope.addComment = function( post )
     {
-        
-console.log('addComment()');
-        
         $scope.comment.date_created = getCurrentDate();
         $scope.comment.user_name    = getUserName();
         
