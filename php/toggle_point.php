@@ -22,7 +22,7 @@
                 $row = $result->fetch_object();
                 
                 if ($mysqli->query('DELETE FROM users_points WHERE id=' . $row->id))
-                    echo '{"success":true,"message":"success: ' . $pointID . ' point was removed from user ' . $userID . ' for ' . $dateCreated . '"}';
+                    echo '{"success":true,"message":"success: point ' . $pointID . ' was removed from user ' . $userID . ' for ' . $dateCreated . '"}';
                 else
                     echo '{"success":false,"message":"error: unable to remove point ' . $pointID . ' from user ' . $userID . ' for ' . $dateCreated . '. Point id ' . $result[0]->id . '"}';
             }
@@ -34,7 +34,7 @@
             if ($add == 'true')
             {
                 if ($mysqli->query('INSERT INTO users_points (user_id, point_id, date_created) VALUES (' . $userID . ', ' . $pointID . ', \'' . $dateCreated . '\')'))
-                    echo '{"success":true,"message":"success: ' . $pointID . ' point was added to user ' . $userID . ' for ' . $dateCreated . '"}';
+                    echo '{"success":true,"message":"success: point ' . $pointID . ' was added to user ' . $userID . ' for ' . $dateCreated . '"}';
                 else
                     echo '{"success":false,"message":"error: unable to add point ' . $pointID . ' to user ' . $userID . ' for ' . $dateCreated . '"}';  
             }

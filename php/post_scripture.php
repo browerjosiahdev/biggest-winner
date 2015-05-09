@@ -14,11 +14,11 @@
     }
     
     if ($mysqli->query('INSERT INTO scriptures (user_id, user_name, post_reference, post_comment) VALUES (' . $userID . ', \'' . $userName . '\', \'' . $reference . '\', \'' . $comment . '\')'))
-    {
         echo '{"success":true,"message":"success: scripture post was added"}';
-    }
     else
         echo '{"success":false,"message":"error: unable to add scripture post"}';
 
     $mysqli->close();
+
+    exit();
 ?>

@@ -128,9 +128,7 @@ function isValidInput( objInput, strType )
 function onScripturesPageLoaded()
 {
     if (isLoggedIn() === false)
-    {
-        $('.add-comment').addClass('hidden');   
-    }
+        $('.add-comment').addClass('hidden');
 }
 
 function postScripture()
@@ -144,6 +142,8 @@ function postScripture()
                        '&comment=' + strComment + 
                        '&userID=' + getUserID() + 
                        '&userName=' + getUserName();
+    
+console.log(strPostData);    
     
         // Call to post the scripture
     $.ajax({
