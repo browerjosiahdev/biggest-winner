@@ -52,7 +52,7 @@ body
             
             &:nth-child(3n+3)
             {
-                color: $text-blue-medium;   
+                color: $text-blue-medium-light;   
             }
         }
     }
@@ -187,6 +187,7 @@ body
         {
             display: inline-block; 
             width: 50%;
+            color: $text-dark;
             font-size: 18px;
             font-weight: bold;
             text-align: left;
@@ -196,6 +197,7 @@ body
         {
             display: inline-block;
             width: 50%;
+            color: $text-medium-dark;
             font-size: 12px;
             text-align: right;
         }
@@ -203,10 +205,8 @@ body
         .comment
         {
             display: block;
+            color: $text-medium-dark;
             padding: 10px 0;
-            border-bottom: 1px;
-            border-bottom-style: solid;
-            border-bottom-color: #fff;
         }
         
         .user-comments-container
@@ -218,6 +218,13 @@ body
                 display: block;
                 margin: 10px 0;
             }
+        }
+        
+        .underline
+        {
+            width: 100%;
+            height: 1px;
+            background-color: $background-medium-dark;
         }
     }
 }

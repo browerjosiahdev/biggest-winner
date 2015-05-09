@@ -129,7 +129,7 @@ function isValidInput( objInput, strType )
 function onScripturesPageLoaded()
 {
     if (isLoggedIn() === false)
-        $('.add-comment').addClass('hidden');
+        $('.not-logged-in').addClass('hidden');
 }
 
 function postScripture()
