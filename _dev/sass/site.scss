@@ -1,10 +1,11 @@
+@import 'variables';
 @import 'mixins';
 @import 'effects';
 
 body
 {
     font-family: 'cabin_condensed', Arial, sans-serif;
-    background-color: #ddd;
+    background-color: $background-light;
     line-height: 1.2em;
 }
 
@@ -14,7 +15,7 @@ body
     width: 100%;
     height: 150px;
     text-align: center;
-    background-color: #333;
+    background-color: $background-dark;
 
     .title
     {
@@ -23,6 +24,37 @@ body
         font-size: 35px;
         vertical-align: middle;
         white-space: nowrap;
+        
+        span
+        {
+            position: relative;
+            top: 0px;
+            
+            &.up
+            {
+                top: -10px;   
+            }
+            
+            &.down
+            {
+                top: 10px;   
+            }
+            
+            &:nth-child(3n+1)
+            {
+                color: $text-green-medium-light;
+            }
+            
+            &:nth-child(3n+2)
+            {
+                color: #fff;   
+            }
+            
+            &:nth-child(3n+3)
+            {
+                color: $text-blue-medium-light;   
+            }
+        }
     }
 }
 
@@ -31,7 +63,7 @@ body
     display: table;
     width: 100%;
     height: 35px;
-    background-color: #444;
+    background-color: $background-medium-dark;
     
     .link
     {
@@ -81,7 +113,7 @@ body
     {
         .form-content
         {
-            background-color: #bbb;
+            background-color: $background-medium-light;
             padding: 5px;
             
             .input-container
@@ -147,9 +179,7 @@ body
     .post
     {
         display: block;
-        background-color: #bbb;
-        border-radius: 15px 0 15px 0;
-        box-shadow: 5px 5px 10px #888;
+        background-color: $background-medium-light;
         padding: 10px;
         margin: 20px 0;
         
@@ -157,6 +187,9 @@ body
         {
             display: inline-block; 
             width: 50%;
+            color: $text-dark;
+            font-size: 18px;
+            font-weight: bold;
             text-align: left;
         }
         
@@ -164,16 +197,16 @@ body
         {
             display: inline-block;
             width: 50%;
+            color: $text-medium-dark;
+            font-size: 12px;
             text-align: right;
         }
         
         .comment
         {
             display: block;
+            color: $text-medium-dark;
             padding: 10px 0;
-            border-bottom: 1px;
-            border-bottom-style: solid;
-            border-bottom-color: #fff;
         }
         
         .user-comments-container
@@ -185,6 +218,13 @@ body
                 display: block;
                 margin: 10px 0;
             }
+        }
+        
+        .underline
+        {
+            width: 100%;
+            height: 1px;
+            background-color: $background-medium-dark;
         }
     }
 }
