@@ -2,6 +2,9 @@
     $strTable           = $_POST['table'];
     $strUpdate          = $_POST['updates'];
     $strRestrictions    = $_POST['restrictions'];
+    
+    $strUpdate = explode('[eq]', $strUpdate);
+    $strUpdate = implode('=', $strUpdate);
 
     $strRestrictions = explode('[eq]', $strRestrictions);
     $strRestrictions = implode('=', $strRestrictions);

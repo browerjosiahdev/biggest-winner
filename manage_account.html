@@ -76,10 +76,9 @@
                     return;
                 
                 var strData = 'table=users' + 
-                              '&columns=name[eq]"' + strName + '", email[eq]"' + strEmail + '" recieve_emails[eq]' + intRecieveEmails; 
+                              '&updates=name[eq]\'' + strName + '\', email[eq]\'' + strEmail + '\', recieve_emails[eq]' + intRecieveEmails + 
+                              '&restrictions=id[eq]' + getUserID().toString(); 
                  
-debug(strData);                
-                
                 $.ajax({
                     url: 'php/update.php',
                     type: 'POST',
@@ -115,9 +114,12 @@ debug(strData);
         <div class="menu">
             <div class="link"><a href="index.html">Home</a></div>
             <div class="link"><a href="scriptures.html">Scriptures</a></div>
-            <div class="link"><a href="">Leaderboard</a></div>
+            <div class="link"><a href="leaderboard.html">Leaderboard</a></div>
             <div class="link"><a href="manage_account.html">Account</a></div>
         </div>
+        <div class="logout log-link hidden">Logout</div>
+        <div class="login log-link hidden">Login</div>
+        <p>Update your account information below:</p>
         <div class="login-form">
             <div class="form-container">
                 <div class="form-label">Name:</div>
