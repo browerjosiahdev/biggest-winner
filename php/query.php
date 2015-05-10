@@ -1,11 +1,11 @@
 <?php
     $strTable           = $_POST['table'];
     $strColumns         = $_POST['columns'];
-    $strRequirements    = $_POST['restrictions'];
+    $strRestrictions    = $_POST['restrictions'];
     $strOrder           = $_POST['order'];
 
-    $strRequirements = explode('[eq]', $strRequirements);
-    $strRequirements = implode('=', $strRequirements);
+    $strRestrictions = explode('[eq]', $strRestrictions);
+    $strRestrictions = implode('=', $strRestrictions);
 
     $mysqli = new mysqli($_POST['dbIP'], $_POST['dbUserName'], $_POST['dbPassword'], $_POST['dbName']);
 
@@ -18,8 +18,8 @@
     
     $query = 'SELECT ' . $strColumns . ' FROM ' . $strTable;
 
-    if (strlen($strRequirements) > 0)
-        $query .= ' WHERE ' . $strRequirements;
+    if (strlen($strRestrictions) > 0)
+        $query .= ' WHERE ' . $strRestrictions;
 
     if (strlen($strOrder) > 0)
         $query .= ' ORDER BY ' . $strOrder;
@@ -50,9 +50,11 @@
         $strData .= ']';
         
         echo '{"success":true,"message":"success: query was successfull","data":' . $strData . '}';
-        
-        exit();
     }
+    else
+        echo '{"success":false,"message":"error: unable to process query"}';
 
     $mysqli->close();
+
+    exit();
 ?>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="cache-control" content="max-age=0" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+        <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+        <title>Biggest Winner</title>
+        <link type="text/css" rel="stylesheet" href="css/font.css">
+        <link type="text/css" rel="stylesheet" href="css/site.css">
+        <script type="text/javascript" language="javascript" src="js/config.js"></script>
+        <script type="text/javascript" language="javascript" src="js/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" language="javascript" src="js/site.js"></script>
+        <script type="text/javascript" language="javascript">
+            function loadAccountInfo()
+            {
+                showPreloader(true);
+                
+                var strData = 'table=users' + 
+                              '&columns=name, email, recieve_emails' + 
+                              '&restrictions=id[eq]' + getUserID();
+                 
+                $.ajax({
+                    url: 'php/query.php',
+                    type: 'POST',
+                    data: strData + '&' + DB_URLSTRING,
+                    dataType: 'json',
+                    success: onLoadAccountInfoSuccess,
+                    error: onLoadAccountInfoError
+                });
+            }
+            
+            function onLoadAccountInfoSuccess( jsonData )
+            {
+                showPreloader(false);
+                
+                if (jsonData.success)
+                {
+                    debug('onLoadAccountInfoSuccess(): ' + jsonData.message);                    
+                    
+                    if (jsonData.data.length > 0)
+                    {
+                        $('#name').val(jsonData.data[0].name);
+                        $('#email').val(jsonData.data[0].email);
+                        $('#recieveEmails').prop('checked', jsonData.data[0].recieve_emails == 1);
+                    }
+                    else
+                        alert('Unable to load your account information, please try again later.');
+                }
+                else
+                    debug('onLoadAccountInfoSuccess(): ' + jsonData.message);
+            }
+            
+            function onLoadAccountInfoError( jqXHR, textStatus, errorThrown )
+            {
+                showPreloader(false);
+                
+                debug('onLoadAccountInfoError(): ' +  errorThrown);
+            }
+            
+            function saveChanges()
+            {
+                showPreloader(true);
+                
+                var strName          = isValidInput($('#name'));
+                var strEmail         = isValidInput($('#email'), INPUTEMAIL);
+                var intRecieveEmails = $('#recieveEmails').prop('checked')? 1 : 0;
+                
+                if (strName == '')
+                    return;
+                if (strEmail == '')
+                    return;
+                if (isNaN(intRecieveEmails))
+                    return;
+                
+                var strData = 'table=users' + 
+                              '&updates=name[eq]\'' + strName + '\', email[eq]\'' + strEmail + '\', recieve_emails[eq]' + intRecieveEmails + 
+                              '&restrictions=id[eq]' + getUserID().toString(); 
+                 
+                $.ajax({
+                    url: 'php/update.php',
+                    type: 'POST',
+                    data: strData + '&' + DB_URLSTRING,
+                    dataType: 'json',
+                    success: onSaveAccountInfoSuccess,
+                    error: onSaveAccountInfoError
+                });   
+            }
+            
+            function onSaveAccountInfoSuccess( jsonData )
+            {
+                showPreloader(false);
+                
+                if (jsonData.success)
+                    debug('onSaveAccountInfoSuccess(): ' + jsonData.message);
+                else
+                    debug('onSaveAccountInfoSuccess(): ' + jsonData.message);
+            }
+            
+            function onSaveAccountInfoError( jqXHR, textStatus, errorThrown )
+            {
+                showPreloader(false);
+                
+                debug('onSaveAccountInfoError(): ' +  errorThrown);
+            }
+        </script>
+    </head>
+    <body onload="javascript:checkLoggedIn(); loadAccountInfo();">
+        <div class="header">
+            <div class="title"><span class="up">Christ</span><span class="">Family</span><span class="down">Temple</span><span class="">Church</span><span class="up">Scriptures</span><span class="">Prayer</span><span class="down">Health</span></div>
+        </div>
+        <div class="menu">
+            <div class="link"><a href="index.html">Home</a></div>
+            <div class="link"><a href="scriptures.html">Scriptures</a></div>
+            <div class="link"><a href="leaderboard.html">Leaderboard</a></div>
+            <div class="link"><a href="manage_account.html">Account</a></div>
+        </div>
+        <div class="logout log-link hidden">Logout</div>
+        <div class="login log-link hidden">Login</div>
+        <p>Update your account information below:</p>
+        <div class="login-form">
+            <div class="form-container">
+                <div class="form-label">Name:</div>
+                <div class="form-input"><input id="name" class="input-form" type="text"></div>
+            </div>
+            <div class="form-container">
+                <div class="form-label">Email:</div>
+                <div class="form-input"><input id="email" class="input-form" type="email"></div>
+            </div>
+            Recieve emails when others in the group post? <input id="recieveEmails" type="checkbox" class="checkbox"><br/><br/>
+            <button type="submit" onclick="javascript:saveChanges();">Save Changes</button>
+        </div>
+    </body>
+</html>
