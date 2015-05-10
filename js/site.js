@@ -280,7 +280,8 @@ function getScriptureComments( intPostID, objData )
     {
         var strData = 'table=scriptures_comments' + 
                       '&columns=user_name, post_comment, date_created' + 
-                      '&restrictions=post_id[eq]' + intPostID;
+                      '&restrictions=post_id[eq]' + intPostID + 
+                      '&order=date_created DESC';
 
         $.ajax({
             url: 'php/query.php',

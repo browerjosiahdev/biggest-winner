@@ -23,6 +23,8 @@
         <div class="menu">
             <div class="link"><a href="index.html">Home</a></div>
             <div class="link"><a href="scriptures.html">Scriptures</a></div>
+            <div class="link"><a href="">Leaderboard</a></div>
+            <div class="link"><a href="manage_account.html">Account</a></div>
         </div>
         <div class="logout log-link hidden">Logout</div>
         <div class="login log-link hidden">Login</div>
@@ -50,19 +52,20 @@
                 <div class="user-name">{{post.user_name}}</div><div class="time-stamp">{{post.date_created}}</div>
                 <div class="comment"><b>{{post.post_reference}}</b><br /><br />{{post.post_comment}}</div>
                 <div class="user-comments-container">
-                    <div class="user-comment" ng-repeat="comment in post.comments">
-                        <div class="user-name">{{comment.user_name}}</div><div class="time-stamp">{{comment.date_created}}</div>
-                        <div class="comment">{{comment.post_comment}}</div>
+                    <div class="scrolling-comments-container">
+                        <div class="user-comment" ng-repeat="comment in post.comments">
+                            <div class="user-name">{{comment.user_name}}</div><div class="time-stamp">{{comment.date_created}}</div>
+                            <div class="comment">{{comment.post_comment}}</div>
+                        </div>
                     </div>
+                    <form name="commentForm" ng-controller="CommentController as commentCtrl" ng-submit="commentCtrl.addComment(post);">
+                        <div class="add-comment not-logged-in">
+                            <p>Comment (2000)</p>
+                            <textarea class="comment-textarea" maxlength="2000" rows="3" style="width: 100%;" ng-model="commentCtrl.comment.post_comment"></textarea><br/>
+                            <button type="submit" onclick="javascript:postScriptureComment(this)" data-post-id="{{post.id}}">Post</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="underline not-logged-in"></div>
-                <form name="commentForm" ng-controller="CommentController as commentCtrl" ng-submit="commentCtrl.addComment(post);">
-                    <div class="add-comment not-logged-in">
-                        <p>Comment (2000)</p>
-                        <textarea class="comment-textarea" maxlength="2000" rows="3" style="width: 100%;" ng-model="commentCtrl.comment.post_comment"></textarea><br/>
-                        <button type="submit" onclick="javascript:postScriptureComment(this)" data-post-id="{{post.id}}">Post</button>
-                    </div>
-                </form>
             </div>
         </div>
     </body>
