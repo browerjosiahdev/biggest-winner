@@ -53,7 +53,11 @@
                         alert('Unable to find user with matching login and password, please try again.');
                 }
                 else
+                {
                     debug('onLoginPostSuccess(): ' + jsonData.message);
+                    
+                    alert('Unable to log you in, please try again.');
+                }
             }
             
             function onLoginPostError( jqXHR, textStatus, errorThrown )
@@ -61,6 +65,8 @@
                 showPreloader(false);
                 
                 debug('onLoginPostError(): ' + errorThrown);
+                
+                alert('Unable to log you in, please try again.');
             }
         </script>
     </head>

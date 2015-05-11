@@ -96,7 +96,11 @@
                 if (jsonData.success)
                     debug('onSaveAccountInfoSuccess(): ' + jsonData.message);
                 else
+                {
                     debug('onSaveAccountInfoSuccess(): ' + jsonData.message);
+                    
+                    alert('Unable to save your account information, please try again.');
+                }
             }
             
             function onSaveAccountInfoError( jqXHR, textStatus, errorThrown )
@@ -104,6 +108,8 @@
                 showPreloader(false);
                 
                 debug('onSaveAccountInfoError(): ' +  errorThrown);
+                
+                alert('Unable to save your account information, please try again.');
             }
         </script>
     </head>

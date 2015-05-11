@@ -70,10 +70,14 @@
                     if (jsonData.data.length > 0)
                         logUserIn(jsonData.data[0].id, jsonData.data[0].name, $('#rememberMe').prop('checked'));
                     else
-                        alert('Unable to log you in, please go to the login page and try logging in again.');
+                        alert('Unable to create your account, please try again.');
                 }
                 else
+                {
                     debug('onCreateAccountSuccess(): ' + jsonData.message);
+                    
+                    alert('Unable to create your account, please try again.');
+                }
             }
             
             function onCreateAccountError( jqXHR, textStatus, errorThrown )
@@ -81,6 +85,8 @@
                 showPreloader(false);
                 
                 debug('onCreateAccountError(): ' + errorThrown);
+                
+                alert('Unable to create your account, please try again.');
             }
         </script>
     </head>
