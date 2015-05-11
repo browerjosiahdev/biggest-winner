@@ -675,9 +675,10 @@ function getLeaders()
     return new Promise(function( resolve, reject )
     {
         var strData = 'table=users_points AS up' + 
-                      '&columns=u.name, COUNT(*)' + 
+                      '&columns=u.name, COUNT(*) AS count' + 
                       '&group=up.user_id' + 
-                      '&join=users AS u ON up.user_id=u.id';
+                      '&join=users AS u ON up.user_id=u.id' + 
+                      '&order=count DESC';
 
         $.ajax({
             url: 'php/query.php',
