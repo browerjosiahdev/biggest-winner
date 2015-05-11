@@ -2,7 +2,8 @@
 // Group: Apps.
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-var m_postsApp = angular.module('PostsApp', []);
+var m_postsApp       = angular.module('PostsApp', []);
+var m_leaderboardApp = angular.module('LeaderboardApp', []);
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Group: Controllers.
@@ -32,4 +33,14 @@ m_postsApp.controller('CommentController', ['$scope', function( $scope )
         
         $scope.comment = {};
     };
+}]);
+
+m_leaderboardApp.controller('LeaderboardBodyController', ['$scope', function( $scope )
+{
+    getLeaders().then(function( data )
+    {
+        $scope.leaders = data.slice(0, 5);
+        
+        $scope.$apply();
+    });
 }]);

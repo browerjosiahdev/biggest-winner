@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="LeaderboardApp">
     <head>
         <meta http-equiv="cache-control" content="max-age=0" />
         <meta http-equiv="cache-control" content="no-cache" />
@@ -16,7 +16,7 @@
         <script type="text/javascript" language="javascript" src="js/modules.js"></script>
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
     </head>
-    <body>
+    <body ng-controller="LeaderboardBodyController as leaderboardBodyCtrl">
         <div class="header">
             <div class="title"><span class="up">Christ</span><span class="">Family</span><span class="down">Temple</span><span class="">Church</span><span class="up">Scriptures</span><span class="">Prayer</span><span class="down">Health</span></div>
         </div>
@@ -28,6 +28,12 @@
         </div>
         <div class="logout log-link hidden">Logout</div>
         <div class="login log-link hidden">Login</div>
-        <p>This page is under construction, and will be coming soon!</p>
+        <div class="leaderboard">
+            <div class="leader-container" ng-repeat="leader in leaders">
+                <div class="leader-place">{{$index + 1}}</div>
+                <div class="leader-name">{{leader.u_name}}</div>
+                <div class="leader-points">{{leader.count}}</div>
+            </div>
+        </div>
     </body>
 </html>

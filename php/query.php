@@ -3,10 +3,14 @@
     $strColumns         = $_POST['columns'];
     $strRestrictions    = $_POST['restrictions'];
     $strOrder           = $_POST['order'];
+    $strGroupBy         = $_POST['group'];
+    $strJoin            = $_POST['join'];
 
+        // Replace the [eq] tokens with the = symbol.
     $strRestrictions = explode('[eq]', $strRestrictions);
     $strRestrictions = implode('=', $strRestrictions);
 
+        // Connect to the MySQL database.
     $mysqli = new mysqli($_POST['dbIP'], $_POST['dbUserName'], $_POST['dbPassword'], $_POST['dbName']);
 
     if ($mysqli->connect_errno) 
@@ -16,26 +20,43 @@
         exit();
     }
     
+        // Write out the SELECT query.
     $query = 'SELECT ' . $strColumns . ' FROM ' . $strTable;
+
+    if (strlen($strJoin) > 0)
+        $query .= ' JOIN ' . $strJoin;
 
     if (strlen($strRestrictions) > 0)
         $query .= ' WHERE ' . $strRestrictions;
 
     if (strlen($strOrder) > 0)
         $query .= ' ORDER BY ' . $strOrder;
+    
+    if (strlen($strGroupBy) > 0)
+        $query .= ' GROUP BY ' . $strGroupBy;
 
+        // Perform the query.
     if ($result = $mysqli->query($query))
     {
+            // Gather the queried data into a JSON formatted string.
         $arrColumns = explode(', ', $strColumns);
         $strData    = '[';
         
-        while ($row = $result->fetch_object())
+        while ($row = $result->fetch_row())
         {
             $strData .= '{';
             
             for ($inColumn = 0; $inColumn < count($arrColumns); $inColumn++)
             {
-                $strData .= '"' . $arrColumns[$inColumn] . '":"' . $row->$arrColumns[$inColumn] . '"';
+                $strColumnID = $arrColumns[$inColumn];
+                
+                if ($strColumnID == 'COUNT(*)')
+                    $strColumnID = 'count';
+                
+                $strColumnID = explode('.', $strColumnID);
+                $strColumnID = implode('_', $strColumnID);
+                
+                $strData .= '"' . $strColumnID . '":"' . $row[$inColumn] . '"';
                 
                 if (($inColumn + 1) < count($arrColumns))
                     $strData .= ',';
@@ -44,6 +65,7 @@
             $strData .= '},';
         }
         
+            // Remove the last comma from the array of json data.
         if (strlen($strData) > 1)
             $strData = substr($strData, 0, -1);
         
