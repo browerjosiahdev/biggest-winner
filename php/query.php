@@ -28,12 +28,15 @@
 
     if (strlen($strRestrictions) > 0)
         $query .= ' WHERE ' . $strRestrictions;
-
-    if (strlen($strOrder) > 0)
-        $query .= ' ORDER BY ' . $strOrder;
     
     if (strlen($strGroupBy) > 0)
         $query .= ' GROUP BY ' . $strGroupBy;
+
+    if (strlen($strOrder) > 0)
+        $query .= ' ORDER BY ' . $strOrder;
+
+//echo '{"success":false,"message":"' . $query . '"}';
+//exit();
 
         // Perform the query.
     if ($result = $mysqli->query($query))
@@ -42,13 +45,14 @@
         $arrColumns = explode(', ', $strColumns);
         $strData    = '[';
         
-        while ($row = $result->fetch_row())
+        while ($row = $result->fetch_array())
         {
             $strData .= '{';
-            
+         
             for ($inColumn = 0; $inColumn < count($arrColumns); $inColumn++)
             {
                 $strColumnID = $arrColumns[$inColumn];
+                $strColumnID = explode(' AS', $strColumnID)[0];
                 
                 if ($strColumnID == 'COUNT(*)')
                     $strColumnID = 'count';
