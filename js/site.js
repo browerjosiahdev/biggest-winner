@@ -137,10 +137,19 @@ function postScripture()
     showPreloader(true);
     
         // Get the reference and comment value.
-    var strReference = toURLSafeFormat($('#scriptureReference').val());
-    var strComment   = toURLSafeFormat($('#scriptureComment').val());
-    var strPostData  = 'reference=' + strReference +
-                       '&comment=' + strComment + 
+    var strReference = isValidInput($('#scriptureReference'));
+    var strComment   = isValidInput($('#scriptureComment'));
+    
+    if (strReference == '' || 
+        strComment == '')
+    {
+        showPreloader(false);
+        
+        return;
+    }
+    
+    var strPostData  = 'reference=' + toURLSafeFormat(strReference) +
+                       '&comment=' + toURLSafeFormat(strComment) + 
                        '&userID=' + getUserID() + 
                        '&userName=' + getUserName();
     
@@ -189,7 +198,11 @@ function onScripturePostSuccess( jsonData )
         $('#scriptureComment').val('');
     }
     else
+    {
         debug('onScripturePostSuccess(): ' + jsonData.message);
+        
+        alert('Unable to post your scripture, please try again.');
+    }
     
     togglePoint(POINTTYPES['scripturesPost'], true);
 }
@@ -197,6 +210,8 @@ function onScripturePostSuccess( jsonData )
 function onScripturePostError( jqXHR, textStatus, errorThrown )
 {
     debug('onScripturePostError(): ' + errorThrown);
+    
+    alert('Unable to post your scripture, please try again.');
 }
 
 function onSendPostEmailSuccess( jsonData )
@@ -261,7 +276,11 @@ function getScripturePosts()
                     }
                 }
                 else
+                {
                     debug('getScripturePosts(): php/query.php : success : ' + jsonData.message);
+                    
+                    alert('Unable to load scripture posts, please try again.');
+                }
             },
             error: function( jqXHR, textStatus, errorThrown )
             {
@@ -269,6 +288,8 @@ function getScripturePosts()
                 
                 debug('getScripturePosts(): php/query.php : error : ' + errorThrown);   
                 reject('getScripturePosts(): php/query.php : error : ' + errorThrown);
+                
+                alert('Unable to load scripture posts, please try again.');
             }
         });
     });
@@ -300,12 +321,18 @@ function getScriptureComments( intPostID, objData )
                     resolve(objData);
                 }
                 else
+                {
                     debug('getScriptureComments(): php/query.php : success : ' + jsonData.message);
+                    
+                    alert('Unable to load comments for the scripture posts, please try again.');
+                }
             },
             error: function( jqXHR, textStatus, errorThrown )
             {
                 debug('getScriptureComments(): php/query.php : error : ' + errorThrown);
                 reject('getScriptureComments(): php/query.php : error : ' + errorThrown);
+                
+                alert('Unable to load comments for the scripture posts, please try again.');
             }
         });
     });
@@ -325,10 +352,18 @@ function postScriptureComment( objPostBtn )
         var objAddComment = objPost.find('.add-comment');   
         if (objAddComment.html() !== undefined)
         {
-            var strComment = toURLSafeFormat(objAddComment.find('.comment-textarea').val());
+            var strComment = isValidInput(objAddComment.find('.comment-textarea'));
+            
+            if (strComment == '')
+            {
+                showPreloader(false);
+                
+                return;
+            }
+            
             var strData    = 'userID=' + getUserID() + 
                              '&userName=' + getUserName() + 
-                             '&comment=' + strComment + 
+                             '&comment=' + toURLSafeFormat(strComment) + 
                              '&postID=' + intPostID.toString();
             
             $.ajax({
@@ -362,7 +397,11 @@ function onPostScriptureCommentSuccess( jsonData )
         }
     }
     else
+    {
         debug('onPostScriptureCommentSuccess(): ' + jsonData.message);
+        
+        alert('Unable to post your comment, please try again.');
+    }
 }
 
 function onPostScriptureCommentError( jqXHR, textStatus, errorThrown )
@@ -370,6 +409,8 @@ function onPostScriptureCommentError( jqXHR, textStatus, errorThrown )
     showPreloader(false);
     
     debug('onPostScriptureCommentError(): ' + errorThrown);
+    
+    alert('Unable to post your comment, please try again.');
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -454,7 +495,11 @@ function onTogglePointSuccess( jsonData )
     if (jsonData.success)
         debug('onTogglePointSuccess(): ' + jsonData.message);
     else
+    {
         debug('onTogglePointSuccess(): ' + jsonData.message);
+        
+        alert('Unable to add/remove your point for the selected date, please try again.');
+    }
 }
 
 function onTogglePointError( jqXHR, textStatus, errorThrown )
@@ -462,6 +507,8 @@ function onTogglePointError( jqXHR, textStatus, errorThrown )
     showPreloader(false);
     
     debug('onTogglePointError(): ' + errorThrown);
+    
+    alert('Unable to add/remove your point for the selected date, please try again.');
 }
 
 function queryPoints()
@@ -508,7 +555,11 @@ function onQueryPointsSuccess( jsonData )
         }
     }
     else
+    {
         debug('onQueryPointsSuccess(): ' + jsonData.message);
+        
+        alert('Unable to load your points for the selected date, please try again.');
+    }
 }
 
 function onQueryPointsError( jqXHR, textStatus, errorThrown )
@@ -516,6 +567,8 @@ function onQueryPointsError( jqXHR, textStatus, errorThrown )
     showPreloader(false);
     
     debug('onQueryPointsError(): ' + errorThrown);
+    
+    alert('Unable to load your points for the selected date, please try again.');
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -655,6 +708,10 @@ function fromURLSafeFormat( vValue )
     if (typeof vValue == 'object')
     {
         vValue = JSON.stringify(vValue);
+        
+if (vValue.indexOf('Mark') > -1)
+    debug(vValue);        
+        
         vValue = vValue.replace(/(%22)/gm, '\\"');
         vValue = unescape(vValue);
         

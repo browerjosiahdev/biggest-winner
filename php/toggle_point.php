@@ -27,7 +27,7 @@
                     echo '{"success":false,"message":"error: unable to remove point ' . $pointID . ' from user ' . $userID . ' for ' . $dateCreated . '. Point id ' . $result[0]->id . '"}';
             }
             else
-                echo '{"success":false,"message":"error: point already exists"}';
+                echo '{"success":true,"message":"error: point already exists"}';
         }
         else
         {
@@ -39,7 +39,7 @@
                     echo '{"success":false,"message":"error: unable to add point ' . $pointID . ' to user ' . $userID . ' for ' . $dateCreated . '"}';  
             }
             else
-                echo '{"success":false,"message":"error: point doesn\'t exist"}';
+                echo '{"success":true,"message":"error: point doesn\'t exist"}';
         }
         
         exit();

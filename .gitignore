@@ -9,3 +9,6 @@ repo_info.rtf
 
 # Ignore all log files.
 *.log
+
+# Ignore the file of fixes needed.
+fixes.rtf

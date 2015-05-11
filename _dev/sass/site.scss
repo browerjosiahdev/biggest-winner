@@ -115,7 +115,19 @@ body
         .form-content
         {
             background-color: $background-medium-light;
+            border-width: 2px;
+            border-style: solid;
             padding: 5px;
+
+            &.green
+            {
+                border-color: $accent-green-dark;
+            }
+            
+            &.blue
+            {
+                border-color: $accent-blue-dark;
+            }
             
             .input-container
             {
@@ -140,7 +152,12 @@ body
             
             .fields-container
             {
+                margin-right: 10px;
                 
+                .field
+                {
+                    width: 100%;
+                }
             }
         }
     }
@@ -183,7 +200,19 @@ body
         background-color: $background-medium-light;
         padding: 10px 10px 0 10px;
         margin: 20px 0;
+        border-width: 2px;
+        border-style: solid;
         
+        &:nth-child(2n+1)
+        {
+            border-color: $accent-green-dark;
+        }
+        
+        &:nth-child(2n+2)
+        {
+            border-color: $accent-blue-dark;
+        }
+            
         .user-name
         {
             display: inline-block; 
@@ -271,7 +300,7 @@ body
 
 .comment-textarea
 {
-    width: 300px;
+    width: 100%;
     resize: none;
 }
 
@@ -284,7 +313,10 @@ body
 .input-form
 {
     width: 200px;
-    
+}
+
+input, textarea
+{
     &.invalid
     {
         box-shadow: 0 0 10px #ff0000;

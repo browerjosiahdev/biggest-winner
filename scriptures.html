@@ -61,7 +61,7 @@
                     <form name="commentForm" ng-controller="CommentController as commentCtrl" ng-submit="commentCtrl.addComment(post);">
                         <div class="add-comment not-logged-in">
                             <p>Comment (2000)</p>
-                            <textarea class="comment-textarea" maxlength="2000" rows="3" style="width: 100%;" ng-model="commentCtrl.comment.post_comment"></textarea><br/>
+                            <textarea class="comment-textarea" maxlength="2000" rows="3" ng-model="commentCtrl.comment.post_comment"></textarea><br/>
                             <button type="submit" onclick="javascript:postScriptureComment(this)" data-post-id="{{post.id}}">Post</button>
                         </div>
                     </form>
