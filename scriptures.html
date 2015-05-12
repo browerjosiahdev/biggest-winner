@@ -54,8 +54,8 @@
                 <div class="user-comments-container">
                     <div class="scrolling-comments-container">
                         <div class="user-comment" ng-repeat="comment in post.comments">
-                            <div class="user-name">{{comment.u_name}}</div><div class="time-stamp">{{comment.s_date_created}}</div>
-                            <div class="comment">{{comment.s_post_comment}}</div>
+                            <div class="user-name">{{comment.u_name}}</div><div class="time-stamp">{{comment.sc_date_created}}</div>
+                            <div class="comment">{{comment.sc_post_comment}}</div>
                         </div>
                     </div>
                     <form name="commentForm" ng-controller="CommentController as commentCtrl" ng-submit="commentCtrl.addComment(post);">

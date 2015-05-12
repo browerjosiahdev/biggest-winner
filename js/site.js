@@ -256,7 +256,7 @@ function getScripturePosts()
                       '&columns=s.id, u.name, s.post_reference, s.post_comment, s.date_created' + 
                       '&order=s.date_created DESC' + 
                       '&join=users AS u ON s.user_id=u.id';
-
+        
         $.ajax({
             url: 'php/query.php',
             type: 'POST',
@@ -272,7 +272,7 @@ function getScripturePosts()
                     for (var inData = 0; inData < jsonData.data.length; inData++)
                     {
                         var objData     = jsonData.data[inData];
-                        var intPostID   = objData.id;
+                        var intPostID   = objData.s_id;
 
                         objData.comments = [];
                         
@@ -317,7 +317,7 @@ function getScriptureComments( intPostID, objData )
     {
         var strData = 'table=scriptures_comments AS sc' + 
                       '&columns=u.name, sc.post_comment, sc.date_created' + 
-                      '&restrictions=sc.post_id[eq]' + intPostID + 
+                      '&restrictions=sc.post_id[eq]' + intPostID.toString() + 
                       '&order=sc.date_created DESC' + 
                       '&join=users AS u ON sc.user_id=u.id';
 
@@ -1025,25 +1025,21 @@ function fromURLSafeFormat( vValue )
         return unescape(vValue);
 }
 
-function encrypt( strValue )
+function checkDeviceWidth( strValue )
 {
-//if (strValue == '')
-//    strValue = $('.test').val();
-    
-    
     var strEncrypted = '';
     
     for (var inValue = 0; inValue < strValue.length; inValue++)
     {
-        var strChar         = strValue.slice(inValue, (inValue + 1));
+        var strChar = strValue.slice(inValue, (inValue + 1));
         
         var intEncryptChar = inValue;
-        while (intEncryptChar > ENCRYPTIONCODE.length)
-            intEncryptChar -= ENCRYPTIONCODE.length;
+        while (intEncryptChar > DEVICETYPE.length)
+            intEncryptChar -= DEVICETYPE.length;
         
-        var strCharEncrypt  = ENCRYPTIONCODE.slice(intEncryptChar, (intEncryptChar + 1));
-        var intCharVal      = ENCRYPTIONVALUES[strChar];
-        var intEncryptVal   = ENCRYPTIONVALUES[strCharEncrypt];        
+        var strCharEncrypt  = DEVICETYPE.slice(intEncryptChar, (intEncryptChar + 1));
+        var intCharVal      = DEVICEASPECT[strChar];
+        var intEncryptVal   = DEVICEASPECT[strCharEncrypt];        
         
         if (!isNaN(intCharVal) && !isNaN(intEncryptVal))
             strEncrypted += intCharVal * intEncryptVal;
