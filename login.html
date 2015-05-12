@@ -13,62 +13,6 @@
         <script type="text/javascript" language="javascript" src="js/config.js"></script>
         <script type="text/javascript" language="javascript" src="js/jquery-1.11.2.min.js"></script>
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
-        <script type="text/javascript" language="javascript">
-            function login()
-            {
-                showPreloader(true);
-                
-                var strUserName = isValidInput($('#userName'));
-                var strPassword = isValidInput($('#password'));
-                
-                if (strUserName == '')
-                    return;
-                if (strPassword == '')
-                    return;
-                
-                var strData = 'userName=' + strUserName + 
-                              '&password=' + strPassword;
-                
-                $.ajax({
-                    url: 'php/login.php',
-                    method: 'POST',
-                    dataType: 'json',
-                    data: strData + '&' + DB_URLSTRING,
-                    success: onLoginPostSuccess,
-                    error: onLoginPostError
-                });
-            }
-            
-            function onLoginPostSuccess( jsonData )
-            {
-                showPreloader(false);
-                
-                if (jsonData.success)
-                {
-                    debug('onLoginPostSuccess(): ' + jsonData.message);
-                    
-                    if (jsonData.data.length > 0)
-                        logUserIn(jsonData.data[0].id, jsonData.data[0].name, $('#rememberMe').prop('checked'));
-                    else
-                        alert('Unable to find user with matching login and password, please try again.');
-                }
-                else
-                {
-                    debug('onLoginPostSuccess(): ' + jsonData.message);
-                    
-                    alert('Unable to log you in, please try again.');
-                }
-            }
-            
-            function onLoginPostError( jqXHR, textStatus, errorThrown )
-            {
-                showPreloader(false);
-                
-                debug('onLoginPostError(): ' + errorThrown);
-                
-                alert('Unable to log you in, please try again.');
-            }
-        </script>
     </head>
     <body>
         <div class="header">

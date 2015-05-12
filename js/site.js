@@ -20,6 +20,21 @@ function debug( strDebug )
         console.log(strDebug);
 }
 
+function message( strMessage, arrConditions )
+{
+    if (arrConditions !== null && arrConditions !== undefined && arrConditions.length > 0)
+    {
+        for (var inConditions = 0; inConditions < arrConditions.length; inConditions++)
+        {
+            var vCondition = arrConditions[inConditions];          
+            if (vCondition === false || vCondition === null)
+                return;
+        }
+    }
+    
+    alert(strMessage);
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Group: User Methods.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -201,7 +216,7 @@ function onScripturePostSuccess( jsonData )
     {
         debug('onScripturePostSuccess(): ' + jsonData.message);
         
-        alert('Unable to post your scripture, please try again.');
+        message('Unable to post your scripture, please try again.', [isLoggedIn()]);
     }
     
     togglePoint(POINTTYPES['scripturesPost'], true);
@@ -211,7 +226,7 @@ function onScripturePostError( jqXHR, textStatus, errorThrown )
 {
     debug('onScripturePostError(): ' + errorThrown);
     
-    alert('Unable to post your scripture, please try again.');
+    message('Unable to post your scripture, please try again.', [isLoggedIn()]);
 }
 
 function onSendPostEmailSuccess( jsonData )
@@ -237,9 +252,10 @@ function getScripturePosts()
     
     return new Promise(function( resolve, reject )
     {
-        var strData = 'table=scriptures' + 
-                      '&columns=id, user_name, post_reference, post_comment, date_created' + 
-                      '&order=date_created DESC';
+        var strData = 'table=scriptures AS s' + 
+                      '&columns=s.id, u.name, s.post_reference, s.post_comment, s.date_created' + 
+                      '&order=s.date_created DESC' + 
+                      '&join=users AS u ON s.user_id=u.id';
 
         $.ajax({
             url: 'php/query.php',
@@ -279,7 +295,7 @@ function getScripturePosts()
                 {
                     debug('getScripturePosts(): php/query.php : success : ' + jsonData.message);
                     
-                    alert('Unable to load scripture posts, please try again.');
+                    message('Unable to load scripture posts, please try again.', [isLoggedIn()]);
                 }
             },
             error: function( jqXHR, textStatus, errorThrown )
@@ -289,7 +305,7 @@ function getScripturePosts()
                 debug('getScripturePosts(): php/query.php : error : ' + errorThrown);   
                 reject('getScripturePosts(): php/query.php : error : ' + errorThrown);
                 
-                alert('Unable to load scripture posts, please try again.');
+                message('Unable to load scripture posts, please try again.', [isLoggedIn()]);
             }
         });
     });
@@ -299,10 +315,11 @@ function getScriptureComments( intPostID, objData )
 {
     return new Promise(function( resolve, reject )
     {
-        var strData = 'table=scriptures_comments' + 
-                      '&columns=user_name, post_comment, date_created' + 
-                      '&restrictions=post_id[eq]' + intPostID + 
-                      '&order=date_created DESC';
+        var strData = 'table=scriptures_comments AS sc' + 
+                      '&columns=u.name, sc.post_comment, sc.date_created' + 
+                      '&restrictions=sc.post_id[eq]' + intPostID + 
+                      '&order=sc.date_created DESC' + 
+                      '&join=users AS u ON sc.user_id=u.id';
 
         $.ajax({
             url: 'php/query.php',
@@ -324,7 +341,7 @@ function getScriptureComments( intPostID, objData )
                 {
                     debug('getScriptureComments(): php/query.php : success : ' + jsonData.message);
                     
-                    alert('Unable to load comments for the scripture posts, please try again.');
+                    message('Unable to load comments for the scripture posts, please try again.', [isLoggedIn()]);
                 }
             },
             error: function( jqXHR, textStatus, errorThrown )
@@ -332,7 +349,7 @@ function getScriptureComments( intPostID, objData )
                 debug('getScriptureComments(): php/query.php : error : ' + errorThrown);
                 reject('getScriptureComments(): php/query.php : error : ' + errorThrown);
                 
-                alert('Unable to load comments for the scripture posts, please try again.');
+                message('Unable to load comments for the scripture posts, please try again.', [isLoggedIn()]);
             }
         });
     });
@@ -400,7 +417,7 @@ function onPostScriptureCommentSuccess( jsonData )
     {
         debug('onPostScriptureCommentSuccess(): ' + jsonData.message);
         
-        alert('Unable to post your comment, please try again.');
+        message('Unable to post your comment, please try again.', [isLoggedIn()]);
     }
 }
 
@@ -410,7 +427,7 @@ function onPostScriptureCommentError( jqXHR, textStatus, errorThrown )
     
     debug('onPostScriptureCommentError(): ' + errorThrown);
     
-    alert('Unable to post your comment, please try again.');
+    message('Unable to post your comment, please try again.', [isLoggedIn()]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -498,7 +515,7 @@ function onTogglePointSuccess( jsonData )
     {
         debug('onTogglePointSuccess(): ' + jsonData.message);
         
-        alert('Unable to add/remove your point for the selected date, please try again.');
+        message('Unable to add/remove your point for the selected date, please try again.', [isLoggedIn()]);
     }
 }
 
@@ -508,7 +525,7 @@ function onTogglePointError( jqXHR, textStatus, errorThrown )
     
     debug('onTogglePointError(): ' + errorThrown);
     
-    alert('Unable to add/remove your point for the selected date, please try again.');
+    message('Unable to add/remove your point for the selected date, please try again.', [isLoggedIn()]);
 }
 
 function queryPoints()
@@ -558,7 +575,7 @@ function onQueryPointsSuccess( jsonData )
     {
         debug('onQueryPointsSuccess(): ' + jsonData.message);
         
-        alert('Unable to load your points for the selected date, please try again.');
+        message('Unable to load your points for the selected date, please try again.', [isLoggedIn()]);
     }
 }
 
@@ -568,7 +585,7 @@ function onQueryPointsError( jqXHR, textStatus, errorThrown )
     
     debug('onQueryPointsError(): ' + errorThrown);
     
-    alert('Unable to load your points for the selected date, please try again.');
+    message('Unable to load your points for the selected date, please try again.', [isLoggedIn()]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -661,7 +678,111 @@ function setupDatePicker()
 
 function onDatePickerSelect( strDate )
 {
-    
+    setSelectedDate(strDate);
+                
+    queryPoints();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Manage Account Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function loadAccountInfo()
+{
+    showPreloader(true);
+
+    var strData = 'table=users' + 
+                  '&columns=name, email, recieve_emails' + 
+                  '&restrictions=id[eq]' + getUserID();
+
+    $.ajax({
+        url: 'php/query.php',
+        type: 'POST',
+        data: strData + '&' + DB_URLSTRING,
+        dataType: 'json',
+        success: onLoadAccountInfoSuccess,
+        error: onLoadAccountInfoError
+    });
+}
+
+function onLoadAccountInfoSuccess( jsonData )
+{
+    showPreloader(false);
+
+    if (jsonData.success)
+    {
+        debug('onLoadAccountInfoSuccess(): ' + jsonData.message);                    
+
+        if (jsonData.data.length > 0)
+        {
+            $('#name').val(jsonData.data[0].name);
+            $('#email').val(jsonData.data[0].email);
+            $('#recieveEmails').prop('checked', jsonData.data[0].recieve_emails == 1);
+        }
+        else
+            message('Unable to load your account information, please try again later.', [isLoggedIn()]);
+    }
+    else
+        debug('onLoadAccountInfoSuccess(): ' + jsonData.message);
+}
+
+function onLoadAccountInfoError( jqXHR, textStatus, errorThrown )
+{
+    showPreloader(false);
+
+    debug('onLoadAccountInfoError(): ' +  errorThrown);
+}
+
+function saveChanges()
+{
+    showPreloader(true);
+
+    var strName          = isValidInput($('#name'));
+    var strEmail         = isValidInput($('#email'), INPUTEMAIL);
+    var intRecieveEmails = $('#recieveEmails').prop('checked')? 1 : 0;
+
+    if (strName == '')
+        return;
+    if (strEmail == '')
+        return;
+    if (isNaN(intRecieveEmails))
+        return;
+
+    var strData = 'table=users' + 
+                  '&updates=name[eq]\'' + strName + '\', email[eq]\'' + strEmail + '\', recieve_emails[eq]' + intRecieveEmails + 
+                  '&restrictions=id[eq]' + getUserID().toString(); 
+
+    $.ajax({
+        url: 'php/update.php',
+        type: 'POST',
+        data: strData + '&' + DB_URLSTRING,
+        dataType: 'json',
+        success: onSaveAccountInfoSuccess,
+        error: onSaveAccountInfoError
+    });   
+}
+
+function onSaveAccountInfoSuccess( jsonData )
+{
+    showPreloader(false);
+
+    if (jsonData.success)
+        debug('onSaveAccountInfoSuccess(): ' + jsonData.message);
+    else
+    {
+        debug('onSaveAccountInfoSuccess(): ' + jsonData.message);
+
+        message('Unable to save your account information, please try again.', [isLoggedIn()]);
+    }
+}
+
+function onSaveAccountInfoError( jqXHR, textStatus, errorThrown )
+{
+    showPreloader(false);
+
+    debug('onSaveAccountInfoError(): ' +  errorThrown);
+
+    message('Unable to save your account information, please try again.', [isLoggedIn()]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -697,7 +818,7 @@ function getLeaders()
                 {
                     debug('getLeaders(): php/query.php : success : ' + jsonData.message);
                     
-                    alert('Unable to load scripture posts, please try again.');
+                    message('Unable to load scripture posts, please try again.', [isLoggedIn()]);
                 }
             },
             error: function( jqXHR, textStatus, errorThrown )
@@ -707,7 +828,7 @@ function getLeaders()
                 debug('getLeaders(): php/query.php : error : ' + errorThrown);   
                 reject('getLeaders(): php/query.php : error : ' + errorThrown);
                 
-                alert('Unable to load scripture posts, please try again.');
+                message('Unable to load scripture posts, please try again.', [isLoggedIn()]);
             }
         });
     });
@@ -741,6 +862,144 @@ function showPreloader( bShow )
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Login Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function login()
+{
+    showPreloader(true);
+
+    var strUserName = isValidInput($('#userName'));
+    var strPassword = isValidInput($('#password'));
+
+    if (strUserName == '')
+        return;
+    if (strPassword == '')
+        return;
+
+    var strData = 'userName=' + strUserName + 
+                  '&password=' + encrypt(strPassword);
+
+    $.ajax({
+        url: 'php/login.php',
+        method: 'POST',
+        dataType: 'json',
+        data: strData + '&' + DB_URLSTRING,
+        success: onLoginPostSuccess,
+        error: onLoginPostError
+    });
+}
+
+function onLoginPostSuccess( jsonData )
+{
+    showPreloader(false);
+
+    if (jsonData.success)
+    {
+        debug('onLoginPostSuccess(): ' + jsonData.message);
+
+        if (jsonData.data.length > 0)
+            logUserIn(jsonData.data[0].id, jsonData.data[0].name, $('#rememberMe').prop('checked'));
+        else
+            alert('Unable to find user with matching login and password, please try again.');
+    }
+    else
+    {
+        debug('onLoginPostSuccess(): ' + jsonData.message);
+
+        alert('Unable to log you in, please try again.');
+    }
+}
+
+function onLoginPostError( jqXHR, textStatus, errorThrown )
+{
+    showPreloader(false);
+
+    debug('onLoginPostError(): ' + errorThrown);
+
+    alert('Unable to log you in, please try again.');
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Create Account Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function createAccount()
+{
+    showPreloader(true);
+
+    var strName             = isValidInput($('#name'));
+    var strEmail            = isValidInput($('#email'), INPUTEMAIL);
+    var strLogin            = isValidInput($('#login'));
+    var strPassword         = isValidInput($('#password'));
+    var strConfirmPassword  = isValidInput($('#confirmPassword'));
+    var bRecieveEmails      = $('#recieveEmails').prop('checked');
+
+    if (strName == '')
+        return;
+    if (strEmail == '')
+        return;
+    if (strLogin == '')
+        return;
+    if (strPassword == '')
+        return;
+    if (strConfirmPassword == '')
+        return;
+
+    if (strPassword != strConfirmPassword)
+    {
+        alert("Sorry, your passwords don't match.");
+
+        return;
+    }
+
+    var strData = 'name=' + strName + 
+                  '&email=' + strEmail + 
+                  '&login=' + strLogin + 
+                  '&password=' + encrypt(strPassword) + 
+                  '&recieveEmails=' + bRecieveEmails;
+
+    $.ajax({
+        url: 'php/create_account.php',
+        method: 'POST',
+        dataType: 'json',
+        data: strData + '&' + DB_URLSTRING,
+        success: onCreateAccountSuccess,
+        error: onCreateAccountError
+    });
+}
+
+function onCreateAccountSuccess( jsonData )
+{
+    showPreloader(false);
+
+    if (jsonData.success)
+    {
+        debug('onCreateAccountSuccess(): ' + jsonData.message);                    
+
+        if (jsonData.data.length > 0)
+            logUserIn(jsonData.data[0].id, jsonData.data[0].name, $('#rememberMe').prop('checked'));
+        else
+            alert('Unable to create your account, please try again.');
+    }
+    else
+    {
+        debug('onCreateAccountSuccess(): ' + jsonData.message);
+
+        alert('Unable to create your account, please try again.');
+    }
+}
+
+function onCreateAccountError( jqXHR, textStatus, errorThrown )
+{
+    showPreloader(false);
+
+    debug('onCreateAccountError(): ' + errorThrown);
+
+    alert('Unable to create your account, please try again.');
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Group: Format Methods.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -764,6 +1023,35 @@ function fromURLSafeFormat( vValue )
     }
     else
         return unescape(vValue);
+}
+
+function encrypt( strValue )
+{
+//if (strValue == '')
+//    strValue = $('.test').val();
+    
+    
+    var strEncrypted = '';
+    
+    for (var inValue = 0; inValue < strValue.length; inValue++)
+    {
+        var strChar         = strValue.slice(inValue, (inValue + 1));
+        
+        var intEncryptChar = inValue;
+        while (intEncryptChar > ENCRYPTIONCODE.length)
+            intEncryptChar -= ENCRYPTIONCODE.length;
+        
+        var strCharEncrypt  = ENCRYPTIONCODE.slice(intEncryptChar, (intEncryptChar + 1));
+        var intCharVal      = ENCRYPTIONVALUES[strChar];
+        var intEncryptVal   = ENCRYPTIONVALUES[strCharEncrypt];        
+        
+        if (!isNaN(intCharVal) && !isNaN(intEncryptVal))
+            strEncrypted += intCharVal * intEncryptVal;
+        else
+            strEncrypted += strChar;
+    }
+    
+    return strEncrypted;
 }
 
 

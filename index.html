@@ -17,14 +17,6 @@
         <script type="text/javascript" language="javascript" src="js/angular.min.js"></script>
         <script type="text/javascript" language="javascript" src="js/modules.js"></script>
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
-        <script type="text/javascript" language="javascript">
-            onDatePickerSelect = function( strDate )
-            {
-                setSelectedDate(strDate);
-                
-                queryPoints();
-            }
-        </script>
     </head>
     <body onload="javascript:checkLoggedIn(); setupDatePicker(); queryPoints();">
         <div class="header">

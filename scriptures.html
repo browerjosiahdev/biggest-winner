@@ -49,13 +49,13 @@
         </div>
         <div class="posts-container">
             <div class="post" ng-repeat="post in posts | filter:search | orderBy:sort" data-post-id="{{post.id}}">
-                <div class="user-name">{{post.user_name}}</div><div class="time-stamp">{{post.date_created}}</div>
-                <div class="comment"><b>{{post.post_reference}}</b><br /><br />{{post.post_comment}}</div>
+                <div class="user-name">{{post.u_name}}</div><div class="time-stamp">{{post.s_date_created}}</div>
+                <div class="comment"><b>{{post.s_post_reference}}</b><br /><br />{{post.s_post_comment}}</div>
                 <div class="user-comments-container">
                     <div class="scrolling-comments-container">
                         <div class="user-comment" ng-repeat="comment in post.comments">
-                            <div class="user-name">{{comment.user_name}}</div><div class="time-stamp">{{comment.date_created}}</div>
-                            <div class="comment">{{comment.post_comment}}</div>
+                            <div class="user-name">{{comment.u_name}}</div><div class="time-stamp">{{comment.s_date_created}}</div>
+                            <div class="comment">{{comment.s_post_comment}}</div>
                         </div>
                     </div>
                     <form name="commentForm" ng-controller="CommentController as commentCtrl" ng-submit="commentCtrl.addComment(post);">
