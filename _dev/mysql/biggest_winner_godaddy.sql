@@ -1,4 +1,5 @@
-USE biggest_winner;
+USE biggest_winner_test;
+/*USE biggest_winner;*/
 
 CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT, 
                                  name VARCHAR(100) NOT NULL, 
@@ -13,6 +14,9 @@ CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT,
                                  UNIQUE(email), 
                                  
                                  PRIMARY KEY(id));
+                                 
+ALTER IGNORE TABLE users 
+                   ADD COLUMN password_confirmed INT NOT NULL DEFAULT 0;
                                  
 INSERT IGNORE INTO users (name, login, password, email) 
                    VALUE ('Administrator', 'sysadmin', 'Passw0rd', 'browerjosiah@gmail.com');

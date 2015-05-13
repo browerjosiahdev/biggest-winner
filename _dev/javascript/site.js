@@ -39,11 +39,15 @@ function message( strMessage, arrConditions )
 // Group: User Methods.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function checkLoggedIn()
+function checkLoggedIn( bLoginRequired )
 {
+    var bLoggedIn = isLoggedIn();
+    
         // If the user isn't logged in, send them to the login page.
-    if (!isLoggedIn())
-        window.location.href = 'login.html';    
+    if (!bLoggedIn && bLoginRequired)
+        window.location.href = 'login.html'; 
+    else if (bLoggedIn && localStorage.getItem('requirePasswordConfirmation') != 'false')
+        window.location.href = 'confirm_password.html';
 }
 
 function isLoggedIn()
@@ -89,7 +93,10 @@ function logUserIn( intUserID, strUserName, bRemember )
     }
     
         // Navigate the user to the home page.
-    window.location.href = 'index.html';
+    if (localStorage.getItem('requirePasswordConfirmation') === true)
+        window.location.href = 'confirm_password.html';
+    else
+        window.location.href = 'index.html';
 }
 
 function logUserOut()
@@ -356,21 +363,20 @@ function getScriptureComments( intPostID, objData )
 }
 
 function postScriptureComment( objPostBtn )
-{
+{    
     showPreloader(true);
     
     objPostBtn = $(objPostBtn);
     
     var intPostID = Number(objPostBtn.data('post-id'));
     var objPost   = $('.post[data-post-id="' + intPostID + '"]');
-    
+
     if (objPost.html() !== undefined)
     {
         var objAddComment = objPost.find('.add-comment');   
         if (objAddComment.html() !== undefined)
         {
             var strComment = isValidInput(objAddComment.find('.comment-textarea'));
-            
             if (strComment == '')
             {
                 showPreloader(false);
@@ -733,7 +739,7 @@ function onLoadAccountInfoError( jqXHR, textStatus, errorThrown )
     debug('onLoadAccountInfoError(): ' +  errorThrown);
 }
 
-function saveChanges()
+function saveAccountChanges()
 {
     showPreloader(true);
 
@@ -767,7 +773,11 @@ function onSaveAccountInfoSuccess( jsonData )
     showPreloader(false);
 
     if (jsonData.success)
+    {
         debug('onSaveAccountInfoSuccess(): ' + jsonData.message);
+        
+        message('Your account has been updated successfully.', [isLoggedIn()]);
+    }
     else
     {
         debug('onSaveAccountInfoSuccess(): ' + jsonData.message);
@@ -877,11 +887,14 @@ function login()
     if (strPassword == '')
         return;
 
-    var strData = 'userName=' + strUserName + 
-                  '&password=' + checkDeviceWidth(strPassword);
-
+    /*var strData = 'userName=' + strUserName + 
+                  '&password=' + checkDeviceWidth(strPassword);*/
+    var strData = 'table=users' + 
+                  '&columns=id, name, password_confirmed' + 
+                  '&restrictions=(login[eq]\'' + strUserName + '\') AND (password[eq]\'' + checkDeviceWidth(strPassword) + '\' OR password_confirmed[eq]0)';  
+    
     $.ajax({
-        url: 'php/login.php',
+        url: 'php/query.php',
         method: 'POST',
         dataType: 'json',
         data: strData + '&' + DB_URLSTRING,
@@ -899,15 +912,27 @@ function onLoginPostSuccess( jsonData )
         debug('onLoginPostSuccess(): ' + jsonData.message);
 
         if (jsonData.data.length > 0)
-            logUserIn(jsonData.data[0].id, jsonData.data[0].name, $('#rememberMe').prop('checked'));
+        {
+            var intID                = Number(jsonData.data[0].id);
+            var strName              = jsonData.data[0].name;
+            var bRemember            = $('#rememberMe').prop('checked');
+            
+            var intPasswordConfirmed = Number(jsonData.data[0].password_confirmed);
+            if (intPasswordConfirmed === 0)
+                localStorage.setItem('requirePasswordConfirmation', true);
+            else
+                localStorage.setItem('requirePasswordConfirmation', false);
+            
+            logUserIn(intID, strName, bRemember);
+        }
         else
-            alert('Unable to find user with matching login and password, please try again.');
+            message('Unable to find user with matching login and password, please try again.');
     }
     else
     {
         debug('onLoginPostSuccess(): ' + jsonData.message);
 
-        alert('Unable to log you in, please try again.');
+        message('Unable to log you in, please try again.');
     }
 }
 
@@ -917,7 +942,7 @@ function onLoginPostError( jqXHR, textStatus, errorThrown )
 
     debug('onLoginPostError(): ' + errorThrown);
 
-    alert('Unable to log you in, please try again.');
+    message('Unable to log you in, please try again.');
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -948,19 +973,21 @@ function createAccount()
 
     if (strPassword != strConfirmPassword)
     {
-        alert("Sorry, your passwords don't match.");
+        message('Sorry, your passwords don\'t match.');
 
         return;
     }
 
-    var strData = 'name=' + strName + 
-                  '&email=' + strEmail + 
-                  '&login=' + strLogin + 
-                  '&password=' + checkDeviceWidth(strPassword) + 
-                  '&recieveEmails=' + bRecieveEmails;
+    var strData = 'table=users' + 
+                  '&values=name[eq]\'' + strName + '\', ' + 
+                          'email[eq]\'' + strEmail + '\', ' + 
+                          'login[eq]\'' + strLogin + '\', ' + 
+                          'password[eq]\'' + checkDeviceWidth(strPassword) + '\', ' + 
+                          'recieve_emails[eq]' + bRecieveEmails + ', ' + 
+                          'password_confirmed[eq]1';
 
     $.ajax({
-        url: 'php/create_account.php',
+        url: 'php/insert.php',
         method: 'POST',
         dataType: 'json',
         data: strData + '&' + DB_URLSTRING,
@@ -971,22 +998,31 @@ function createAccount()
 
 function onCreateAccountSuccess( jsonData )
 {
-    showPreloader(false);
-
     if (jsonData.success)
     {
-        debug('onCreateAccountSuccess(): ' + jsonData.message);                    
-
-        if (jsonData.data.length > 0)
-            logUserIn(jsonData.data[0].id, jsonData.data[0].name, $('#rememberMe').prop('checked'));
-        else
-            alert('Unable to create your account, please try again.');
+        debug('onCreateAccountSuccess(): ' + jsonData.message);
+        
+        var strEmail = jsonData.data.email;
+        var strData  = 'table=users' + 
+                       '&columns=id, name' + 
+                       '&restrictions=email[eq]\'' + strEmail + '\'';
+        
+        $.ajax({
+            url: 'php/query.php',
+            method: 'POST',
+            dataType: 'json',
+            data: strData + '&' + DB_URLSTRING,
+            success: onNewAccountLoginSuccess,
+            error: onNewAccountLoginError
+        });
     }
     else
     {
+        showPreloader(false);
+        
         debug('onCreateAccountSuccess(): ' + jsonData.message);
 
-        alert('Unable to create your account, please try again.');
+        message('Unable to create your account, please try again.');
     }
 }
 
@@ -996,7 +1032,92 @@ function onCreateAccountError( jqXHR, textStatus, errorThrown )
 
     debug('onCreateAccountError(): ' + errorThrown);
 
-    alert('Unable to create your account, please try again.');
+    message('Unable to create your account, please try again.');
+}
+
+function onNewAccountLoginSuccess( jsonData )
+{
+    showPreloader(false);
+    
+    if (jsonData.success)
+    {
+        debug('onNewAccountLoginSuccess(): ' + jsonData.message);
+        
+        var intID     = Number(jsonData.data[0].id);
+        var strName   = jsonData.data[0].name;
+        var bRemember = $('#rememberMe').prop('checked');
+        
+        logUserIn(intID, strName, bRemember);
+    }
+    else
+    {
+        debug('onNewAccountLoginSuccess(): ' + jsonData.message);
+
+        message('Unable to login to your new account, please go to the login page and try again.');
+    }
+}
+
+function onNewAccountLoginError( jqXHR, textStatus, errorThrown )
+{
+    showPreloader(false);
+
+    debug('onNewAccountLoginError(): ' + errorThrown);
+
+    message('Unable to login to your new account, please go to the login page and try again.');
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Confirm Password Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function confirmPassword()
+{
+    var strPassword        = isValidInput($('#password'));
+    var strConfirmPassword = isValidInput($('#confirmPassword'));
+    
+    if (strPassword == '' || strConfirmPassword == '')
+        return;
+    else if (strPassword != strConfirmPassword)
+    {
+        message('Sorry, your passwords don\'t match.');
+        
+        return;
+    }
+    
+    var strData = 'table=users' + 
+                  '&updates=password[eq]\'' + checkDeviceWidth(strPassword) + '\', ' + 
+                           'password_confirmed[eq]1' + 
+                  '&restrictions=id[eq]' + getUserID();
+
+    $.ajax({
+        url: 'php/update.php',
+        method: 'POST',
+        dataType: 'json',
+        data: strData + '&' + DB_URLSTRING,
+        success: onConfirmPasswordSuccess,
+        error: onConfirmPasswordError
+    });
+}
+
+function onConfirmPasswordSuccess( jsonData )
+{
+    if (jsonData.success)
+    {
+        debug('onConfirmPasswordSuccess(): ' + jsonData.message);
+        
+        localStorage.setItem('requirePasswordConfirmation', false);
+        
+        window.location.href = 'index.html';
+    }
+    else
+        debug('onConfirmPasswordSuccess(): ' + jsonData.message);
+}
+
+function onConfirmPasswordError( jqXHR, textStatus, errorThrown )
+{
+    debug('onConfirmPasswordError(): ' + errorThrown);
+    
+    message('Unable to update your password, please try again.');
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
