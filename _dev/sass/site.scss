@@ -185,6 +185,11 @@ body
             {
                 display: table-cell;
                 vertical-align: middle;
+                
+                textarea
+                {
+                    vertical-align: middle;   
+                }
             }
         }
     }

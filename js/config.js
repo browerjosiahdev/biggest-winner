@@ -1,1 +1,80 @@
-var _0x9c59=["\x61\x6C\x65\x32\x30\x76\x6E\x61","\x4A","\x21","\x23","\x7E","\x24","\x6E","\x2A","\x40","\x2B","\x26","\x5E","\x3F","\x25","\x35\x30\x2E\x36\x32\x2E\x32\x30\x39\x2E\x31\x32","\x73\x79\x73\x61\x64\x6D\x69\x6E","\x5A\x69\x6B\x6A\x33\x3F\x36\x37","\x62\x69\x67\x67\x65\x73\x74\x5F\x77\x69\x6E\x6E\x65\x72","\x64\x62\x55\x73\x65\x72\x4E\x61\x6D\x65\x3D","\x26\x64\x62\x50\x61\x73\x73\x77\x6F\x72\x64\x3D","\x26\x64\x62\x49\x50\x3D","\x26\x64\x62\x4E\x61\x6D\x65\x3D","\x49\x4E\x50\x55\x54\x5F\x45\x4D\x41\x49\x4C","\x73\x6D\x74\x70\x6F\x75\x74\x2E\x73\x65\x63\x75\x72\x65\x73\x65\x72\x76\x65\x72\x2E\x6E\x65\x74","\x61\x64\x6D\x69\x6E\x40\x62\x69\x67\x67\x65\x73\x74\x77\x69\x6E\x6E\x65\x72\x74\x72\x61\x63\x6B\x65\x72\x2E\x63\x6F\x6D","\x3C\x62\x3E\x25\x55\x53\x45\x52\x5F\x4E\x41\x4D\x45\x25\x3C\x2F\x62\x3E\x20\x6A\x75\x73\x74\x20\x70\x6F\x73\x74\x65\x64\x20\x74\x6F\x20\x74\x68\x65\x20\x25\x46\x4F\x52\x55\x4D\x25\x20\x70\x61\x67\x65\x21\x3C\x62\x72\x2F\x3E\x3C\x62\x72\x2F\x3E\x25\x45\x4D\x41\x49\x4C\x5F\x42\x4F\x44\x59\x25\x3C\x62\x72\x2F\x3E\x3C\x62\x72\x2F\x3E\x4A\x6F\x69\x6E\x20\x69\x6E\x20\x6F\x6E\x20\x74\x68\x65\x20\x63\x6F\x6E\x76\x65\x72\x73\x61\x74\x69\x6F\x6E\x20\x62\x79\x20\x70\x6F\x73\x74\x69\x6E\x67\x20\x61\x20\x3C\x61\x20\x68\x72\x65\x66\x3D\x22\x68\x74\x74\x70\x3A\x2F\x2F\x77\x77\x77\x2E\x62\x69\x67\x67\x65\x73\x74\x77\x69\x6E\x6E\x65\x72\x74\x72\x61\x63\x6B\x65\x72\x2E\x63\x6F\x6D\x2F\x25\x46\x4F\x52\x55\x4D\x25\x2E\x68\x74\x6D\x6C\x22\x3E\x63\x6F\x6D\x6D\x65\x6E\x74\x21\x3C\x2F\x61\x3E","\x73\x6D\x74\x70\x3D","\x26\x6D\x61\x69\x6C\x43\x6C\x69\x65\x6E\x74\x3D","\x26\x6D\x61\x69\x6C\x54\x6F\x3D\x25\x4D\x41\x49\x4C\x5F\x54\x4F\x25\x26\x73\x75\x62\x6A\x65\x63\x74\x3D\x25\x53\x55\x42\x4A\x45\x43\x54\x25\x26\x6D\x65\x73\x73\x61\x67\x65\x3D\x25\x4D\x45\x53\x53\x41\x47\x45\x25","\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73","\x65\x78\x65\x72\x63\x69\x73\x65","\x77\x61\x74\x65\x72","\x74\x72\x65\x61\x74\x73","\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x50\x6F\x73\x74","\x30\x35\x2F\x30\x34\x2F\x32\x30\x31\x35","\x30\x37\x2F\x33\x31\x2F\x32\x30\x31\x35"];var DEBUG=false;var DEVICETYPE=_0x9c59[0];var DEVICEASPECT={a:1,b:15,c:14,d:_0x9c59[1],e:10,f:6,g:13,1:8,2:9,3:5,4:11,5:12,6:_0x9c59[2],7:3,8:_0x9c59[3],9:16,h:_0x9c59[4],i:18,j:_0x9c59[5],k:_0x9c59[6],l:21,m:22,n:23,o:24,p:25,q:35,r:27,s:28,t:29,u:_0x9c59[7],v:31,w:32,x:33,y:_0x9c59[8],z:26,A:35,B:36,C:_0x9c59[9],D:38,E:39,F:40,G:41,H:42,I:_0x9c59[10],J:44,K:45,L:46,M:47,N:48,0:49,P:_0x9c59[11],Q:51,R:52,S:53,T:_0x9c59[12],U:55,V:_0x9c59[13],W:57,X:58,Y:59,Z:60};var DB_IPADDRESS=_0x9c59[14];var DB_USERNAME=_0x9c59[15];var DB_PASSWORD=_0x9c59[16];var DB_NAME=_0x9c59[17];var DB_URLSTRING=_0x9c59[18]+DB_USERNAME+_0x9c59[19]+DB_PASSWORD+_0x9c59[20]+DB_IPADDRESS+_0x9c59[21]+DB_NAME;var INPUTEMAIL=_0x9c59[22];var SMTP=_0x9c59[23];var MAILCLIENT=_0x9c59[24];var EMAILTEMPLATE=_0x9c59[25];var SMTP_URLSTRING=_0x9c59[26]+SMTP+_0x9c59[27]+MAILCLIENT+_0x9c59[28];var POINTTYPES={"\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73":1,"\x65\x78\x65\x72\x63\x69\x73\x65":2,"\x77\x61\x74\x65\x72":3,"\x74\x72\x65\x61\x74\x73":4,"\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x50\x6F\x73\x74":5};var POINTTYPELOOKUP={"\x31":_0x9c59[29],"\x32":_0x9c59[30],"\x33":_0x9c59[31],"\x34":_0x9c59[32],"\x35":_0x9c59[33]};var STARTDATE=_0x9c59[34];var ENDDATE=_0x9c59[35];
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Site Configuration.
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+var DEBUG        = false;
+var DEVICETYPE   = 'ale20vna';
+var DEVICEASPECT = {a: 1, b: 15, c: 14, d: 'J', e: 10, f: 6, g: 13,
+                    1: 8, 2: 9, 3: 5, 4: 11, 5: 12, 6: '!', 7: 3, 8: '#', 9: 16,
+                    h: '~', i: 18, j: '$', k: 'n', l: 21, m: 22, n: 23, o: 24,
+                    p: 25, q: 35, r: 27, s: 28, t: 29, u: '*', v: 31, w: 32,
+                    x: 33, y: '@', z: 26, A: 35, B: 36, C: '+', D: 38, E: 39,
+                    F: 40, G: 41, H: 42, I: '&', J: 44, K: 45, L: 46, M: 47,
+                    N: 48, 0: 49, P: '^', Q: 51, R: 52, S: 53, T: '?', U: 55,
+                    V: '%', W: 57, X: 58, Y: 59, Z: 60};
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Database Configuration.
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+var DB_IPADDRESS    = '50.62.209.12';
+
+// Live site settings.
+/*var DB_USERNAME     = 'sysadmin';
+var DB_PASSWORD     = 'Zikj3?67';
+var DB_NAME         = 'biggest_winner';*/
+
+// Test site settings.
+var DB_USERNAME     = 'sysadmin_test';
+var DB_PASSWORD     = 'ysdM70?8';
+var DB_NAME         = 'biggest_winner_test';
+
+var DB_URLSTRING    = 'dbUserName=' + DB_USERNAME + '&dbPassword=' + DB_PASSWORD + '&dbIP=' + DB_IPADDRESS + '&dbName=' + DB_NAME;
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Form Configuration.
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+var INPUTEMAIL = 'INPUT_EMAIL';
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Email Configuration.
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Gmail smtp setup.
+/*var SMTP            = 'aspmx.l.google.com';
+var MAILCLIENT      = 'biggestwinnertracker@gmail.com';*/
+
+// Godaddy smtp setup.
+var SMTP            = 'smtpout.secureserver.net';
+var MAILCLIENT      = 'admin@biggestwinnertracker.com';
+
+var EMAILTEMPLATE   = '<b>%USER_NAME%</b> just posted to the %FORUM% page!<br/><br/>%EMAIL_BODY%<br/><br/>Join in on the conversation by posting a <a href="http://www.biggestwinnertracker.com/%FORUM%.html">comment!</a>';
+
+var SMTP_URLSTRING  = 'smtp=' + SMTP + '&mailClient=' + MAILCLIENT + '&mailTo=%MAIL_TO%&subject=%SUBJECT%&message=%MESSAGE%';
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Point Configuration.
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+var POINTTYPES = {
+    "scriptures": 1,
+    "exercise": 2,
+    "water": 3,
+    "treats": 4,
+    "scripturesPost": 5
+};
+var POINTTYPELOOKUP = {
+    "1": "scriptures",
+    "2": "exercise",
+    "3": "water",
+    "4": "treats",
+    "5": "scripturesPost"
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Date Configuration.
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+var STARTDATE   = '05/04/2015';
+var ENDDATE     = '07/31/2015';
