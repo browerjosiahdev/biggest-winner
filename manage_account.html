@@ -13,107 +13,8 @@
         <script type="text/javascript" language="javascript" src="js/config.js"></script>
         <script type="text/javascript" language="javascript" src="js/jquery-1.11.2.min.js"></script>
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
-        <script type="text/javascript" language="javascript">
-            function loadAccountInfo()
-            {
-                showPreloader(true);
-                
-                var strData = 'table=users' + 
-                              '&columns=name, email, recieve_emails' + 
-                              '&restrictions=id[eq]' + getUserID();
-                 
-                $.ajax({
-                    url: 'php/query.php',
-                    type: 'POST',
-                    data: strData + '&' + DB_URLSTRING,
-                    dataType: 'json',
-                    success: onLoadAccountInfoSuccess,
-                    error: onLoadAccountInfoError
-                });
-            }
-            
-            function onLoadAccountInfoSuccess( jsonData )
-            {
-                showPreloader(false);
-                
-                if (jsonData.success)
-                {
-                    debug('onLoadAccountInfoSuccess(): ' + jsonData.message);                    
-                    
-                    if (jsonData.data.length > 0)
-                    {
-                        $('#name').val(jsonData.data[0].name);
-                        $('#email').val(jsonData.data[0].email);
-                        $('#recieveEmails').prop('checked', jsonData.data[0].recieve_emails == 1);
-                    }
-                    else
-                        alert('Unable to load your account information, please try again later.');
-                }
-                else
-                    debug('onLoadAccountInfoSuccess(): ' + jsonData.message);
-            }
-            
-            function onLoadAccountInfoError( jqXHR, textStatus, errorThrown )
-            {
-                showPreloader(false);
-                
-                debug('onLoadAccountInfoError(): ' +  errorThrown);
-            }
-            
-            function saveChanges()
-            {
-                showPreloader(true);
-                
-                var strName          = isValidInput($('#name'));
-                var strEmail         = isValidInput($('#email'), INPUTEMAIL);
-                var intRecieveEmails = $('#recieveEmails').prop('checked')? 1 : 0;
-                
-                if (strName == '')
-                    return;
-                if (strEmail == '')
-                    return;
-                if (isNaN(intRecieveEmails))
-                    return;
-                
-                var strData = 'table=users' + 
-                              '&updates=name[eq]\'' + strName + '\', email[eq]\'' + strEmail + '\', recieve_emails[eq]' + intRecieveEmails + 
-                              '&restrictions=id[eq]' + getUserID().toString(); 
-                 
-                $.ajax({
-                    url: 'php/update.php',
-                    type: 'POST',
-                    data: strData + '&' + DB_URLSTRING,
-                    dataType: 'json',
-                    success: onSaveAccountInfoSuccess,
-                    error: onSaveAccountInfoError
-                });   
-            }
-            
-            function onSaveAccountInfoSuccess( jsonData )
-            {
-                showPreloader(false);
-                
-                if (jsonData.success)
-                    debug('onSaveAccountInfoSuccess(): ' + jsonData.message);
-                else
-                {
-                    debug('onSaveAccountInfoSuccess(): ' + jsonData.message);
-                    
-                    alert('Unable to save your account information, please try again.');
-                }
-            }
-            
-            function onSaveAccountInfoError( jqXHR, textStatus, errorThrown )
-            {
-                showPreloader(false);
-                
-                debug('onSaveAccountInfoError(): ' +  errorThrown);
-                
-                alert('Unable to save your account information, please try again.');
-            }
-        </script>
     </head>
-    <body onload="javascript:checkLoggedIn(); loadAccountInfo();">
+    <body onload="javascript:checkLoggedIn(true); loadAccountInfo();">
         <div class="header">
             <div class="title"><span class="up">Christ</span><span class="">Family</span><span class="down">Temple</span><span class="">Church</span><span class="up">Scriptures</span><span class="">Prayer</span><span class="down">Health</span></div>
         </div>
@@ -136,7 +37,7 @@
                 <div class="form-input"><input id="email" class="input-form" type="email"></div>
             </div>
             Recieve emails when others in the group post? <input id="recieveEmails" type="checkbox" class="checkbox"><br/><br/>
-            <button type="submit" onclick="javascript:saveChanges();">Save Changes</button>
+            <button type="submit" onclick="javascript:saveAccountChanges();">Save Changes</button>
         </div>
     </body>
 </html>
