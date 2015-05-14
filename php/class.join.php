@@ -6,8 +6,8 @@ class Join
 // Group: Variables.
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    protected $p_arrTables = array();
-    protected $p_arrValues = array();
+    protected $_arrTables = array();
+    protected $_arrValues = array();
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
 // Group: Setup Methods.
@@ -16,8 +16,8 @@ class Join
     public function addTables( $arrTables )
     {
         for ($inTable = 0; $inTable < count($arrTables); $inTable++)
-            array_push($p_arrTables, $arrTables[$inTable]);   
-    };
+            $_arrTables[] = $arrTables[$inTable];   
+    }
     
     public function addValues( $arrValues )
     {
@@ -32,9 +32,9 @@ class Join
             $objValue = array('value'   => $strValue,
                               'compare' => $strCompare);
 
-            array_push($p_arrValues, $arrValue);   
+            $_arrValues[] = $arrValue;   
         }
-    };
+    }
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
 // Group: Format Methods.
@@ -45,9 +45,9 @@ class Join
         $strTables = '(';
         $strValues = '(';
         
-        for ($inTable = 0; $inTable < count($p_arrTables); $inTable++)
+        for ($inTable = 0; $inTable < count($_arrTables); $inTable++)
         {
-            $strTables .= $p_arrTables[$inTable] . ',';
+            $strTables .= $_arrTables[$inTable] . ',';
         }
         
         if (strlen($strTables) > 1)
@@ -55,9 +55,9 @@ class Join
         
         $strTables .= ')';
         
-        for ($inValue = 0; $inValue < count($p_arrValues); $inValue++)
+        for ($inValue = 0; $inValue < count($_arrValues); $inValue++)
         {
-            $objValue = $p_arrValues[$inValue];
+            $objValue = $_arrValues[$inValue];
             
             $strValues .= $objValue->value . '=' . $objValue->compare . ',';
         }
@@ -68,7 +68,7 @@ class Join
         $strValues .= ')';
         
         return $strTables . ' ON ' . $strValues;
-    };
-};
+    }
+}
 
 ?>

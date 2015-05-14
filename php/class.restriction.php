@@ -6,7 +6,7 @@ class Restriction
 // Group: Variables.
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    protected $p_strRestrictions = '';
+    protected $_strRestrictions = '';
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
 // Group: Setup Methods.
@@ -14,11 +14,11 @@ class Restriction
     
     public function addRestrictions( $strRestrictions )
     {
-        if (strlen($p_strRestrictions) > 0)
-            $p_strRestrictions .= ' AND ';
+        if (strlen($_strRestrictions) > 0)
+            $_strRestrictions .= ' AND ';
         
-        $p_strRestrictions .= '(' . $strRestrictions . ')';
-    };
+        $_strRestrictions .= '(' . $strRestrictions . ')';
+    }
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
 // Group: Format Methods.
@@ -26,8 +26,8 @@ class Restriction
     
     public function getString()
     {
-        return ('(' . $p_strRestrictions . ')');
-    };
-};
+        return $_strRestrictions;
+    }
+}
 
 ?>

@@ -1,9 +1,6 @@
 <?php
     include_once('class.database.php');
 
-echo '{"success":false,"message":"This is the query file."}';
-exit();
-
     $strTable           = $_POST['table'];
     $arrColumns         = explode(', ', $_POST['columns']);
     $arrJoin            = explode(', ', $_POST['join']);
@@ -12,24 +9,25 @@ exit();
     $strGroupBy         = $_POST['group'];
     $strLimit           = $_POST['limit'];
 
-        // Replace the [eq] tokens with the = symbol.
-    $strRestrictions = explode('[eq]', $strRestrictions);
-    $strRestrictions = implode('=', $strRestrictions);
-
-echo '{"success":false,"message":"' . $strRestrictions . '"}';
-exit();
-
     $dataBase = new DataBase();
     $dataBase->setTable($strTable);
+
+
 
     for ($inColumns = 0; $inColumns < count($arrColumns); $inColumns++)
         $dataBase->addColumn($arrColumns[$inColumns]);
 
     if (count($arrJoin) > 0)
-        $dataBase->addJoin($arrJoin[0], $arrJoin[1]);
+        $dataBase->addJoin($arrJoin[0], $arrJoin[1]);      
 
-    for ($inRestrictions = 0; $inRestrictions < count($arrRestrictions); $inRestrictions)        
-        $dataBase->addRestriction($arrRestrictions[$inRestrictions]);
+    for ($inRestrictions = 0; $inRestrictions < count($arrRestrictions); $inRestrictions++)
+    {
+        $strRestriction = $arrRestrictions[$inRestrictions];
+        $strRestriction = explode('[eq]', $strRestriction);
+        $strRestriction = implode('=', $strRestriction);                 
+        
+        $dataBase->addRestriction($strRestriction);        
+    }
 
     if (strlen($strOrder) > 0)
         $dataBase->setOrderBy($strOrder);
@@ -39,6 +37,9 @@ exit();
 
     if (strlen($strLimit) > 0)
         $dataBase->setGroupBy($strLimit);
+
+//echo '{"success":false,"message":"' . $strTable . '"}';
+//exit(); 
 
     echo $dataBase->select();
 

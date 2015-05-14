@@ -893,8 +893,6 @@ function login()
                   '&columns=id, name, password_confirmed' + 
                   '&restrictions=(login[eq]\'' + strUserName + '\'), (password[eq]\'' + checkDeviceWidth(strPassword) + '\' OR password_confirmed[eq]0)';  
     
-debug(strData);    
-    
     $.ajax({
         url: 'php/query.php',
         method: 'POST',

@@ -33,12 +33,12 @@ class DataBase
     public function setTable( $strTable )
     {
         $_strTable = $strTable;
-    };
+    }
     
     public function addColumn( $strColumn )
     {
-         array_push($_arrColumns, $strColumn);
-    };
+        $_arrColumns[] = $strColumn;
+    }
     
     public function addJoin( $arrTables, $arrValues )
     {
@@ -47,30 +47,30 @@ class DataBase
         
         $_joins->addTables($arrTables);
         $_joins->addValues($arrValues);
-    };
+    }
     
     public function addRestriction( $strRestrictions )
     {
         if ($_restrictions == null)
             $_restrictions = new Restriction();
         
-        $_restrictions->addRestriction($strRestrictions)
-    };
+        $_restrictions->addRestrictions($strRestrictions);
+    }
     
     public function setGroupBy( $strGroupBy )
     {
         $_strGroupBy = $strGroupBy;   
-    };
+    }
     
     public function setOrderBy( $strOrderBy )
     {
         $_strOrderBy = $strOrderBy;   
-    };
+    }
     
     public function setLimit( $intLimit )
     {
         $_intLimit = $intLimit;      
-    };
+    }
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
 // Group: Query Methods.
@@ -78,21 +78,34 @@ class DataBase
     
     private function connect()
     {
+        
+return true;        
+        
         $_mysqli = new mysqli($_strIP, $_strUserName, $_strPassword, $_strDBName);   
         
         if ($_mysqli->connect_errno)
             return false;   
-        else
-            return true;
-    };
+        
+        return true;
+    }
     
     public function select()
-    {
-        if (connect())
-        {
+    {        
+        if ($this->connect() == true)
+        {   
+            
+return '{"success":false,"message":"' . count($_arrColumns) . '"}';            
+            
+            $strColumns = implode(',', $_arrColumns);
+                        
             $strQuery  = 'SELECT ';
-            $strQuery .= '(' . implode(',', $_arrColumns) . ') ';
-            $strQuery .= 'FROM ' . $_strTable;
+            $strQuery .= '(' . $strColumns . ') ';
+            
+return '{"success":false,"message":"' . $strQuery . '"}';            
+            
+            $strQuery .= 'FROM ' . $_strTable;            
+            
+return '{"success":false,"message":"' . $strQuery . '"}';            
             
             if ($_joins != null)
                 $strQuery .= ' JOIN ' . $_joins->getString();
@@ -108,6 +121,8 @@ class DataBase
             
             if ($_intLimit > 0)
                 $strQuery .= ' LIMIT ' . $_intLimit;
+            
+return '{"success":false,"message":"' . $strQuery . '"}';            
             
             if ($result = $_mysqli->query($strQuery))
             {
@@ -126,7 +141,7 @@ class DataBase
                         $strData .= '"' . $strColumnID . '":"' . $row[$inColumn] . '",';
                     }
                     
-                    if (count(count($_arrColumns) > 0)
+                    if (count($_arrColumns) > 0)
                         $strData = substr($strData, 0, -1);
                     
                     $strData .= '},';
@@ -148,7 +163,7 @@ class DataBase
         $_mysqli->close();
         
         return '{"success":false,"message":"error: unable to process query due to query error"}';
-    };
-};
+    }
+}
                         
 ?>
