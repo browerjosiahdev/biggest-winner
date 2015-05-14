@@ -14,10 +14,10 @@ class Restriction
     
     public function addRestrictions( $strRestrictions )
     {
-        if (strlen($_strRestrictions) > 0)
-            $_strRestrictions .= ' AND ';
+        if (strlen($this->_strRestrictions) > 0)
+            $this->_strRestrictions .= ' AND ';
         
-        $_strRestrictions .= '(' . $strRestrictions . ')';
+        $this->_strRestrictions .= '(' . $strRestrictions . ')';
     }
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
@@ -26,7 +26,7 @@ class Restriction
     
     public function getString()
     {
-        return $_strRestrictions;
+        return $this->_strRestrictions;
     }
 }
 

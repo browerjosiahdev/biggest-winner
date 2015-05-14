@@ -32,44 +32,44 @@ class DataBase
     
     public function setTable( $strTable )
     {
-        $_strTable = $strTable;
+        $this->_strTable = $strTable;
     }
     
     public function addColumn( $strColumn )
     {
-        $_arrColumns[] = $strColumn;
+        $this->_arrColumns[] = $strColumn;
     }
     
     public function addJoin( $arrTables, $arrValues )
     {
-        if ($_joins == null)
-            $_joins = new Join();
+        if ($this->_joins == null)
+            $this->_joins = new Join();
         
-        $_joins->addTables($arrTables);
-        $_joins->addValues($arrValues);
+        $this->_joins->addTables($arrTables);
+        $this->_joins->addValues($arrValues);
     }
     
     public function addRestriction( $strRestrictions )
     {
-        if ($_restrictions == null)
-            $_restrictions = new Restriction();
+        if ($this->_restrictions == null)
+            $this->_restrictions = new Restriction();
         
-        $_restrictions->addRestrictions($strRestrictions);
+        $this->_restrictions->addRestrictions($strRestrictions);
     }
     
     public function setGroupBy( $strGroupBy )
     {
-        $_strGroupBy = $strGroupBy;   
+        $this->_strGroupBy = $strGroupBy;   
     }
     
     public function setOrderBy( $strOrderBy )
     {
-        $_strOrderBy = $strOrderBy;   
+        $this->_strOrderBy = $strOrderBy;   
     }
     
     public function setLimit( $intLimit )
     {
-        $_intLimit = $intLimit;      
+        $this->_intLimit = $intLimit;      
     }
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
@@ -77,54 +77,43 @@ class DataBase
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
     
     private function connect()
-    {
+    {      
+        $this->_mysqli = new mysqli($this->_strIP, $this->_strUserName, $this->_strPassword, $this->_strDBName);                   
         
-return true;        
-        
-        $_mysqli = new mysqli($_strIP, $_strUserName, $_strPassword, $_strDBName);   
-        
-        if ($_mysqli->connect_errno)
+        if ($this->_mysqli->connect_errno)
             return false;   
         
         return true;
     }
     
     public function select()
-    {        
+    {       
         if ($this->connect() == true)
         {   
-            
-return '{"success":false,"message":"' . count($_arrColumns) . '"}';            
-            
-            $strColumns = implode(',', $_arrColumns);
+            $strColumns = implode(',', $this->_arrColumns);
                         
             $strQuery  = 'SELECT ';
             $strQuery .= '(' . $strColumns . ') ';
+            $strQuery .= 'FROM ' . $this->_strTable;            
+            
+            if ($this->_joins != null)
+                $strQuery .= ' JOIN ' . $this->_joins->getString();
+            
+            if ($this->_restrictions != null)
+                $strQuery .= ' WHERE ' . $this->_restrictions->getString();
+            
+            if (strlen($this->_strGroupBy) > 0)
+                $strQuery .= ' GROUP BY ' . $this->_strGroupBy;
+            
+            if (strlen($this->_strOrderBy) > 0)
+                $strQuery .= ' ORDER BY ' . $this->_strOrderBy;
+            
+            if ($this->_intLimit > 0)
+                $strQuery .= ' LIMIT ' . $this->_intLimit;
             
 return '{"success":false,"message":"' . $strQuery . '"}';            
             
-            $strQuery .= 'FROM ' . $_strTable;            
-            
-return '{"success":false,"message":"' . $strQuery . '"}';            
-            
-            if ($_joins != null)
-                $strQuery .= ' JOIN ' . $_joins->getString();
-            
-            if ($_restrictions != null)
-                $strQuery .= ' WHERE ' . $_restrictions->getString();
-            
-            if (strlen($_strGroupBy) > 0)
-                $strQuery .= ' GROUP BY ' . $_strGroupBy;
-            
-            if (strlen($_strOrderBy) > 0)
-                $strQuery .= ' ORDER BY ' . $_strOrderBy;
-            
-            if ($_intLimit > 0)
-                $strQuery .= ' LIMIT ' . $_intLimit;
-            
-return '{"success":false,"message":"' . $strQuery . '"}';            
-            
-            if ($result = $_mysqli->query($strQuery))
+            if ($result = $this->_mysqli->query($strQuery))
             {
                 $strData = '[';
 
@@ -132,16 +121,16 @@ return '{"success":false,"message":"' . $strQuery . '"}';
                 {
                     $strData .= '{';
 
-                    for ($inColumn = 0; $inColumn < count($_arrColumns); $inColumn++)
+                    for ($inColumn = 0; $inColumn < count($this->_arrColumns); $inColumn++)
                     {
-                        $strColumnID = $_arrColumns[$inColumn];
+                        $strColumnID = $this->_arrColumns[$inColumn];
                         $strColumnID = explode('.', $strColumnID);
                         $strColumnID = implode('_', $strColumnID);
 
                         $strData .= '"' . $strColumnID . '":"' . $row[$inColumn] . '",';
                     }
                     
-                    if (count($_arrColumns) > 0)
+                    if (count($this->_arrColumns) > 0)
                         $strData = substr($strData, 0, -1);
                     
                     $strData .= '},';
@@ -152,7 +141,7 @@ return '{"success":false,"message":"' . $strQuery . '"}';
 
                 $strData .= ']';
                 
-                $_mysqli->close();
+                $this->_mysqli->close();
                 
                 return '{"success":true,"message":"success: query was successfull","data":' . $strData . '}';
             }
@@ -160,7 +149,7 @@ return '{"success":false,"message":"' . $strQuery . '"}';
         else
             return '{"success":false,"message":"error: unable to process query due to database connection issue"}';
         
-        $_mysqli->close();
+        $this->_mysqli->close();
         
         return '{"success":false,"message":"error: unable to process query due to query error"}';
     }

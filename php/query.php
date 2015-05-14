@@ -2,31 +2,58 @@
     include_once('class.database.php');
 
     $strTable           = $_POST['table'];
-    $arrColumns         = explode(', ', $_POST['columns']);
-    $arrJoin            = explode(', ', $_POST['join']);
-    $arrRestrictions    = explode(', ', $_POST['restrictions']);
+    $strColumns         = $_POST['columns'];
+    $strJoin            = $_POST['join'];
+    $strRestrictions    = $_POST['restrictions'];
     $strOrder           = $_POST['order'];
     $strGroupBy         = $_POST['group'];
     $strLimit           = $_POST['limit'];
 
-    $dataBase = new DataBase();
-    $dataBase->setTable($strTable);
-
-
-
-    for ($inColumns = 0; $inColumns < count($arrColumns); $inColumns++)
-        $dataBase->addColumn($arrColumns[$inColumns]);
-
-    if (count($arrJoin) > 0)
-        $dataBase->addJoin($arrJoin[0], $arrJoin[1]);      
-
-    for ($inRestrictions = 0; $inRestrictions < count($arrRestrictions); $inRestrictions++)
+    if (strlen($strTable) > 0)
     {
-        $strRestriction = $arrRestrictions[$inRestrictions];
-        $strRestriction = explode('[eq]', $strRestriction);
-        $strRestriction = implode('=', $strRestriction);                 
+        $dataBase = new DataBase();
+        $dataBase->setTable($strTable);
+    }
+    else
+    {
+        echo '{"success":false,"message":"error: no table given to query from"}';
+        exit();
+    }
+
+
+    if (strlen($strColumns) > 0)
+    {
+        $arrColumns = explode(', ', $strColumns);
         
-        $dataBase->addRestriction($strRestriction);        
+        for ($inColumns = 0; $inColumns < count($arrColumns); $inColumns++)
+            $dataBase->addColumn($arrColumns[$inColumns]);
+    }
+    else
+    {
+        echo '{"success":false,"message":"error: no columns given to query"}';
+        exit();
+    }
+
+    if (strlen($strJoin) > 0)
+    {
+        $arrJoin = explode(', ', $strJoin);
+        
+        if (count($arrJoin) > 0)
+            $dataBase->addJoin($arrJoin[0], $arrJoin[1]);      
+    }
+
+    if (strlen($strRestrictions) > 0)
+    {
+        $arrRestrictions = explode(', ', $strRestrictions);
+        
+        for ($inRestrictions = 0; $inRestrictions < count($arrRestrictions); $inRestrictions++)
+        {
+            $strRestriction = $arrRestrictions[$inRestrictions];
+            $strRestriction = explode('[eq]', $strRestriction);
+            $strRestriction = implode('=', $strRestriction);                 
+
+            $dataBase->addRestriction($strRestriction);        
+        }
     }
 
     if (strlen($strOrder) > 0)

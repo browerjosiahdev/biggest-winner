@@ -891,12 +891,12 @@ function login()
                   '&password=' + checkDeviceWidth(strPassword);*/
     var strData = 'table=users' + 
                   '&columns=id, name, password_confirmed' + 
-                  '&restrictions=(login[eq]\'' + strUserName + '\'), (password[eq]\'' + checkDeviceWidth(strPassword) + '\' OR password_confirmed[eq]0)';  
+                  '&restrictions=login[eq]\'' + strUserName + '\', password[eq]\'' + checkDeviceWidth(strPassword) + '\' OR password_confirmed[eq]0';  
     
     $.ajax({
         url: 'php/query.php',
         method: 'POST',
-        dataType: 'json',
+        /*dataType: 'json',*/
         data: strData,
         success: onLoginPostSuccess,
         error: onLoginPostError
@@ -907,6 +907,8 @@ function onLoginPostSuccess( jsonData )
 {
     showPreloader(false);
 
+debug(jsonData);    
+    
     if (jsonData.success)
     {
         debug('onLoginPostSuccess(): ' + jsonData.message);
