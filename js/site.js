@@ -180,7 +180,7 @@ function postScripture()
         url: 'php/post_scripture.php',
         type: 'POST',
         dataType: 'json',
-        data: strPostData + '&' + DB_URLSTRING,
+        data: strPostData,
         success: onScripturePostSuccess,
         error: onScripturePostError
     });
@@ -203,7 +203,7 @@ function postScripture()
             url: 'php/send_mail.php',
             type: 'POST',
             dataType: 'json',
-            data: strData + '&' + DB_URLSTRING,
+            data: strData,
             success: onSendPostEmailSuccess,
             error: onSendPostEmailError
         });
@@ -268,7 +268,7 @@ function getScripturePosts()
             url: 'php/query.php',
             type: 'POST',
             dataType: 'json',
-            data: strData + '&' + DB_URLSTRING,
+            data: strData,
             success: function( jsonData )
             {
                 if (jsonData.success)
@@ -332,7 +332,7 @@ function getScriptureComments( intPostID, objData )
             url: 'php/query.php',
             type: 'POST',
             dataType: 'json',
-            data: strData + '&' + DB_URLSTRING,
+            data: strData,
             success: function( jsonData )
             {
                 if (jsonData.success)
@@ -393,7 +393,7 @@ function postScriptureComment( objPostBtn )
                 url: 'php/post_scripture_comment.php',
                 type: 'POST',
                 dataType: 'json',
-                data: strData + '&' + DB_URLSTRING,
+                data: strData,
                 success: onPostScriptureCommentSuccess,
                 error: onPostScriptureCommentError
             });
@@ -453,7 +453,7 @@ function getUsersEmails()
             url: 'php/query.php',
             type: 'POST',
             dataType: 'json',
-            data: strData + '&' + DB_URLSTRING,
+            data: strData,
             success: function( jsonData )
             {
                 if (jsonData.success)
@@ -504,7 +504,7 @@ function togglePoint(intPointType, bAdd)
             url: 'php/toggle_point.php',
             type: 'POST',
             dataType: 'json',
-            data: strData + '&' + DB_URLSTRING,
+            data: strData,
             success: onTogglePointSuccess,
             error: onTogglePointError
         });
@@ -549,7 +549,7 @@ function queryPoints()
         url: 'php/query.php',
         method: 'POST',
         dataType: 'json',
-        data: strData + '&' + DB_URLSTRING,
+        data: strData,
         success: onQueryPointsSuccess,
         error: onQueryPointsError
     });
@@ -704,7 +704,7 @@ function loadAccountInfo()
     $.ajax({
         url: 'php/query.php',
         type: 'POST',
-        data: strData + '&' + DB_URLSTRING,
+        data: strData,
         dataType: 'json',
         success: onLoadAccountInfoSuccess,
         error: onLoadAccountInfoError
@@ -761,7 +761,7 @@ function saveAccountChanges()
     $.ajax({
         url: 'php/update.php',
         type: 'POST',
-        data: strData + '&' + DB_URLSTRING,
+        data: strData,
         dataType: 'json',
         success: onSaveAccountInfoSuccess,
         error: onSaveAccountInfoError
@@ -815,7 +815,7 @@ function getLeaders()
             url: 'php/query.php',
             type: 'POST',
             dataType: 'json',
-            data: strData + '&' + DB_URLSTRING,
+            data: strData,
             success: function( jsonData )
             {
                 if (jsonData.success)
@@ -891,13 +891,15 @@ function login()
                   '&password=' + checkDeviceWidth(strPassword);*/
     var strData = 'table=users' + 
                   '&columns=id, name, password_confirmed' + 
-                  '&restrictions=(login[eq]\'' + strUserName + '\') AND (password[eq]\'' + checkDeviceWidth(strPassword) + '\' OR password_confirmed[eq]0)';  
+                  '&restrictions=(login[eq]\'' + strUserName + '\'), (password[eq]\'' + checkDeviceWidth(strPassword) + '\' OR password_confirmed[eq]0)';  
+    
+debug(strData);    
     
     $.ajax({
         url: 'php/query.php',
         method: 'POST',
         dataType: 'json',
-        data: strData + '&' + DB_URLSTRING,
+        data: strData,
         success: onLoginPostSuccess,
         error: onLoginPostError
     });
@@ -942,7 +944,7 @@ function onLoginPostError( jqXHR, textStatus, errorThrown )
 
     debug('onLoginPostError(): ' + errorThrown);
 
-    message('Unable to log you in, please try again.');
+//    message('Unable to log you in, please try again.');
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -990,7 +992,7 @@ function createAccount()
         url: 'php/insert.php',
         method: 'POST',
         dataType: 'json',
-        data: strData + '&' + DB_URLSTRING,
+        data: strData,
         success: onCreateAccountSuccess,
         error: onCreateAccountError
     });
@@ -1011,7 +1013,7 @@ function onCreateAccountSuccess( jsonData )
             url: 'php/query.php',
             method: 'POST',
             dataType: 'json',
-            data: strData + '&' + DB_URLSTRING,
+            data: strData,
             success: onNewAccountLoginSuccess,
             error: onNewAccountLoginError
         });
@@ -1093,7 +1095,7 @@ function confirmPassword()
         url: 'php/update.php',
         method: 'POST',
         dataType: 'json',
-        data: strData + '&' + DB_URLSTRING,
+        data: strData,
         success: onConfirmPasswordSuccess,
         error: onConfirmPasswordError
     });

@@ -1,4 +1,5 @@
 <?php
+
 class Join
 {   
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
@@ -8,13 +9,6 @@ class Join
     protected $p_arrTables = array();
     protected $p_arrValues = array();
     
-    protected $exceptions   = false;
-    
-    public function __construct( $exceptions = false )
-    {
-        this->exceptions = ($exceptions == true);
-    }
-    
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
 // Group: Setup Methods.
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,7 +17,7 @@ class Join
     {
         for ($inTable = 0; $inTable < count($arrTables); $inTable++)
             array_push($p_arrTables, $arrTables[$inTable]);   
-    }
+    };
     
     public function addValues( $arrValues )
     {
@@ -40,7 +34,7 @@ class Join
 
             array_push($p_arrValues, $arrValue);   
         }
-    }
+    };
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
 // Group: Format Methods.
@@ -73,7 +67,8 @@ class Join
         
         $strValues .= ')';
         
-        return $strValues;
-    }
-}
+        return $strTables . ' ON ' . $strValues;
+    };
+};
+
 ?>

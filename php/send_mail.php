@@ -4,16 +4,6 @@
     $mailTo     = $_POST['mailTo'];
     $subject    = $_POST['subject'];
     $message    = $_POST['message'];
-
-        // Mail smtp without validation (for gmail smtp)
-    /*$headers = 'From: ' . $mailClient;
-
-    ini_set("SMTP", $smtp);
-    ini_set("sendmail_from", $mailClient);
-
-    mail($mailTo, $subject, $message, $headers);
-
-    echo 'success';*/
     
         // PHPMailer smtp with validation (for godaddy smtp)
     require 'class.phpmailer.php';
@@ -22,7 +12,7 @@
     $mail = new PHPMailer();
     $mail->IsSMTP();
     $mail->isHTML(true);
-    $mail->Host             = $smtp;
+    $mail->Host             = 'smtpout.secureserver.net';
     $mail->WordWrap         = 50;
     $mail->SMTPAuth         = true;
     $mail->SMTPSecure       = 'ssl';

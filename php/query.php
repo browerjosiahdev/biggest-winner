@@ -1,15 +1,56 @@
 <?php
+    include_once('class.database.php');
+
+echo '{"success":false,"message":"This is the query file."}';
+exit();
+
     $strTable           = $_POST['table'];
-    $strColumns         = $_POST['columns'];
-    $strRestrictions    = $_POST['restrictions'];
+    $arrColumns         = explode(', ', $_POST['columns']);
+    $arrJoin            = explode(', ', $_POST['join']);
+    $arrRestrictions    = explode(', ', $_POST['restrictions']);
     $strOrder           = $_POST['order'];
     $strGroupBy         = $_POST['group'];
-    $strJoin            = $_POST['join'];
+    $strLimit           = $_POST['limit'];
 
         // Replace the [eq] tokens with the = symbol.
     $strRestrictions = explode('[eq]', $strRestrictions);
     $strRestrictions = implode('=', $strRestrictions);
 
+echo '{"success":false,"message":"' . $strRestrictions . '"}';
+exit();
+
+    $dataBase = new DataBase();
+    $dataBase->setTable($strTable);
+
+    for ($inColumns = 0; $inColumns < count($arrColumns); $inColumns++)
+        $dataBase->addColumn($arrColumns[$inColumns]);
+
+    if (count($arrJoin) > 0)
+        $dataBase->addJoin($arrJoin[0], $arrJoin[1]);
+
+    for ($inRestrictions = 0; $inRestrictions < count($arrRestrictions); $inRestrictions)        
+        $dataBase->addRestriction($arrRestrictions[$inRestrictions]);
+
+    if (strlen($strOrder) > 0)
+        $dataBase->setOrderBy($strOrder);
+
+    if (strlen($strGroupBy) > 0)
+        $dataBase->setGroupBy($strGroupBy);
+
+    if (strlen($strLimit) > 0)
+        $dataBase->setGroupBy($strLimit);
+
+    echo $dataBase->select();
+
+    exit();
+
+    /*$strTable           = $_POST['table'];
+    $strColumns         = $_POST['columns'];
+    $strRestrictions    = $_POST['restrictions'];
+    $strOrder           = $_POST['order'];
+    $strGroupBy         = $_POST['group'];
+    $strJoin            = $_POST['join'];
+        
         // Connect to the MySQL database.
     $mysqli = new mysqli($_POST['dbIP'], $_POST['dbUserName'], $_POST['dbPassword'], $_POST['dbName']);
 
@@ -82,5 +123,5 @@
 
     $mysqli->close();
 
-    exit();
+    exit();*/
 ?>
