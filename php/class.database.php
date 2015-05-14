@@ -30,14 +30,60 @@ class DataBase
 // Group: Setup Methods.
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
     
+    public function parseTable( $strTable )
+    {
+        $objReturn = (object)array('success' => false,
+                                   'message' => 'error: no table given to query from');
+        
+        if (strlen($strTable) > 0)
+        {
+            $this->setTable($strTable);
+            
+            $objReturn->success = true;
+            $objReturn->message = '';
+        }
+        
+        return $objReturn;
+    }
+    
     public function setTable( $strTable )
     {
         $this->_strTable = $strTable;
     }
     
+    public function parseColumns( $strColumns )
+    {
+        $objReturn = (object)array('success' => false,
+                                   'message' => 'error: no columns given to query');
+        
+        if (strlen($strColumns) > 0)
+        {
+            $arrColumns = explode(', ', $strColumns);
+
+            for ($inColumns = 0; $inColumns < count($arrColumns); $inColumns++)
+                $this->addColumn($arrColumns[$inColumns]);
+            
+            $objReturn->success = true;
+            $objReturn->message = '';
+        }
+        
+        return $objReturn;
+    }
+    
     public function addColumn( $strColumn )
     {
         $this->_arrColumns[] = $strColumn;
+    }
+    
+    public function parseJoin( $strJoin )
+    {
+        if (strlen($strJoin) > 0)
+        {
+            $arrJoin = explode(', ', $strJoin);
+
+            if (count($arrJoin) > 0)
+                $this->addJoin($arrJoin[0], $arrJoin[1]);
+        }   
     }
     
     public function addJoin( $arrTables, $arrValues )
@@ -49,6 +95,23 @@ class DataBase
         $this->_joins->addValues($arrValues);
     }
     
+    public function parseRestrictions( $strRestrictions )
+    {
+        if (strlen($strRestrictions) > 0)
+        {
+            $arrRestrictions = explode(', ', $strRestrictions);
+
+            for ($inRestrictions = 0; $inRestrictions < count($arrRestrictions); $inRestrictions++)
+            {
+                $strRestriction = $arrRestrictions[$inRestrictions];
+                $strRestriction = explode('[eq]', $strRestriction);
+                $strRestriction = implode('=', $strRestriction);                 
+
+                $this->addRestriction($strRestriction);        
+            }
+        }   
+    }
+    
     public function addRestriction( $strRestrictions )
     {
         if ($this->_restrictions == null)
@@ -57,14 +120,32 @@ class DataBase
         $this->_restrictions->addRestrictions($strRestrictions);
     }
     
+    public function parseGroupBy( $strGroupBy )
+    {
+        if (strlen($strGroupBy) > 0)
+            $this->setGroupBy($strGroupBy);   
+    }
+    
     public function setGroupBy( $strGroupBy )
     {
         $this->_strGroupBy = $strGroupBy;   
     }
     
+    public function parseOrderBy( $strOrderBy )
+    {
+        if (strlen($strOrderBy) > 0)
+            $this->setOrderBy($strOrderBy);   
+    }
+    
     public function setOrderBy( $strOrderBy )
     {
         $this->_strOrderBy = $strOrderBy;   
+    }
+    
+    public function parseLimit( $intLimit )
+    {
+        if ($intLimit > 0)
+            $this->setLimit($intLimit);
     }
     
     public function setLimit( $intLimit )
@@ -93,7 +174,7 @@ class DataBase
             $strColumns = implode(',', $this->_arrColumns);
                         
             $strQuery  = 'SELECT ';
-            $strQuery .= '(' . $strColumns . ') ';
+            $strQuery .= $strColumns . ' ';
             $strQuery .= 'FROM ' . $this->_strTable;            
             
             if ($this->_joins != null)
@@ -110,8 +191,6 @@ class DataBase
             
             if ($this->_intLimit > 0)
                 $strQuery .= ' LIMIT ' . $this->_intLimit;
-            
-return '{"success":false,"message":"' . $strQuery . '"}';            
             
             if ($result = $this->_mysqli->query($strQuery))
             {

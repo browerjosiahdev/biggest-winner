@@ -179,7 +179,6 @@ function postScripture()
     $.ajax({
         url: 'php/post_scripture.php',
         type: 'POST',
-        dataType: 'json',
         data: strPostData,
         success: onScripturePostSuccess,
         error: onScripturePostError
@@ -191,18 +190,15 @@ function postScripture()
         var strMessage = EMAILTEMPLATE.split('%USER_NAME%').join(getUserName());
             strMessage = strMessage.split('%FORUM%').join('scriptures');
             strMessage = strMessage.split('%EMAIL_BODY%').join('<p><span style="font-size: 16px; font-weight: bold;">' + strReference + '</span></p>' + '<p><span style="font-size: 14px; font-weight: normal;">' + strComment + '</span></p>');
-//            strMessage = toURLSafeFormat(strMessage);
 
         var strData = SMTP_URLSTRING.split('%MAIL_TO%').join(data.join(', '));
             strData = strData.split('%SUBJECT%').join((getUserName() + ' posted to the scriptures page!'));
             strData = strData.split('%MESSAGE%').join(strMessage); 
-//            strData = toURLSafeFormat(strData);
 
             // Call to send the emails.
         $.ajax({
             url: 'php/send_mail.php',
             type: 'POST',
-            dataType: 'json',
             data: strData,
             success: onSendPostEmailSuccess,
             error: onSendPostEmailError
@@ -212,21 +208,25 @@ function postScripture()
 
 function onScripturePostSuccess( jsonData )
 {
-    if (jsonData.success)
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
     {
-        debug('onScripturePostSuccess(): ' + jsonData.message);        
-        
-        $('#scriptureReference').val('');
-        $('#scriptureComment').val('');
+        if (jsonData.success)
+        {
+            debug('onScripturePostSuccess(): ' + jsonData.message);        
+
+            $('#scriptureReference').val('');
+            $('#scriptureComment').val('');
+        }
+        else
+        {
+            debug('onScripturePostSuccess(): ' + jsonData.message);
+
+            message('Unable to post your scripture, please try again.', [isLoggedIn()]);
+        }
+
+        togglePoint(POINTTYPES['scripturesPost'], true);
     }
-    else
-    {
-        debug('onScripturePostSuccess(): ' + jsonData.message);
-        
-        message('Unable to post your scripture, please try again.', [isLoggedIn()]);
-    }
-    
-    togglePoint(POINTTYPES['scripturesPost'], true);
 }
 
 function onScripturePostError( jqXHR, textStatus, errorThrown )
@@ -240,10 +240,14 @@ function onSendPostEmailSuccess( jsonData )
 {
     showPreloader(false);
     
-    if (jsonData.success)
-        debug('onSendPostEmailSuccess(): ' + jsonData.message);        
-    else
-        debug('onSendPostEmailSuccess(): ' + jsonData.message);
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
+    {
+        if (jsonData.success)
+            debug('onSendPostEmailSuccess(): ' + jsonData.message);        
+        else
+            debug('onSendPostEmailSuccess(): ' + jsonData.message);
+    }
 }
 
 function onSendPostEmailError( jqXHR, textStatus, errorThrown )
@@ -259,50 +263,53 @@ function getScripturePosts()
     
     return new Promise(function( resolve, reject )
     {
-        var strData = 'table=scriptures AS s' + 
-                      '&columns=s.id, u.name, s.post_reference, s.post_comment, s.date_created' + 
-                      '&order=s.date_created DESC' + 
-                      '&join=users AS u ON s.user_id=u.id';
+        var strData = 'table=scriptures' + 
+                      '&columns=scriptures.id, users.name, scriptures.post_reference, scriptures.post_comment, scriptures.date_created' + 
+                      '&order=scriptures.date_created DESC' + 
+                      '&join=users, scriptures.user_id=users.id';
         
         $.ajax({
             url: 'php/query.php',
             type: 'POST',
-            dataType: 'json',
             data: strData,
             success: function( jsonData )
             {
-                if (jsonData.success)
+                jsonData = toJSON(jsonData);                
+                if (jsonData !== null)
                 {
-                    debug('getScripturePosts(): php/query.php : success : ' + jsonData.message);                    
-                    
-                    var intCommentsQueried = 0;
-                    for (var inData = 0; inData < jsonData.data.length; inData++)
+                    if (jsonData.success)
                     {
-                        var objData     = jsonData.data[inData];
-                        var intPostID   = objData.s_id;
+                        debug('getScripturePosts(): php/query.php : success : ' + jsonData.message);                    
 
-                        objData.comments = [];
-                        
-                        getScriptureComments(intPostID, objData).then(function( data )
-                        {   
-                            intCommentsQueried++;
-                            
-                            if (intCommentsQueried == jsonData.data.length)
-                            {
-                                var jsonResolveData = fromURLSafeFormat(jsonData.data);
-                                
-                                resolve(jsonResolveData);
-                                
-                                showPreloader(false);
-                            }
-                        });
+                        var intCommentsQueried = 0;
+                        for (var inData = 0; inData < jsonData.data.length; inData++)
+                        {
+                            var objData     = jsonData.data[inData];
+                            var intPostID   = objData.s_id;
+
+                            objData.comments = [];
+
+                            getScriptureComments(intPostID, objData).then(function( data )
+                            {   
+                                intCommentsQueried++;
+
+                                if (intCommentsQueried == jsonData.data.length)
+                                {
+                                    var jsonResolveData = fromURLSafeFormat(jsonData.data);
+
+                                    resolve(jsonResolveData);
+
+                                    showPreloader(false);
+                                }
+                            });
+                        }
                     }
-                }
-                else
-                {
-                    debug('getScripturePosts(): php/query.php : success : ' + jsonData.message);
-                    
-                    message('Unable to load scripture posts, please try again.', [isLoggedIn()]);
+                    else
+                    {
+                        debug('getScripturePosts(): php/query.php : success : ' + jsonData.message);
+
+                        message('Unable to load scripture posts, please try again.', [isLoggedIn()]);
+                    }
                 }
             },
             error: function( jqXHR, textStatus, errorThrown )
@@ -331,24 +338,27 @@ function getScriptureComments( intPostID, objData )
         $.ajax({
             url: 'php/query.php',
             type: 'POST',
-            dataType: 'json',
             data: strData,
             success: function( jsonData )
             {
-                if (jsonData.success)
+                jsonData = toJSON(jsonData);
+                if (jsonData !== null)
                 {
-                    debug('getScriptureComments(): php/query.php : success : ' + jsonData.message); 
-                    
-                    objData.comments = jsonData.data;
-                    objData.postID   = intPostID;
-                    
-                    resolve(objData);
-                }
-                else
-                {
-                    debug('getScriptureComments(): php/query.php : success : ' + jsonData.message);
-                    
-                    message('Unable to load comments for the scripture posts, please try again.', [isLoggedIn()]);
+                    if (jsonData.success)
+                    {
+                        debug('getScriptureComments(): php/query.php : success : ' + jsonData.message); 
+
+                        objData.comments = jsonData.data;
+                        objData.postID   = intPostID;
+
+                        resolve(objData);
+                    }
+                    else
+                    {
+                        debug('getScriptureComments(): php/query.php : success : ' + jsonData.message);
+
+                        message('Unable to load comments for the scripture posts, please try again.', [isLoggedIn()]);
+                    }
                 }
             },
             error: function( jqXHR, textStatus, errorThrown )
@@ -392,7 +402,6 @@ function postScriptureComment( objPostBtn )
             $.ajax({
                 url: 'php/post_scripture_comment.php',
                 type: 'POST',
-                dataType: 'json',
                 data: strData,
                 success: onPostScriptureCommentSuccess,
                 error: onPostScriptureCommentError
@@ -405,25 +414,29 @@ function onPostScriptureCommentSuccess( jsonData )
 {
     showPreloader(false);
     
-    if (jsonData.success)
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
     {
-        debug('onPostScriptureCommentSuccess(): ' + jsonData.message);        
-        
-        var intPostID = Number(jsonData.postID);
-        var objPost   = $('.post[data-post-id="' + intPostID + '"]');
-
-        if (objPost.html() !== undefined)
+        if (jsonData.success)
         {
-            var objAddComment = objPost.find('.add-comment');   
-            if (objAddComment.html() !== undefined)
-                objAddComment.find('.comment-textarea').val(''); 
+            debug('onPostScriptureCommentSuccess(): ' + jsonData.message);        
+
+            var intPostID = Number(jsonData.postID);
+            var objPost   = $('.post[data-post-id="' + intPostID + '"]');
+
+            if (objPost.html() !== undefined)
+            {
+                var objAddComment = objPost.find('.add-comment');   
+                if (objAddComment.html() !== undefined)
+                    objAddComment.find('.comment-textarea').val(''); 
+            }
         }
-    }
-    else
-    {
-        debug('onPostScriptureCommentSuccess(): ' + jsonData.message);
-        
-        message('Unable to post your comment, please try again.', [isLoggedIn()]);
+        else
+        {
+            debug('onPostScriptureCommentSuccess(): ' + jsonData.message);
+
+            message('Unable to post your comment, please try again.', [isLoggedIn()]);
+        }
     }
 }
 
@@ -452,28 +465,31 @@ function getUsersEmails()
         $.ajax({
             url: 'php/query.php',
             type: 'POST',
-            dataType: 'json',
             data: strData,
             success: function( jsonData )
             {
-                if (jsonData.success)
+                jsonData = toJSON(jsonData);
+                if (jsonData !== null)
                 {
-                    debug('getUsersEmails() : php/query.php : success : ' + jsonData.message);
-                    
-                    var arrEmails = [];
-                    for (var inEmail = 0; inEmail < jsonData.data.length; inEmail++)
+                    if (jsonData.success)
                     {
-                        var objEmail = jsonData.data[inEmail];   
+                        debug('getUsersEmails() : php/query.php : success : ' + jsonData.message);
 
-                        arrEmails.push(objEmail.email);
+                        var arrEmails = [];
+                        for (var inEmail = 0; inEmail < jsonData.data.length; inEmail++)
+                        {
+                            var objEmail = jsonData.data[inEmail];   
+
+                            arrEmails.push(objEmail.email);
+                        }
+
+                        resolve(arrEmails);
                     }
-
-                    resolve(arrEmails);
-                }
-                else
-                {
-                    debug('getUsersEmails() : php/query.php : success : ' + jsonData.message);
-                    reject('getUsersEmails() : php/query.php : success : ' + jsonData.message);
+                    else
+                    {
+                        debug('getUsersEmails() : php/query.php : success : ' + jsonData.message);
+                        reject('getUsersEmails() : php/query.php : success : ' + jsonData.message);
+                    }
                 }
             },
             error: function ( jqXHR, textStatus, errorThrown )
@@ -503,7 +519,6 @@ function togglePoint(intPointType, bAdd)
         $.ajax({
             url: 'php/toggle_point.php',
             type: 'POST',
-            dataType: 'json',
             data: strData,
             success: onTogglePointSuccess,
             error: onTogglePointError
@@ -515,13 +530,17 @@ function onTogglePointSuccess( jsonData )
 {
     showPreloader(false);
     
-    if (jsonData.success)
-        debug('onTogglePointSuccess(): ' + jsonData.message);
-    else
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
     {
-        debug('onTogglePointSuccess(): ' + jsonData.message);
-        
-        message('Unable to add/remove your point for the selected date, please try again.', [isLoggedIn()]);
+        if (jsonData.success)
+            debug('onTogglePointSuccess(): ' + jsonData.message);
+        else
+        {
+            debug('onTogglePointSuccess(): ' + jsonData.message);
+
+            message('Unable to add/remove your point for the selected date, please try again.', [isLoggedIn()]);
+        }
     }
 }
 
@@ -548,7 +567,6 @@ function queryPoints()
     $.ajax({
         url: 'php/query.php',
         method: 'POST',
-        dataType: 'json',
         data: strData,
         success: onQueryPointsSuccess,
         error: onQueryPointsError
@@ -559,29 +577,33 @@ function onQueryPointsSuccess( jsonData )
 {
     showPreloader(false);
 
-    if (jsonData.success)
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
     {
-        debug('onQueryPointsSuccess(): ' + jsonData.message);
-        
-        for (var inData = 0; inData < jsonData.data.length; inData++)
+        if (jsonData.success)
         {
-            var intPointType  = jsonData.data[inData].point_id; 
-            var strCheckboxID = POINTTYPELOOKUP[intPointType.toString()] + 'Checkbox';
+            debug('onQueryPointsSuccess(): ' + jsonData.message);
 
-            var objCheckbox = $('#' + strCheckboxID);
-            if (objCheckbox.html() !== undefined)
+            for (var inData = 0; inData < jsonData.data.length; inData++)
             {
-                objCheckbox.prop('checked', true);
+                var intPointType  = jsonData.data[inData].point_id; 
+                var strCheckboxID = POINTTYPELOOKUP[intPointType.toString()] + 'Checkbox';
 
-                onCheckboxToggle(strCheckboxID, true);
+                var objCheckbox = $('#' + strCheckboxID);
+                if (objCheckbox.html() !== undefined)
+                {
+                    objCheckbox.prop('checked', true);
+
+                    onCheckboxToggle(strCheckboxID, true);
+                }
             }
         }
-    }
-    else
-    {
-        debug('onQueryPointsSuccess(): ' + jsonData.message);
-        
-        message('Unable to load your points for the selected date, please try again.', [isLoggedIn()]);
+        else
+        {
+            debug('onQueryPointsSuccess(): ' + jsonData.message);
+
+            message('Unable to load your points for the selected date, please try again.', [isLoggedIn()]);
+        }
     }
 }
 
@@ -705,7 +727,6 @@ function loadAccountInfo()
         url: 'php/query.php',
         type: 'POST',
         data: strData,
-        dataType: 'json',
         success: onLoadAccountInfoSuccess,
         error: onLoadAccountInfoError
     });
@@ -715,21 +736,25 @@ function onLoadAccountInfoSuccess( jsonData )
 {
     showPreloader(false);
 
-    if (jsonData.success)
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
     {
-        debug('onLoadAccountInfoSuccess(): ' + jsonData.message);                    
-
-        if (jsonData.data.length > 0)
+        if (jsonData.success)
         {
-            $('#name').val(jsonData.data[0].name);
-            $('#email').val(jsonData.data[0].email);
-            $('#recieveEmails').prop('checked', jsonData.data[0].recieve_emails == 1);
+            debug('onLoadAccountInfoSuccess(): ' + jsonData.message);                    
+
+            if (jsonData.data.length > 0)
+            {
+                $('#name').val(jsonData.data[0].name);
+                $('#email').val(jsonData.data[0].email);
+                $('#recieveEmails').prop('checked', jsonData.data[0].recieve_emails == 1);
+            }
+            else
+                message('Unable to load your account information, please try again later.', [isLoggedIn()]);
         }
         else
-            message('Unable to load your account information, please try again later.', [isLoggedIn()]);
+            debug('onLoadAccountInfoSuccess(): ' + jsonData.message);
     }
-    else
-        debug('onLoadAccountInfoSuccess(): ' + jsonData.message);
 }
 
 function onLoadAccountInfoError( jqXHR, textStatus, errorThrown )
@@ -762,7 +787,6 @@ function saveAccountChanges()
         url: 'php/update.php',
         type: 'POST',
         data: strData,
-        dataType: 'json',
         success: onSaveAccountInfoSuccess,
         error: onSaveAccountInfoError
     });   
@@ -772,17 +796,21 @@ function onSaveAccountInfoSuccess( jsonData )
 {
     showPreloader(false);
 
-    if (jsonData.success)
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
     {
-        debug('onSaveAccountInfoSuccess(): ' + jsonData.message);
-        
-        message('Your account has been updated successfully.', [isLoggedIn()]);
-    }
-    else
-    {
-        debug('onSaveAccountInfoSuccess(): ' + jsonData.message);
+        if (jsonData.success)
+        {
+            debug('onSaveAccountInfoSuccess(): ' + jsonData.message);
 
-        message('Unable to save your account information, please try again.', [isLoggedIn()]);
+            message('Your account has been updated successfully.', [isLoggedIn()]);
+        }
+        else
+        {
+            debug('onSaveAccountInfoSuccess(): ' + jsonData.message);
+
+            message('Unable to save your account information, please try again.', [isLoggedIn()]);
+        }
     }
 }
 
@@ -814,21 +842,24 @@ function getLeaders()
         $.ajax({
             url: 'php/query.php',
             type: 'POST',
-            dataType: 'json',
             data: strData,
             success: function( jsonData )
             {
-                if (jsonData.success)
+                jsonData = toJSON(jsonData);
+                if (jsonData !== null)
                 {
-                    debug('getLeaders(): php/query.php : success : ' + jsonData.message);                    
-                    
-                    resolve(jsonData.data);
-                }
-                else
-                {
-                    debug('getLeaders(): php/query.php : success : ' + jsonData.message);
-                    
-                    message('Unable to load scripture posts, please try again.', [isLoggedIn()]);
+                    if (jsonData.success)
+                    {
+                        debug('getLeaders(): php/query.php : success : ' + jsonData.message);                    
+
+                        resolve(jsonData.data);
+                    }
+                    else
+                    {
+                        debug('getLeaders(): php/query.php : success : ' + jsonData.message);
+
+                        message('Unable to load scripture posts, please try again.', [isLoggedIn()]);
+                    }
                 }
             },
             error: function( jqXHR, textStatus, errorThrown )
@@ -887,8 +918,6 @@ function login()
     if (strPassword == '')
         return;
 
-    /*var strData = 'userName=' + strUserName + 
-                  '&password=' + checkDeviceWidth(strPassword);*/
     var strData = 'table=users' + 
                   '&columns=id, name, password_confirmed' + 
                   '&restrictions=login[eq]\'' + strUserName + '\', password[eq]\'' + checkDeviceWidth(strPassword) + '\' OR password_confirmed[eq]0';  
@@ -896,7 +925,6 @@ function login()
     $.ajax({
         url: 'php/query.php',
         method: 'POST',
-        /*dataType: 'json',*/
         data: strData,
         success: onLoginPostSuccess,
         error: onLoginPostError
@@ -906,35 +934,37 @@ function login()
 function onLoginPostSuccess( jsonData )
 {
     showPreloader(false);
-
-debug(jsonData);    
     
-    if (jsonData.success)
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
     {
-        debug('onLoginPostSuccess(): ' + jsonData.message);
-
-        if (jsonData.data.length > 0)
+        if (jsonData.success)
         {
-            var intID                = Number(jsonData.data[0].id);
-            var strName              = jsonData.data[0].name;
-            var bRemember            = $('#rememberMe').prop('checked');
-            
-            var intPasswordConfirmed = Number(jsonData.data[0].password_confirmed);
-            if (intPasswordConfirmed === 0)
-                localStorage.setItem('requirePasswordConfirmation', true);
+            debug('onLoginPostSuccess(): ' + jsonData.message);
+
+            if (jsonData.data.length > 0)
+            {
+                var intID                = Number(jsonData.data[0].id);
+                var strName              = jsonData.data[0].name;
+                var bRemember            = $('#rememberMe').prop('checked');
+
+                var intPasswordConfirmed = Number(jsonData.data[0].password_confirmed);
+                if (intPasswordConfirmed === 0)
+                    localStorage.setItem('requirePasswordConfirmation', true);
+                else
+                    localStorage.setItem('requirePasswordConfirmation', false);
+
+                logUserIn(intID, strName, bRemember);
+            }
             else
-                localStorage.setItem('requirePasswordConfirmation', false);
-            
-            logUserIn(intID, strName, bRemember);
+                message('Unable to find user with matching login and password, please try again.');
         }
         else
-            message('Unable to find user with matching login and password, please try again.');
-    }
-    else
-    {
-        debug('onLoginPostSuccess(): ' + jsonData.message);
+        {
+            debug('onLoginPostSuccess(): ' + jsonData.message);
 
-        message('Unable to log you in, please try again.');
+            message('Unable to log you in, please try again.');
+        }
     }
 }
 
@@ -944,7 +974,7 @@ function onLoginPostError( jqXHR, textStatus, errorThrown )
 
     debug('onLoginPostError(): ' + errorThrown);
 
-//    message('Unable to log you in, please try again.');
+    message('Unable to log you in, please try again.');
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -991,7 +1021,6 @@ function createAccount()
     $.ajax({
         url: 'php/insert.php',
         method: 'POST',
-        dataType: 'json',
         data: strData,
         success: onCreateAccountSuccess,
         error: onCreateAccountError
@@ -1000,31 +1029,34 @@ function createAccount()
 
 function onCreateAccountSuccess( jsonData )
 {
-    if (jsonData.success)
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
     {
-        debug('onCreateAccountSuccess(): ' + jsonData.message);
-        
-        var strEmail = jsonData.data.email;
-        var strData  = 'table=users' + 
-                       '&columns=id, name' + 
-                       '&restrictions=email[eq]\'' + strEmail + '\'';
-        
-        $.ajax({
-            url: 'php/query.php',
-            method: 'POST',
-            dataType: 'json',
-            data: strData,
-            success: onNewAccountLoginSuccess,
-            error: onNewAccountLoginError
-        });
-    }
-    else
-    {
-        showPreloader(false);
-        
-        debug('onCreateAccountSuccess(): ' + jsonData.message);
+        if (jsonData.success)
+        {
+            debug('onCreateAccountSuccess(): ' + jsonData.message);
 
-        message('Unable to create your account, please try again.');
+            var strEmail = jsonData.data.email;
+            var strData  = 'table=users' + 
+                           '&columns=id, name' + 
+                           '&restrictions=email[eq]\'' + strEmail + '\'';
+
+            $.ajax({
+                url: 'php/query.php',
+                method: 'POST',
+                data: strData,
+                success: onNewAccountLoginSuccess,
+                error: onNewAccountLoginError
+            });
+        }
+        else
+        {
+            showPreloader(false);
+
+            debug('onCreateAccountSuccess(): ' + jsonData.message);
+
+            message('Unable to create your account, please try again.');
+        }
     }
 }
 
@@ -1041,21 +1073,25 @@ function onNewAccountLoginSuccess( jsonData )
 {
     showPreloader(false);
     
-    if (jsonData.success)
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
     {
-        debug('onNewAccountLoginSuccess(): ' + jsonData.message);
-        
-        var intID     = Number(jsonData.data[0].id);
-        var strName   = jsonData.data[0].name;
-        var bRemember = $('#rememberMe').prop('checked');
-        
-        logUserIn(intID, strName, bRemember);
-    }
-    else
-    {
-        debug('onNewAccountLoginSuccess(): ' + jsonData.message);
+        if (jsonData.success)
+        {
+            debug('onNewAccountLoginSuccess(): ' + jsonData.message);
 
-        message('Unable to login to your new account, please go to the login page and try again.');
+            var intID     = Number(jsonData.data[0].id);
+            var strName   = jsonData.data[0].name;
+            var bRemember = $('#rememberMe').prop('checked');
+
+            logUserIn(intID, strName, bRemember);
+        }
+        else
+        {
+            debug('onNewAccountLoginSuccess(): ' + jsonData.message);
+
+            message('Unable to login to your new account, please go to the login page and try again.');
+        }
     }
 }
 
@@ -1094,7 +1130,6 @@ function confirmPassword()
     $.ajax({
         url: 'php/update.php',
         method: 'POST',
-        dataType: 'json',
         data: strData,
         success: onConfirmPasswordSuccess,
         error: onConfirmPasswordError
@@ -1103,16 +1138,20 @@ function confirmPassword()
 
 function onConfirmPasswordSuccess( jsonData )
 {
-    if (jsonData.success)
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
     {
-        debug('onConfirmPasswordSuccess(): ' + jsonData.message);
-        
-        localStorage.setItem('requirePasswordConfirmation', false);
-        
-        window.location.href = 'index.html';
+        if (jsonData.success)
+        {
+            debug('onConfirmPasswordSuccess(): ' + jsonData.message);
+
+            localStorage.setItem('requirePasswordConfirmation', false);
+
+            window.location.href = 'index.html';
+        }
+        else
+            debug('onConfirmPasswordSuccess(): ' + jsonData.message);
     }
-    else
-        debug('onConfirmPasswordSuccess(): ' + jsonData.message);
 }
 
 function onConfirmPasswordError( jqXHR, textStatus, errorThrown )
@@ -1173,6 +1212,18 @@ function checkDeviceWidth( strValue )
     return strDeviceWidth;
 }
 
-
-
-
+function toJSON( jsonData )
+{
+    try
+    {
+        jsonData = JSON.parse(jsonData);   
+        
+        return jsonData;
+    }
+    catch (error)
+    {
+        $('.php-error').html(jsonData);
+        
+        return null;
+    }
+}
