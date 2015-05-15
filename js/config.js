@@ -24,7 +24,6 @@ var INPUTEMAIL = 'INPUT_EMAIL';
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 var EMAILTEMPLATE   = '<b>%USER_NAME%</b> just posted to the %FORUM% page!<br/><br/>%EMAIL_BODY%<br/><br/>Join in on the conversation by posting a <a href="http://www.biggestwinnertracker.com/%FORUM%.html">comment!</a>';
-
 var SMTP_URLSTRING  = 'mailTo=%MAIL_TO%&subject=%SUBJECT%&message=%MESSAGE%';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

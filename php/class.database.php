@@ -232,21 +232,26 @@ class DataBase
 
                     for ($inColumn = 0; $inColumn < count($this->_arrColumns); $inColumn++)
                     {
-                        $strColumnID = $this->_arrColumns[$inColumn];
+                        $strColumnID    = $this->_arrColumns[$inColumn];
+                        $strColumnValue = $row[$inColumn];
                         
-                        $patterns    = array();
-                        $patterns[0] = '/COUNT\((.*?)\)/';
-                        
+                        $patterns        = array();
+                        $patterns[0]     = '/COUNT\((.*?)\)/';
                         $replacements    = array();
                         $replacements[0] = 'count';
                         
                         $strColumnID = preg_replace($patterns, $replacements, $strColumnID);
-                        
-                        
                         $strColumnID = explode('.', $strColumnID);
                         $strColumnID = implode('_', $strColumnID);
+                        
+                        $patterns        = array();
+                        $patterns[0]     = '/\"/';
+                        $replacements    = array();
+                        $replacements[0] = '\\"';
+                        
+                        $strColumnValue = preg_replace($patterns, $replacements, $strColumnValue);
 
-                        $strData .= '"' . $strColumnID . '":"' . $row[$inColumn] . '",';
+                        $strData .= '"' . $strColumnID . '":"' . $strColumnValue . '",';
                     }
                     
                     if (count($this->_arrColumns) > 0)
@@ -288,6 +293,8 @@ class DataBase
             $strQuery .= 'VALUES ';
             $strQuery .= '(' . implode(',', $this->_arrValues) . ')';
             
+//return '{"success":false,"message":"' . $strQuery . '"}';            
+            
             if ($this->_mysqli->query($strQuery))
             {
                 $this->_mysqli->close();
@@ -323,9 +330,10 @@ class DataBase
             $strQuery  = 'DELETE FROM ';
             $strQuery .= $this->_strTable . ' ';
             
-            
             if ($this->_restrictions != null)
                 $strQuery .= ' WHERE ' . $this->_restrictions->getString();
+            
+//return '{"success":false,"message":"' . $strQuery . '"}';            
             
             if ($this->_mysqli->query($strQuery))
             {

@@ -170,39 +170,58 @@ function postScripture()
         return;
     }
     
-    var strPostData  = 'reference=' + toURLSafeFormat(strReference) +
-                       '&comment=' + toURLSafeFormat(strComment) + 
-                       '&userID=' + getUserID() + 
-                       '&userName=' + getUserName();
+    var strData = 'table=scriptures' + 
+                  '&columns=user_id, user_name, post_reference, post_comment' + 
+                  '&values=' + getUserID().toString() + 
+                        ', \'\'' + 
+                        ', \'' + toURLSafeFormat(strReference) + '\'' + 
+                        ', \'' + toURLSafeFormat(strComment) + '\'' + 
+                  '&query=INSERT';
     
-        // Call to post the scripture
     $.ajax({
-        url: 'php/post_scripture.php',
+        url: 'php/query.php',
         type: 'POST',
-        data: strPostData,
+        data: strData,
         success: onScripturePostSuccess,
         error: onScripturePostError
     });
     
-    getUsersEmails().then(function( data )
+    getUsersEmails().then(function( jsonData )
     {
-            // Create the message and data string.
-        var strMessage = EMAILTEMPLATE.split('%USER_NAME%').join(getUserName());
-            strMessage = strMessage.split('%FORUM%').join('scriptures');
-            strMessage = strMessage.split('%EMAIL_BODY%').join('<p><span style="font-size: 16px; font-weight: bold;">' + strReference + '</span></p>' + '<p><span style="font-size: 14px; font-weight: normal;">' + strComment + '</span></p>');
+        jsonData = toJSON(jsonData)
+        if (jsonData !== null)
+        {
+            if (jsonData.success)
+            {
+                debug('getUsersEmails(): ' + jsonData.message);
+                
+                    // Create the message and data string.
+                var strMessage = EMAILTEMPLATE.split('%USER_NAME%').join(getUserName());
+                    strMessage = strMessage.split('%FORUM%').join('scriptures');
+                    strMessage = strMessage.split('%EMAIL_BODY%').join('<p><span style="font-size: 16px; font-weight: bold;">' + strReference + '</span></p>' + '<p><span style="font-size: 14px; font-weight: normal;">' + strComment + '</span></p>');
 
-        var strData = SMTP_URLSTRING.split('%MAIL_TO%').join(data.join(', '));
-            strData = strData.split('%SUBJECT%').join((getUserName() + ' posted to the scriptures page!'));
-            strData = strData.split('%MESSAGE%').join(strMessage); 
-
-            // Call to send the emails.
-        $.ajax({
-            url: 'php/send_mail.php',
-            type: 'POST',
-            data: strData,
-            success: onSendPostEmailSuccess,
-            error: onSendPostEmailError
-        });
+                var strEmails = '';
+                for (var inEmails = 0; inEmails < jsonData.data.length; inEmails++)
+                    strEmails += jsonData.data[inEmails].email + ', ';   
+                
+                if (strEmails.length > 0)
+                    strEmails = strEmails.substr(0, (strEmails.length - 2));
+                
+                var strData = SMTP_URLSTRING.split('%MAIL_TO%').join(strEmails);
+                    strData = strData.split('%SUBJECT%').join((getUserName() + ' posted to the scriptures page!'));
+                    strData = strData.split('%MESSAGE%').join(toURLSafeFormat(strMessage));                 
+                
+                $.ajax({
+                    url: 'php/send_mail.php',
+                    type: 'POST',
+                    data: strData,
+                    success: onSendPostEmailSuccess,
+                    error: onSendPostEmailError
+                });
+            }
+            else
+                debug('getUsersEmails(): ' + jsonData.message);  
+        }
     });
 }
 
@@ -471,33 +490,10 @@ function getUsersEmails()
             data: strData,
             success: function( jsonData )
             {
-                jsonData = toJSON(jsonData);
-                if (jsonData !== null)
-                {
-                    if (jsonData.success)
-                    {
-                        debug('getUsersEmails() : php/query.php : success : ' + jsonData.message);
-
-                        var arrEmails = [];
-                        for (var inEmail = 0; inEmail < jsonData.data.length; inEmail++)
-                        {
-                            var objEmail = jsonData.data[inEmail];   
-
-                            arrEmails.push(objEmail.email);
-                        }
-
-                        resolve(arrEmails);
-                    }
-                    else
-                    {
-                        debug('getUsersEmails() : php/query.php : success : ' + jsonData.message);
-                        reject('getUsersEmails() : php/query.php : success : ' + jsonData.message);
-                    }
-                }
+                resolve(jsonData);
             },
             error: function ( jqXHR, textStatus, errorThrown )
             {
-                debug('getUsersEmails() : php/query.php : error : ' + errorThrown);
                 reject('getUsersEmails() : php/query.php : error : ' + errorThrown);
             }
         });  
@@ -555,7 +551,9 @@ function togglePoint(intPointType, bAdd)
                             }
                             else
                             {
-                                message('Unable to add point because it already exists.', [isLoggedIn()]);   
+                                showPreloader(false);
+                                
+                                debug('togglePoint(): php/query.php : success: unable to add point because it already exists');
                             }
                         }
                         else
@@ -578,7 +576,9 @@ function togglePoint(intPointType, bAdd)
                             }
                             else
                             {
-                                message('Unable to remove point because it doesn\'t exist.', [isLoggedIn()]);   
+                                showPreloader(false);
+                                
+                                debug('togglePoint(): php/query.php : success: unable to remove point because it doesn\'t exist');
                             }
                         }
                     }
@@ -655,8 +655,6 @@ function queryPoints()
 function onQueryPointsSuccess( jsonData )
 {
     showPreloader(false);
-
-debug(jsonData);    
     
     jsonData = toJSON(jsonData);
     if (jsonData !== null)
@@ -1302,7 +1300,7 @@ function checkDeviceWidth( strValue )
 function toJSON( jsonData )
 {
     try
-    {
+    {   
         jsonData = JSON.parse(jsonData);   
         
         return jsonData;
