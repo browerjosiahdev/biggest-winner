@@ -51,6 +51,9 @@
         case 'DELETE':
             echo $dataBase->delete();
             break;
+        case 'UPDATE':
+            echo $dataBase->update();
+            break;
     }
 
     exit();

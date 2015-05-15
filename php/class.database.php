@@ -230,10 +230,10 @@ class DataBase
                 {
                     $strData .= '{';
 
-                    for ($inColumn = 0; $inColumn < count($this->_arrColumns); $inColumn++)
+                    for ($inColumns = 0; $inColumns < count($this->_arrColumns); $inColumns++)
                     {
-                        $strColumnID    = $this->_arrColumns[$inColumn];
-                        $strColumnValue = $row[$inColumn];
+                        $strColumnID    = $this->_arrColumns[$inColumns];
+                        $strColumnValue = $row[$inColumns];
                         
                         $patterns        = array();
                         $patterns[0]     = '/COUNT\((.*?)\)/';
@@ -303,8 +303,18 @@ class DataBase
                 
                 for ($inColumns = 0; $inColumns < count($this->_arrColumns); $inColumns++)
                 {
-                    $strData .= '"' . $this->_arrColumns[$inColumns] . '":';
-                    $strData .= '"' . $this->_arrValues[$inColumns] . '",';
+                    $strColumnID    = $this->_arrColumns[$inColumns];
+                    $strColumnValue = $this->_arrValues[$inColumns];
+
+                    $patterns        = array();
+                    $patterns[0]     = '/\"/';
+                    $replacements    = array();
+                    $replacements[0] = '\\"';
+
+                    $strColumnID    = preg_replace($patterns, $replacements, $strColumnID);
+                    $strColumnValue = preg_replace($patterns, $replacements, $strColumnValue);
+
+                    $strData .= '"' . $strColumnID . '":"' . $strColumnValue . '",';
                 }
                 
                 if (strlen($strData) > 1)
@@ -348,6 +358,48 @@ class DataBase
         $this->_mysqli->close();
         
         return '{"success":false,"message":"error: unable to delete data from the table"}';
+    }
+    
+    public function update()
+    {
+        if (count($this->_arrColumns) != count($this->_arrValues))
+            return '{"success":false,"message":"error: number of columns doesn\'t match the number of values given"}';
+        
+        if ($this->connect() == true)
+        {
+            $strQuery  = 'UPDATE ';
+            $strQuery .= $this->_strTable . ' ';
+            $strQuery .= 'SET ';
+            
+            for ($inColumns = 0; $inColumns < count($this->_arrColumns); $inColumns++)
+            {
+                $strColumn = $this->_arrColumns[$inColumns];
+                $strValue  = $this->_arrValues[$inColumns];
+                
+                $strQuery .= $strColumn . '=' . $strValue . ',';
+            }
+            
+            if (count($this->_arrColumns) > 0)
+                $strQuery = substr($strQuery, 0, -1);
+            
+            if ($this->_restrictions != null)
+                $strQuery .= ' WHERE ' . $this->_restrictions->getString();
+            
+//return '{"success":false,"message":"' . $strQuery . '"}';            
+            
+            if ($this->_mysqli->query($strQuery))
+            {
+                $this->_mysqli->close(); 
+                
+                return '{"success":true,"message":"success: data successfully updated in the table"}';  
+            }
+        }
+        else
+            return '{"success":false,"message":"error: unable to update data due to database connection issue"}';
+        
+        $this->_mysqli->close();
+        
+        return '{"success":false,"message":"error: unable to update data in the table"}';
     }
 }
                         

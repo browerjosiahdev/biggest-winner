@@ -236,6 +236,8 @@ function onScripturePostSuccess( jsonData )
 
             $('#scriptureReference').val('');
             $('#scriptureComment').val('');
+            
+            message('Your scriptures was posted successfully.', [isLoggedIn()]);
         }
         else
         {
@@ -415,13 +417,16 @@ function postScriptureComment( objPostBtn )
                 return;
             }
             
-            var strData    = 'userID=' + getUserID() + 
-                             '&userName=' + getUserName() + 
-                             '&comment=' + toURLSafeFormat(strComment) + 
-                             '&postID=' + intPostID.toString();
+            var strData = 'table=scriptures_comments' + 
+                          '&columns=user_id, user_name, post_comment, post_id' + 
+                          '&values=' + getUserID() + 
+                                ', \'\'' + 
+                                ', \'' + toURLSafeFormat(strComment) + '\'' + 
+                                ', ' + intPostID.toString() + 
+                          '&query=INSERT';
             
             $.ajax({
-                url: 'php/post_scripture_comment.php',
+                url: 'php/query.php',
                 type: 'POST',
                 data: strData,
                 success: onPostScriptureCommentSuccess,
@@ -442,15 +447,15 @@ function onPostScriptureCommentSuccess( jsonData )
         {
             debug('onPostScriptureCommentSuccess(): ' + jsonData.message);        
 
-            var intPostID = Number(jsonData.postID);
-            var objPost   = $('.post[data-post-id="' + intPostID + '"]');
-
+            var objPost = $('.post[data-post-id="' + jsonData.data.post_id + '"]');
             if (objPost.html() !== undefined)
             {
                 var objAddComment = objPost.find('.add-comment');   
                 if (objAddComment.html() !== undefined)
                     objAddComment.find('.comment-textarea').val(''); 
             }
+            
+            message('Your comment was posted successfully, reload the page to see it.', [isLoggedIn()]);
         }
         else
         {
@@ -858,18 +863,22 @@ function saveAccountChanges()
         return;
     if (isNaN(intRecieveEmails))
         return;
-
+    
     var strData = 'table=users' + 
-                  '&updates=name[eq]\'' + strName + '\', email[eq]\'' + strEmail + '\', recieve_emails[eq]' + intRecieveEmails + 
-                  '&restrictions=id[eq]' + getUserID().toString();
-
+                  '&columns=name, email, recieve_emails' + 
+                  '&values=\'' + strName + '\'' + 
+                          ', \'' + strEmail + '\'' + 
+                          ', ' + intRecieveEmails.toString() + 
+                  '&restrictions=id[eq]' + getUserID().toString() + 
+                  '&query=UPDATE';
+    
     $.ajax({
-        url: 'php/update.php',
+        url: 'php/query.php',
         type: 'POST',
         data: strData,
         success: onSaveAccountInfoSuccess,
         error: onSaveAccountInfoError
-    });   
+    });  
 }
 
 function onSaveAccountInfoSuccess( jsonData )
@@ -1118,12 +1127,12 @@ function onCreateAccountSuccess( jsonData )
     {
         if (jsonData.success)
         {
-            debug('onCreateAccountSuccess(): ' + jsonData.message);
-
+            debug('onCreateAccountSuccess(): ' + jsonData.message);      
+            
             var strEmail = jsonData.data.email;
             var strData  = 'table=users' + 
                            '&columns=id, name' + 
-                           '&restrictions=email[eq]\'' + strEmail + '\'' + 
+                           '&restrictions=email[eq]' + strEmail + 
                            '&query=SELECT';
 
             $.ajax({
@@ -1208,12 +1217,13 @@ function confirmPassword()
     }
     
     var strData = 'table=users' + 
-                  '&updates=password[eq]\'' + checkDeviceWidth(strPassword) + '\', ' + 
-                           'password_confirmed[eq]1' + 
-                  '&restrictions=id[eq]' + getUserID();
-
+                  '&columns=password, password_confirmed' + 
+                  '&values=\'' + checkDeviceWidth(strPassword) + '\', 1' + 
+                  '&restrictions=id[eq]' + getUserID().toString() + 
+                  '&query=UPDATE';
+    
     $.ajax({
-        url: 'php/update.php',
+        url: 'php/query.php',
         method: 'POST',
         data: strData,
         success: onConfirmPasswordSuccess,
