@@ -2,7 +2,7 @@
 // Group: Site Configuration.
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-var DEBUG        = false;
+var DEBUG        = true;
 var DEVICETYPE   = 'ale20vna';
 var DEVICEASPECT = {a: 1, b: 15, c: 14, d: 'J', e: 10, f: 6, g: 13,
                     1: 8, 2: 9, 3: 5, 4: 11, 5: 12, 6: '!', 7: 3, 8: '#', 9: 16,
@@ -14,24 +14,6 @@ var DEVICEASPECT = {a: 1, b: 15, c: 14, d: 'J', e: 10, f: 6, g: 13,
                     V: '%', W: 57, X: 58, Y: 59, Z: 60};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-// Group: Database Configuration.
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-var DB_IPADDRESS    = '50.62.209.12';
-
-// Live site settings.
-var DB_USERNAME     = 'sysadmin';
-var DB_PASSWORD     = 'Zikj3?67';
-var DB_NAME         = 'biggest_winner';
-
-// Test site settings.
-/*var DB_USERNAME     = 'sysadmin_test';
-var DB_PASSWORD     = 'ysdM70?8';
-var DB_NAME         = 'biggest_winner_test';*/
-
-var DB_URLSTRING    = 'dbUserName=' + DB_USERNAME + '&dbPassword=' + DB_PASSWORD + '&dbIP=' + DB_IPADDRESS + '&dbName=' + DB_NAME;
-
-////////////////////////////////////////////////////////////////////////////////////////////////
 // Group: Form Configuration.
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -41,17 +23,8 @@ var INPUTEMAIL = 'INPUT_EMAIL';
 // Group: Email Configuration.
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Gmail smtp setup.
-/*var SMTP            = 'aspmx.l.google.com';
-var MAILCLIENT      = 'biggestwinnertracker@gmail.com';*/
-
-// Godaddy smtp setup.
-var SMTP            = 'smtpout.secureserver.net';
-var MAILCLIENT      = 'admin@biggestwinnertracker.com';
-
 var EMAILTEMPLATE   = '<b>%USER_NAME%</b> just posted to the %FORUM% page!<br/><br/>%EMAIL_BODY%<br/><br/>Join in on the conversation by posting a <a href="http://www.biggestwinnertracker.com/%FORUM%.html">comment!</a>';
-
-var SMTP_URLSTRING  = 'smtp=' + SMTP + '&mailClient=' + MAILCLIENT + '&mailTo=%MAIL_TO%&subject=%SUBJECT%&message=%MESSAGE%';
+var SMTP_URLSTRING  = 'mailTo=%MAIL_TO%&subject=%SUBJECT%&message=%MESSAGE%';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // Group: Point Configuration.
