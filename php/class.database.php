@@ -315,6 +315,32 @@ class DataBase
         
         return '{"success":false,"message":"error: unable to add data to the table"}';
     }
+    
+    public function delete()
+    {
+        if ($this->connect() == true)   
+        {
+            $strQuery  = 'DELETE FROM ';
+            $strQuery .= $this->_strTable . ' ';
+            
+            
+            if ($this->_restrictions != null)
+                $strQuery .= ' WHERE ' . $this->_restrictions->getString();
+            
+            if ($this->_mysqli->query($strQuery))
+            {
+                $this->_mysqli->close(); 
+                
+                return '{"success":true,"message":"success: data successfully deleted from the table"}';
+            }
+        }
+        else
+            return '{"success":false,"message":"error: unable to delete data due to database connection issue"}';
+        
+        $this->_mysqli->close();
+        
+        return '{"success":false,"message":"error: unable to delete data from the table"}';
+    }
 }
                         
 ?>

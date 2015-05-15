@@ -514,17 +514,92 @@ function togglePoint(intPointType, bAdd)
     
     if (intPointType > 0)
     {
-        var strData = 'userID=' + getUserID() + 
-                      '&pointID=' + intPointType.toString() + 
-                      '&add=' + bAdd.toString() + 
-                      '&dateCreated=' + mysqlDate(getSelectedDate());
-
+        var strData = 'table=users_points' + 
+                      '&columns=id' + 
+                      '&restrictions=user_id[eq]' + getUserID().toString() + 
+                                  ', point_id[eq]' + intPointType.toString() + 
+                                  ', date_created[eq]\'' + mysqlDate(getSelectedDate()) + '\'' + 
+                      '&query=SELECT';
+        
         $.ajax({
-            url: 'php/toggle_point.php',
+            url: 'php/query.php',
             type: 'POST',
             data: strData,
-            success: onTogglePointSuccess,
-            error: onTogglePointError
+            success: function( jsonData )
+            {
+                jsonData = toJSON(jsonData);
+                if (jsonData !== null)
+                {
+                    if (jsonData.success)
+                    {
+                        debug('togglePoint(): php/query.php : success: ' + jsonData.message);
+                        
+                        if (bAdd)
+                        {
+                            if (jsonData.data.length === 0)
+                            {
+                                strData = 'table=users_points' + 
+                                          '&columns=user_id, point_id, date_created' + 
+                                          '&values=' + getUserID().toString() + 
+                                                ', ' + intPointType + 
+                                                ', \'' + mysqlDate(getSelectedDate()) + '\'' + 
+                                          '&query=INSERT';
+                                
+                                $.ajax({
+                                    url: 'php/query.php',
+                                    type: 'POST',
+                                    data: strData,
+                                    success: onTogglePointSuccess,
+                                    error: onTogglePointError
+                                });
+                            }
+                            else
+                            {
+                                message('Unable to add point because it already exists.', [isLoggedIn()]);   
+                            }
+                        }
+                        else
+                        {
+                            if (jsonData.data.length > 0)
+                            {
+                                strData = 'table=users_points' + 
+                                          '&restrictions=user_id[eq]' + getUserID().toString() + 
+                                                      ', point_id[eq]' + intPointType.toString() + 
+                                                      ', date_created[eq]' + mysqlDate(getSelectedDate()) + 
+                                          '&query=DELETE';
+                                
+                                $.ajax({
+                                    url: 'php/query.php',
+                                    type: 'POST',
+                                    data: strData,
+                                    success: onTogglePointSuccess,
+                                    error: onTogglePointError
+                                });
+                            }
+                            else
+                            {
+                                message('Unable to remove point because it doesn\'t exist.', [isLoggedIn()]);   
+                            }
+                        }
+                    }
+                    else
+                    {
+                        showPreloader(false);
+                        
+                        debug('togglePoint(): php/query.php : success: ' + jsonData.message);
+    
+                        message('Unable to add/remove your point for the selected date, please try again.', [isLoggedIn()]);
+                    }
+                }
+            },
+            error: function( jqXHR, textStatus, errorThrown )
+            {
+                showPreloader(false);
+                
+                debug('togglePoint(): php/query.php : error: ' + errorThrown);
+    
+                message('Unable to add/remove your point for the selected date, please try again.', [isLoggedIn()]);
+            }
         });
     }
 }

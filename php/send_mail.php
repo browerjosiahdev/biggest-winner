@@ -1,9 +1,9 @@
 <?php
-    $smtp       = $_POST['smtp'];
-    $mailClient = $_POST['mailClient'];
-    $mailTo     = $_POST['mailTo'];
-    $subject    = $_POST['subject'];
-    $message    = $_POST['message'];
+    $smtp       = isset($_POST['smtp'])? $_POST['smtp'] : '';
+    $mailClient = isset($_POST['smtp'])? $_POST['mailClient'] : '';
+    $mailTo     = isset($_POST['smtp'])? $_POST['mailTo'] : '';
+    $subject    = isset($_POST['smtp'])? $_POST['subject'] : '';
+    $message    = isset($_POST['smtp'])? $_POST['message'] : '';
     
         // PHPMailer smtp with validation (for godaddy smtp)
     require 'class.phpmailer.php';

@@ -1,15 +1,15 @@
 <?php
     include_once('class.database.php');
 
-    $strTable        = $_POST['table'];
-    $strColumns      = $_POST['columns'];
-    $strJoin         = $_POST['join'];
-    $strRestrictions = $_POST['restrictions'];
-    $strOrder        = $_POST['order'];
-    $strGroupBy      = $_POST['group'];
-    $strLimit        = $_POST['limit'];
-    $strValues       = $_POST['values'];
-    $strQuery        = $_POST['query'];
+    $strTable        = isset($_POST['table'])? $_POST['table'] : '';
+    $strColumns      = isset($_POST['columns'])? $_POST['columns'] : '';
+    $strJoin         = isset($_POST['join'])? $_POST['join'] : '';
+    $strRestrictions = isset($_POST['restrictions'])? $_POST['restrictions'] : '';
+    $strOrder        = isset($_POST['order'])? $_POST['order'] : '';
+    $strGroupBy      = isset($_POST['group'])? $_POST['group'] : '';
+    $strLimit        = isset($_POST['limit'])? $_POST['limit'] : '';
+    $strValues       = isset($_POST['values'])? $_POST['values'] : '';
+    $strQuery        = isset($_POST['query'])? $_POST['query'] : '';
 
     $dataBase        = new DataBase();
     $objParseTable   = $dataBase->parseTable($strTable);
@@ -47,6 +47,9 @@
             break;
         case 'INSERT':
             echo $dataBase->insert();
+            break;
+        case 'DELETE':
+            echo $dataBase->delete();
             break;
     }
 
