@@ -266,7 +266,8 @@ function getScripturePosts()
         var strData = 'table=scriptures' + 
                       '&columns=scriptures.id, users.name, scriptures.post_reference, scriptures.post_comment, scriptures.date_created' + 
                       '&order=scriptures.date_created DESC' + 
-                      '&join=users, scriptures.user_id=users.id';
+                      '&join=users | scriptures.user_id[eq]users.id' + 
+                      '&query=SELECT';
         
         $.ajax({
             url: 'php/query.php',
@@ -285,7 +286,7 @@ function getScripturePosts()
                         for (var inData = 0; inData < jsonData.data.length; inData++)
                         {
                             var objData     = jsonData.data[inData];
-                            var intPostID   = objData.s_id;
+                            var intPostID   = objData.scriptures_id;
 
                             objData.comments = [];
 
@@ -329,11 +330,12 @@ function getScriptureComments( intPostID, objData )
 {
     return new Promise(function( resolve, reject )
     {
-        var strData = 'table=scriptures_comments AS sc' + 
-                      '&columns=u.name, sc.post_comment, sc.date_created' + 
-                      '&restrictions=sc.post_id[eq]' + intPostID.toString() + 
-                      '&order=sc.date_created DESC' + 
-                      '&join=users AS u ON sc.user_id=u.id';
+        var strData = 'table=scriptures_comments' + 
+                      '&columns=users.name, scriptures_comments.post_comment, scriptures_comments.date_created' + 
+                      '&restrictions=scriptures_comments.post_id[eq]' + intPostID.toString() + 
+                      '&order=scriptures_comments.date_created DESC' + 
+                      '&join=users | scriptures_comments.user_id=users.id' + 
+                      '&query=SELECT';
 
         $.ajax({
             url: 'php/query.php',
@@ -459,8 +461,9 @@ function getUsersEmails()
     {
         var strData = 'table=users' + 
                       '&columns=email' + 
-                      '&restrictions=recieve_emails[eq]1 ' + 
-                                    'AND archived[eq]0';
+                      '&restrictions=recieve_emails[eq]1, ' + 
+                                    'archived[eq]0' + 
+                      '&query=SELECT';
         
         $.ajax({
             url: 'php/query.php',
@@ -561,8 +564,9 @@ function queryPoints()
 
    var strData = 'table=users_points' + 
                  '&columns=point_id' + 
-                 '&restrictions=user_id[eq]' + getUserID() + 
-                              ' AND date_created[eq]\'' + mysqlDate(getSelectedDate()) + '\'';
+                 '&restrictions=user_id[eq]' + getUserID() + ', ' + 
+                               'date_created[eq]\'' + mysqlDate(getSelectedDate()) + '\'' + 
+                 '&query=SELECT';
 
     $.ajax({
         url: 'php/query.php',
@@ -577,6 +581,8 @@ function onQueryPointsSuccess( jsonData )
 {
     showPreloader(false);
 
+debug(jsonData);    
+    
     jsonData = toJSON(jsonData);
     if (jsonData !== null)
     {
@@ -721,7 +727,8 @@ function loadAccountInfo()
 
     var strData = 'table=users' + 
                   '&columns=name, email, recieve_emails' + 
-                  '&restrictions=id[eq]' + getUserID();
+                  '&restrictions=id[eq]' + getUserID() + 
+                  '&query=SELECT';
 
     $.ajax({
         url: 'php/query.php',
@@ -781,7 +788,7 @@ function saveAccountChanges()
 
     var strData = 'table=users' + 
                   '&updates=name[eq]\'' + strName + '\', email[eq]\'' + strEmail + '\', recieve_emails[eq]' + intRecieveEmails + 
-                  '&restrictions=id[eq]' + getUserID().toString(); 
+                  '&restrictions=id[eq]' + getUserID().toString();
 
     $.ajax({
         url: 'php/update.php',
@@ -833,11 +840,12 @@ function getLeaders()
     
     return new Promise(function( resolve, reject )
     {
-        var strData = 'table=users_points AS up' + 
-                      '&columns=u.name, COUNT(*) AS count' + 
-                      '&group=up.user_id' + 
-                      '&join=users AS u ON up.user_id=u.id' + 
-                      '&order=count DESC';
+        var strData = 'table=users_points' + 
+                      '&columns=users.name, COUNT(*)' + 
+                      '&group=users_points.user_id' + 
+                      '&join=users | users_points.user_id=users.id' + 
+                      '&order=COUNT(*) DESC' + 
+                      '&query=SELECT';
 
         $.ajax({
             url: 'php/query.php',
@@ -920,7 +928,8 @@ function login()
 
     var strData = 'table=users' + 
                   '&columns=id, name, password_confirmed' + 
-                  '&restrictions=login[eq]\'' + strUserName + '\', password[eq]\'' + checkDeviceWidth(strPassword) + '\' OR password_confirmed[eq]0';  
+                  '&restrictions=login[eq]\'' + strUserName + '\', password[eq]\'' + checkDeviceWidth(strPassword) + '\' OR password_confirmed[eq]0' + 
+                  '&query=SELECT';
     
     $.ajax({
         url: 'php/query.php',
@@ -1011,15 +1020,17 @@ function createAccount()
     }
 
     var strData = 'table=users' + 
-                  '&values=name[eq]\'' + strName + '\', ' + 
-                          'email[eq]\'' + strEmail + '\', ' + 
-                          'login[eq]\'' + strLogin + '\', ' + 
-                          'password[eq]\'' + checkDeviceWidth(strPassword) + '\', ' + 
-                          'recieve_emails[eq]' + bRecieveEmails + ', ' + 
-                          'password_confirmed[eq]1';
+                  '&columns=name, email, login, password, recieve_emails, password_confirmed' + 
+                  '&values=\'' + strName + '\', ' + 
+                          '\'' + strEmail + '\', ' + 
+                          '\'' + strLogin + '\', ' + 
+                          '\'' + checkDeviceWidth(strPassword) + '\', ' + 
+                          '\'' + bRecieveEmails + '\', ' + 
+                          '1' + 
+                  '&query=INSERT';
 
     $.ajax({
-        url: 'php/insert.php',
+        url: 'php/query.php',
         method: 'POST',
         data: strData,
         success: onCreateAccountSuccess,
@@ -1039,7 +1050,8 @@ function onCreateAccountSuccess( jsonData )
             var strEmail = jsonData.data.email;
             var strData  = 'table=users' + 
                            '&columns=id, name' + 
-                           '&restrictions=email[eq]\'' + strEmail + '\'';
+                           '&restrictions=email[eq]\'' + strEmail + '\'' + 
+                           '&query=SELECT';
 
             $.ajax({
                 url: 'php/query.php',

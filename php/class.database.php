@@ -16,6 +16,7 @@ class DataBase
     protected $_strGroupBy      = '';
     protected $_strOrderBy      = '';
     protected $_intLimit        = 0;
+    protected $_arrValues       = array();
     
     private $_strIP        = '50.62.209.12';            // IP Address to the MySQL database.
     private $_strUserName  = 'sysadmin_test';           // User name for the test site.
@@ -48,7 +49,8 @@ class DataBase
     
     public function setTable( $strTable )
     {
-        $this->_strTable = $strTable;
+        if (strlen($strTable) > 0)
+            $this->_strTable = $strTable;
     }
     
     public function parseColumns( $strColumns )
@@ -72,17 +74,28 @@ class DataBase
     
     public function addColumn( $strColumn )
     {
-        $this->_arrColumns[] = $strColumn;
+        if (strlen($strColumn) > 0)
+            $this->_arrColumns[] = $strColumn;
     }
     
     public function parseJoin( $strJoin )
-    {
+    {    
         if (strlen($strJoin) > 0)
         {
-            $arrJoin = explode(', ', $strJoin);
+            $arrJoin = explode(' | ', $strJoin);
 
-            if (count($arrJoin) > 0)
-                $this->addJoin($arrJoin[0], $arrJoin[1]);
+            if (count($arrJoin) == 2)
+            {
+                $arrTables = $arrJoin[0];
+                $arrTables = explode(', ', $arrTables);
+                
+                $arrValues = $arrJoin[1];
+                $arrValues = explode('[eq]', $arrValues);
+                $arrValues = implode('=', $arrValues);
+                $arrValues = explode(', ', $arrValues);
+                
+                $this->addJoin($arrTables, $arrValues);
+            }
         }   
     }
     
@@ -128,7 +141,8 @@ class DataBase
     
     public function setGroupBy( $strGroupBy )
     {
-        $this->_strGroupBy = $strGroupBy;   
+        if (strlen($strGroupBy) > 0)
+            $this->_strGroupBy = $strGroupBy;   
     }
     
     public function parseOrderBy( $strOrderBy )
@@ -139,7 +153,8 @@ class DataBase
     
     public function setOrderBy( $strOrderBy )
     {
-        $this->_strOrderBy = $strOrderBy;   
+        if (strlen($strOrderBy) > 0)
+            $this->_strOrderBy = $strOrderBy;   
     }
     
     public function parseLimit( $intLimit )
@@ -150,7 +165,20 @@ class DataBase
     
     public function setLimit( $intLimit )
     {
-        $this->_intLimit = $intLimit;      
+        if ($intLimit > 0)
+            $this->_intLimit = $intLimit;      
+    }
+    
+    public function parseValues( $strValues )
+    {
+        if (strlen($strValues) > 0)
+            $this->_arrValues = explode(', ', $strValues);
+    }
+    
+    public function addValue( $strValue )
+    {
+        if (strlen($strValue) > 0)
+            $this->_arrValues[] = $strValue;   
     }
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
@@ -192,6 +220,8 @@ class DataBase
             if ($this->_intLimit > 0)
                 $strQuery .= ' LIMIT ' . $this->_intLimit;
             
+//return '{"success":false,"message":"' . $strQuery . '"}';            
+            
             if ($result = $this->_mysqli->query($strQuery))
             {
                 $strData = '[';
@@ -203,6 +233,16 @@ class DataBase
                     for ($inColumn = 0; $inColumn < count($this->_arrColumns); $inColumn++)
                     {
                         $strColumnID = $this->_arrColumns[$inColumn];
+                        
+                        $patterns    = array();
+                        $patterns[0] = '/COUNT\((.*?)\)/';
+                        
+                        $replacements    = array();
+                        $replacements[0] = 'count';
+                        
+                        $strColumnID = preg_replace($patterns, $replacements, $strColumnID);
+                        
+                        
                         $strColumnID = explode('.', $strColumnID);
                         $strColumnID = implode('_', $strColumnID);
 
@@ -231,6 +271,49 @@ class DataBase
         $this->_mysqli->close();
         
         return '{"success":false,"message":"error: unable to process query due to query error"}';
+    }
+    
+    public function insert()
+    {
+        if (count($this->_arrColumns) != count($this->_arrValues))
+            return '{"success":false,"message":"error: number of columns doesn\'t match the number of values given"}';
+        
+        if ($this->connect() == true)
+        {
+            $strColumns = implode(',', $this->_arrColumns);
+            
+            $strQuery  = 'INSERT IGNORE INTO ';
+            $strQuery .= $this->_strTable . ' ';
+            $strQuery .= '(' . $strColumns . ') ';
+            $strQuery .= 'VALUES ';
+            $strQuery .= '(' . implode(',', $this->_arrValues) . ')';
+            
+            if ($this->_mysqli->query($strQuery))
+            {
+                $this->_mysqli->close();
+                
+                $strData = '{';
+                
+                for ($inColumns = 0; $inColumns < count($this->_arrColumns); $inColumns++)
+                {
+                    $strData .= '"' . $this->_arrColumns[$inColumns] . '":';
+                    $strData .= '"' . $this->_arrValues[$inColumns] . '",';
+                }
+                
+                if (strlen($strData) > 1)
+                    $strData = substr($strData, 0, -1);
+                
+                $strData .= '}';
+                
+                return '{"success":true,"message":"success: data successfully added to the table","data":' . $strData . '}';
+            }
+        }
+        else
+            return '{"success":false,"message":"error: unable to add data due to database connection issue"}';
+        
+        $this->_mysqli->close();
+        
+        return '{"success":false,"message":"error: unable to add data to the table"}';
     }
 }
                         
