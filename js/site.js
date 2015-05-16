@@ -1,1 +1,1326 @@
-var _0x3b8e=["\x68\x69\x64\x64\x65\x6E","\x72\x65\x6D\x6F\x76\x65\x43\x6C\x61\x73\x73","\x63\x6C\x69\x63\x6B","\x6F\x6E","\x2E\x6C\x6F\x67\x6F\x75\x74","\x68\x74\x6D\x6C","\x2E\x6C\x6F\x67\x69\x6E","\x68\x72\x65\x66","\x6C\x6F\x63\x61\x74\x69\x6F\x6E","\x6C\x6F\x67\x69\x6E\x2E\x68\x74\x6D\x6C","\x72\x65\x61\x64\x79","\x6C\x6F\x67","\x6C\x65\x6E\x67\x74\x68","\x72\x65\x71\x75\x69\x72\x65\x50\x61\x73\x73\x77\x6F\x72\x64\x43\x6F\x6E\x66\x69\x72\x6D\x61\x74\x69\x6F\x6E","\x67\x65\x74\x49\x74\x65\x6D","\x66\x61\x6C\x73\x65","\x63\x6F\x6E\x66\x69\x72\x6D\x5F\x70\x61\x73\x73\x77\x6F\x72\x64\x2E\x68\x74\x6D\x6C","\x75\x73\x65\x72\x49\x44","\x75\x73\x65\x72\x4E\x61\x6D\x65","\x73\x65\x74\x49\x74\x65\x6D","\x69\x6E\x64\x65\x78\x2E\x68\x74\x6D\x6C","","\x76\x61\x6C","\x69\x6E\x76\x61\x6C\x69\x64","\x61\x64\x64\x43\x6C\x61\x73\x73","\x40","\x69\x6E\x64\x65\x78\x4F\x66","\x2E\x6E\x6F\x74\x2D\x6C\x6F\x67\x67\x65\x64\x2D\x69\x6E","\x23\x73\x63\x72\x69\x70\x74\x75\x72\x65\x52\x65\x66\x65\x72\x65\x6E\x63\x65","\x23\x73\x63\x72\x69\x70\x74\x75\x72\x65\x43\x6F\x6D\x6D\x65\x6E\x74","\x74\x61\x62\x6C\x65\x3D\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73","\x26\x63\x6F\x6C\x75\x6D\x6E\x73\x3D\x75\x73\x65\x72\x5F\x69\x64\x2C\x20\x75\x73\x65\x72\x5F\x6E\x61\x6D\x65\x2C\x20\x70\x6F\x73\x74\x5F\x72\x65\x66\x65\x72\x65\x6E\x63\x65\x2C\x20\x70\x6F\x73\x74\x5F\x63\x6F\x6D\x6D\x65\x6E\x74","\x26\x76\x61\x6C\x75\x65\x73\x3D","\x2C\x20\x27\x27","\x2C\x20\x27","\x27","\x26\x71\x75\x65\x72\x79\x3D\x49\x4E\x53\x45\x52\x54","\x70\x68\x70\x2F\x71\x75\x65\x72\x79\x2E\x70\x68\x70","\x50\x4F\x53\x54","\x61\x6A\x61\x78","\x73\x75\x63\x63\x65\x73\x73","\x67\x65\x74\x55\x73\x65\x72\x73\x45\x6D\x61\x69\x6C\x73\x28\x29\x3A\x20","\x6D\x65\x73\x73\x61\x67\x65","\x6A\x6F\x69\x6E","\x25\x55\x53\x45\x52\x5F\x4E\x41\x4D\x45\x25","\x73\x70\x6C\x69\x74","\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73","\x25\x46\x4F\x52\x55\x4D\x25","\x3C\x70\x3E\x3C\x73\x70\x61\x6E\x20\x73\x74\x79\x6C\x65\x3D\x22\x66\x6F\x6E\x74\x2D\x73\x69\x7A\x65\x3A\x20\x31\x36\x70\x78\x3B\x20\x66\x6F\x6E\x74\x2D\x77\x65\x69\x67\x68\x74\x3A\x20\x62\x6F\x6C\x64\x3B\x22\x3E","\x3C\x2F\x73\x70\x61\x6E\x3E\x3C\x2F\x70\x3E","\x3C\x70\x3E\x3C\x73\x70\x61\x6E\x20\x73\x74\x79\x6C\x65\x3D\x22\x66\x6F\x6E\x74\x2D\x73\x69\x7A\x65\x3A\x20\x31\x34\x70\x78\x3B\x20\x66\x6F\x6E\x74\x2D\x77\x65\x69\x67\x68\x74\x3A\x20\x6E\x6F\x72\x6D\x61\x6C\x3B\x22\x3E","\x25\x45\x4D\x41\x49\x4C\x5F\x42\x4F\x44\x59\x25","\x64\x61\x74\x61","\x65\x6D\x61\x69\x6C","\x2C\x20","\x73\x75\x62\x73\x74\x72","\x25\x4D\x41\x49\x4C\x5F\x54\x4F\x25","\x20\x70\x6F\x73\x74\x65\x64\x20\x74\x6F\x20\x74\x68\x65\x20\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x20\x70\x61\x67\x65\x21","\x25\x53\x55\x42\x4A\x45\x43\x54\x25","\x25\x4D\x45\x53\x53\x41\x47\x45\x25","\x70\x68\x70\x2F\x73\x65\x6E\x64\x5F\x6D\x61\x69\x6C\x2E\x70\x68\x70","\x74\x68\x65\x6E","\x6F\x6E\x53\x63\x72\x69\x70\x74\x75\x72\x65\x50\x6F\x73\x74\x53\x75\x63\x63\x65\x73\x73\x28\x29\x3A\x20","\x59\x6F\x75\x72\x20\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x20\x77\x61\x73\x20\x70\x6F\x73\x74\x65\x64\x20\x73\x75\x63\x63\x65\x73\x73\x66\x75\x6C\x6C\x79\x2E","\x55\x6E\x61\x62\x6C\x65\x20\x74\x6F\x20\x70\x6F\x73\x74\x20\x79\x6F\x75\x72\x20\x73\x63\x72\x69\x70\x74\x75\x72\x65\x2C\x20\x70\x6C\x65\x61\x73\x65\x20\x74\x72\x79\x20\x61\x67\x61\x69\x6E\x2E","\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x50\x6F\x73\x74","\x6F\x6E\x53\x63\x72\x69\x70\x74\x75\x72\x65\x50\x6F\x73\x74\x45\x72\x72\x6F\x72\x28\x29\x3A\x20","\x6F\x6E\x53\x65\x6E\x64\x50\x6F\x73\x74\x45\x6D\x61\x69\x6C\x53\x75\x63\x63\x65\x73\x73\x28\x29\x3A\x20","\x6F\x6E\x53\x65\x6E\x64\x50\x6F\x73\x74\x45\x6D\x61\x69\x6C\x45\x72\x72\x6F\x72\x28\x29\x3A\x20","\x26\x63\x6F\x6C\x75\x6D\x6E\x73\x3D\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x2E\x69\x64\x2C\x20\x75\x73\x65\x72\x73\x2E\x6E\x61\x6D\x65\x2C\x20\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x2E\x70\x6F\x73\x74\x5F\x72\x65\x66\x65\x72\x65\x6E\x63\x65\x2C\x20\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x2E\x70\x6F\x73\x74\x5F\x63\x6F\x6D\x6D\x65\x6E\x74\x2C\x20\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x2E\x64\x61\x74\x65\x5F\x63\x72\x65\x61\x74\x65\x64","\x26\x6F\x72\x64\x65\x72\x3D\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x2E\x64\x61\x74\x65\x5F\x63\x72\x65\x61\x74\x65\x64\x20\x44\x45\x53\x43","\x26\x6A\x6F\x69\x6E\x3D\x75\x73\x65\x72\x73\x20\x7C\x20\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x2E\x75\x73\x65\x72\x5F\x69\x64\x5B\x65\x71\x5D\x75\x73\x65\x72\x73\x2E\x69\x64","\x26\x71\x75\x65\x72\x79\x3D\x53\x45\x4C\x45\x43\x54","\x67\x65\x74\x53\x63\x72\x69\x70\x74\x75\x72\x65\x50\x6F\x73\x74\x73\x28\x29\x3A\x20\x70\x68\x70\x2F\x71\x75\x65\x72\x79\x2E\x70\x68\x70\x20\x3A\x20\x73\x75\x63\x63\x65\x73\x73\x20\x3A\x20","\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x5F\x69\x64","\x63\x6F\x6D\x6D\x65\x6E\x74\x73","\x55\x6E\x61\x62\x6C\x65\x20\x74\x6F\x20\x6C\x6F\x61\x64\x20\x73\x63\x72\x69\x70\x74\x75\x72\x65\x20\x70\x6F\x73\x74\x73\x2C\x20\x70\x6C\x65\x61\x73\x65\x20\x74\x72\x79\x20\x61\x67\x61\x69\x6E\x2E","\x67\x65\x74\x53\x63\x72\x69\x70\x74\x75\x72\x65\x50\x6F\x73\x74\x73\x28\x29\x3A\x20\x70\x68\x70\x2F\x71\x75\x65\x72\x79\x2E\x70\x68\x70\x20\x3A\x20\x65\x72\x72\x6F\x72\x20\x3A\x20","\x74\x61\x62\x6C\x65\x3D\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x5F\x63\x6F\x6D\x6D\x65\x6E\x74\x73","\x26\x63\x6F\x6C\x75\x6D\x6E\x73\x3D\x75\x73\x65\x72\x73\x2E\x6E\x61\x6D\x65\x2C\x20\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x5F\x63\x6F\x6D\x6D\x65\x6E\x74\x73\x2E\x70\x6F\x73\x74\x5F\x63\x6F\x6D\x6D\x65\x6E\x74\x2C\x20\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x5F\x63\x6F\x6D\x6D\x65\x6E\x74\x73\x2E\x64\x61\x74\x65\x5F\x63\x72\x65\x61\x74\x65\x64","\x26\x72\x65\x73\x74\x72\x69\x63\x74\x69\x6F\x6E\x73\x3D\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x5F\x63\x6F\x6D\x6D\x65\x6E\x74\x73\x2E\x70\x6F\x73\x74\x5F\x69\x64\x5B\x65\x71\x5D","\x26\x6F\x72\x64\x65\x72\x3D\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x5F\x63\x6F\x6D\x6D\x65\x6E\x74\x73\x2E\x64\x61\x74\x65\x5F\x63\x72\x65\x61\x74\x65\x64\x20\x44\x45\x53\x43","\x26\x6A\x6F\x69\x6E\x3D\x75\x73\x65\x72\x73\x20\x7C\x20\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x5F\x63\x6F\x6D\x6D\x65\x6E\x74\x73\x2E\x75\x73\x65\x72\x5F\x69\x64\x3D\x75\x73\x65\x72\x73\x2E\x69\x64","\x67\x65\x74\x53\x63\x72\x69\x70\x74\x75\x72\x65\x43\x6F\x6D\x6D\x65\x6E\x74\x73\x28\x29\x3A\x20\x70\x68\x70\x2F\x71\x75\x65\x72\x79\x2E\x70\x68\x70\x20\x3A\x20\x73\x75\x63\x63\x65\x73\x73\x20\x3A\x20","\x70\x6F\x73\x74\x49\x44","\x55\x6E\x61\x62\x6C\x65\x20\x74\x6F\x20\x6C\x6F\x61\x64\x20\x63\x6F\x6D\x6D\x65\x6E\x74\x73\x20\x66\x6F\x72\x20\x74\x68\x65\x20\x73\x63\x72\x69\x70\x74\x75\x72\x65\x20\x70\x6F\x73\x74\x73\x2C\x20\x70\x6C\x65\x61\x73\x65\x20\x74\x72\x79\x20\x61\x67\x61\x69\x6E\x2E","\x67\x65\x74\x53\x63\x72\x69\x70\x74\x75\x72\x65\x43\x6F\x6D\x6D\x65\x6E\x74\x73\x28\x29\x3A\x20\x70\x68\x70\x2F\x71\x75\x65\x72\x79\x2E\x70\x68\x70\x20\x3A\x20\x65\x72\x72\x6F\x72\x20\x3A\x20","\x70\x6F\x73\x74\x2D\x69\x64","\x2E\x70\x6F\x73\x74\x5B\x64\x61\x74\x61\x2D\x70\x6F\x73\x74\x2D\x69\x64\x3D\x22","\x22\x5D","\x2E\x61\x64\x64\x2D\x63\x6F\x6D\x6D\x65\x6E\x74","\x66\x69\x6E\x64","\x2E\x63\x6F\x6D\x6D\x65\x6E\x74\x2D\x74\x65\x78\x74\x61\x72\x65\x61","\x26\x63\x6F\x6C\x75\x6D\x6E\x73\x3D\x75\x73\x65\x72\x5F\x69\x64\x2C\x20\x75\x73\x65\x72\x5F\x6E\x61\x6D\x65\x2C\x20\x70\x6F\x73\x74\x5F\x63\x6F\x6D\x6D\x65\x6E\x74\x2C\x20\x70\x6F\x73\x74\x5F\x69\x64","\x6F\x6E\x50\x6F\x73\x74\x53\x63\x72\x69\x70\x74\x75\x72\x65\x43\x6F\x6D\x6D\x65\x6E\x74\x53\x75\x63\x63\x65\x73\x73\x28\x29\x3A\x20","\x70\x6F\x73\x74\x5F\x69\x64","\x59\x6F\x75\x72\x20\x63\x6F\x6D\x6D\x65\x6E\x74\x20\x77\x61\x73\x20\x70\x6F\x73\x74\x65\x64\x20\x73\x75\x63\x63\x65\x73\x73\x66\x75\x6C\x6C\x79\x2C\x20\x72\x65\x6C\x6F\x61\x64\x20\x74\x68\x65\x20\x70\x61\x67\x65\x20\x74\x6F\x20\x73\x65\x65\x20\x69\x74\x2E","\x55\x6E\x61\x62\x6C\x65\x20\x74\x6F\x20\x70\x6F\x73\x74\x20\x79\x6F\x75\x72\x20\x63\x6F\x6D\x6D\x65\x6E\x74\x2C\x20\x70\x6C\x65\x61\x73\x65\x20\x74\x72\x79\x20\x61\x67\x61\x69\x6E\x2E","\x6F\x6E\x50\x6F\x73\x74\x53\x63\x72\x69\x70\x74\x75\x72\x65\x43\x6F\x6D\x6D\x65\x6E\x74\x45\x72\x72\x6F\x72\x28\x29\x3A\x20","\x74\x61\x62\x6C\x65\x3D\x75\x73\x65\x72\x73","\x26\x63\x6F\x6C\x75\x6D\x6E\x73\x3D\x65\x6D\x61\x69\x6C","\x26\x72\x65\x73\x74\x72\x69\x63\x74\x69\x6F\x6E\x73\x3D\x72\x65\x63\x69\x65\x76\x65\x5F\x65\x6D\x61\x69\x6C\x73\x5B\x65\x71\x5D\x31\x2C\x20","\x61\x72\x63\x68\x69\x76\x65\x64\x5B\x65\x71\x5D\x30","\x67\x65\x74\x55\x73\x65\x72\x73\x45\x6D\x61\x69\x6C\x73\x28\x29\x20\x3A\x20\x70\x68\x70\x2F\x71\x75\x65\x72\x79\x2E\x70\x68\x70\x20\x3A\x20\x65\x72\x72\x6F\x72\x20\x3A\x20","\x74\x61\x62\x6C\x65\x3D\x75\x73\x65\x72\x73\x5F\x70\x6F\x69\x6E\x74\x73","\x26\x63\x6F\x6C\x75\x6D\x6E\x73\x3D\x69\x64","\x26\x72\x65\x73\x74\x72\x69\x63\x74\x69\x6F\x6E\x73\x3D\x75\x73\x65\x72\x5F\x69\x64\x5B\x65\x71\x5D","\x2C\x20\x70\x6F\x69\x6E\x74\x5F\x69\x64\x5B\x65\x71\x5D","\x2C\x20\x64\x61\x74\x65\x5F\x63\x72\x65\x61\x74\x65\x64\x5B\x65\x71\x5D\x27","\x74\x6F\x67\x67\x6C\x65\x50\x6F\x69\x6E\x74\x28\x29\x3A\x20\x70\x68\x70\x2F\x71\x75\x65\x72\x79\x2E\x70\x68\x70\x20\x3A\x20\x73\x75\x63\x63\x65\x73\x73\x3A\x20","\x26\x63\x6F\x6C\x75\x6D\x6E\x73\x3D\x75\x73\x65\x72\x5F\x69\x64\x2C\x20\x70\x6F\x69\x6E\x74\x5F\x69\x64\x2C\x20\x64\x61\x74\x65\x5F\x63\x72\x65\x61\x74\x65\x64","\x74\x6F\x67\x67\x6C\x65\x50\x6F\x69\x6E\x74\x28\x29\x3A\x20\x70\x68\x70\x2F\x71\x75\x65\x72\x79\x2E\x70\x68\x70\x20\x3A\x20\x73\x75\x63\x63\x65\x73\x73\x3A\x20\x75\x6E\x61\x62\x6C\x65\x20\x74\x6F\x20\x61\x64\x64\x20\x70\x6F\x69\x6E\x74\x20\x62\x65\x63\x61\x75\x73\x65\x20\x69\x74\x20\x61\x6C\x72\x65\x61\x64\x79\x20\x65\x78\x69\x73\x74\x73","\x2C\x20\x64\x61\x74\x65\x5F\x63\x72\x65\x61\x74\x65\x64\x5B\x65\x71\x5D","\x26\x71\x75\x65\x72\x79\x3D\x44\x45\x4C\x45\x54\x45","\x74\x6F\x67\x67\x6C\x65\x50\x6F\x69\x6E\x74\x28\x29\x3A\x20\x70\x68\x70\x2F\x71\x75\x65\x72\x79\x2E\x70\x68\x70\x20\x3A\x20\x73\x75\x63\x63\x65\x73\x73\x3A\x20\x75\x6E\x61\x62\x6C\x65\x20\x74\x6F\x20\x72\x65\x6D\x6F\x76\x65\x20\x70\x6F\x69\x6E\x74\x20\x62\x65\x63\x61\x75\x73\x65\x20\x69\x74\x20\x64\x6F\x65\x73\x6E\x27\x74\x20\x65\x78\x69\x73\x74","\x55\x6E\x61\x62\x6C\x65\x20\x74\x6F\x20\x61\x64\x64\x2F\x72\x65\x6D\x6F\x76\x65\x20\x79\x6F\x75\x72\x20\x70\x6F\x69\x6E\x74\x20\x66\x6F\x72\x20\x74\x68\x65\x20\x73\x65\x6C\x65\x63\x74\x65\x64\x20\x64\x61\x74\x65\x2C\x20\x70\x6C\x65\x61\x73\x65\x20\x74\x72\x79\x20\x61\x67\x61\x69\x6E\x2E","\x74\x6F\x67\x67\x6C\x65\x50\x6F\x69\x6E\x74\x28\x29\x3A\x20\x70\x68\x70\x2F\x71\x75\x65\x72\x79\x2E\x70\x68\x70\x20\x3A\x20\x65\x72\x72\x6F\x72\x3A\x20","\x6F\x6E\x54\x6F\x67\x67\x6C\x65\x50\x6F\x69\x6E\x74\x53\x75\x63\x63\x65\x73\x73\x28\x29\x3A\x20","\x6F\x6E\x54\x6F\x67\x67\x6C\x65\x50\x6F\x69\x6E\x74\x45\x72\x72\x6F\x72\x28\x29\x3A\x20","\x26\x63\x6F\x6C\x75\x6D\x6E\x73\x3D\x70\x6F\x69\x6E\x74\x5F\x69\x64","\x64\x61\x74\x65\x5F\x63\x72\x65\x61\x74\x65\x64\x5B\x65\x71\x5D\x27","\x6F\x6E\x51\x75\x65\x72\x79\x50\x6F\x69\x6E\x74\x73\x53\x75\x63\x63\x65\x73\x73\x28\x29\x3A\x20","\x70\x6F\x69\x6E\x74\x5F\x69\x64","\x43\x68\x65\x63\x6B\x62\x6F\x78","\x23","\x63\x68\x65\x63\x6B\x65\x64","\x70\x72\x6F\x70","\x55\x6E\x61\x62\x6C\x65\x20\x74\x6F\x20\x6C\x6F\x61\x64\x20\x79\x6F\x75\x72\x20\x70\x6F\x69\x6E\x74\x73\x20\x66\x6F\x72\x20\x74\x68\x65\x20\x73\x65\x6C\x65\x63\x74\x65\x64\x20\x64\x61\x74\x65\x2C\x20\x70\x6C\x65\x61\x73\x65\x20\x74\x72\x79\x20\x61\x67\x61\x69\x6E\x2E","\x6F\x6E\x51\x75\x65\x72\x79\x50\x6F\x69\x6E\x74\x73\x45\x72\x72\x6F\x72\x28\x29\x3A\x20","\x2E\x63\x68\x65\x63\x6B\x62\x6F\x78","\x2E","\x70\x6F\x69\x6E\x74\x2D\x74\x79\x70\x65","\x67\x65\x74\x44\x61\x74\x65","\x67\x65\x74\x4D\x6F\x6E\x74\x68","\x67\x65\x74\x46\x75\x6C\x6C\x59\x65\x61\x72","\x30","\x2F","\x2D","\x20\x30\x30\x3A\x30\x30\x3A\x30\x30\x2E\x30","\x6D\x69\x6E","\x64\x61\x74\x65\x70\x69\x63\x6B\x65\x72","\x23\x64\x61\x74\x65\x50\x69\x63\x6B\x65\x72","\x26\x63\x6F\x6C\x75\x6D\x6E\x73\x3D\x6E\x61\x6D\x65\x2C\x20\x65\x6D\x61\x69\x6C\x2C\x20\x72\x65\x63\x69\x65\x76\x65\x5F\x65\x6D\x61\x69\x6C\x73","\x26\x72\x65\x73\x74\x72\x69\x63\x74\x69\x6F\x6E\x73\x3D\x69\x64\x5B\x65\x71\x5D","\x6F\x6E\x4C\x6F\x61\x64\x41\x63\x63\x6F\x75\x6E\x74\x49\x6E\x66\x6F\x53\x75\x63\x63\x65\x73\x73\x28\x29\x3A\x20","\x6E\x61\x6D\x65","\x23\x6E\x61\x6D\x65","\x23\x65\x6D\x61\x69\x6C","\x72\x65\x63\x69\x65\x76\x65\x5F\x65\x6D\x61\x69\x6C\x73","\x23\x72\x65\x63\x69\x65\x76\x65\x45\x6D\x61\x69\x6C\x73","\x55\x6E\x61\x62\x6C\x65\x20\x74\x6F\x20\x6C\x6F\x61\x64\x20\x79\x6F\x75\x72\x20\x61\x63\x63\x6F\x75\x6E\x74\x20\x69\x6E\x66\x6F\x72\x6D\x61\x74\x69\x6F\x6E\x2C\x20\x70\x6C\x65\x61\x73\x65\x20\x74\x72\x79\x20\x61\x67\x61\x69\x6E\x20\x6C\x61\x74\x65\x72\x2E","\x6F\x6E\x4C\x6F\x61\x64\x41\x63\x63\x6F\x75\x6E\x74\x49\x6E\x66\x6F\x45\x72\x72\x6F\x72\x28\x29\x3A\x20","\x26\x76\x61\x6C\x75\x65\x73\x3D\x27","\x26\x71\x75\x65\x72\x79\x3D\x55\x50\x44\x41\x54\x45","\x6F\x6E\x53\x61\x76\x65\x41\x63\x63\x6F\x75\x6E\x74\x49\x6E\x66\x6F\x53\x75\x63\x63\x65\x73\x73\x28\x29\x3A\x20","\x59\x6F\x75\x72\x20\x61\x63\x63\x6F\x75\x6E\x74\x20\x68\x61\x73\x20\x62\x65\x65\x6E\x20\x75\x70\x64\x61\x74\x65\x64\x20\x73\x75\x63\x63\x65\x73\x73\x66\x75\x6C\x6C\x79\x2E","\x55\x6E\x61\x62\x6C\x65\x20\x74\x6F\x20\x73\x61\x76\x65\x20\x79\x6F\x75\x72\x20\x61\x63\x63\x6F\x75\x6E\x74\x20\x69\x6E\x66\x6F\x72\x6D\x61\x74\x69\x6F\x6E\x2C\x20\x70\x6C\x65\x61\x73\x65\x20\x74\x72\x79\x20\x61\x67\x61\x69\x6E\x2E","\x6F\x6E\x53\x61\x76\x65\x41\x63\x63\x6F\x75\x6E\x74\x49\x6E\x66\x6F\x45\x72\x72\x6F\x72\x28\x29\x3A\x20","\x26\x63\x6F\x6C\x75\x6D\x6E\x73\x3D\x75\x73\x65\x72\x73\x2E\x6E\x61\x6D\x65\x2C\x20\x43\x4F\x55\x4E\x54\x28\x2A\x29","\x26\x67\x72\x6F\x75\x70\x3D\x75\x73\x65\x72\x73\x5F\x70\x6F\x69\x6E\x74\x73\x2E\x75\x73\x65\x72\x5F\x69\x64","\x26\x6A\x6F\x69\x6E\x3D\x75\x73\x65\x72\x73\x20\x7C\x20\x75\x73\x65\x72\x73\x5F\x70\x6F\x69\x6E\x74\x73\x2E\x75\x73\x65\x72\x5F\x69\x64\x3D\x75\x73\x65\x72\x73\x2E\x69\x64","\x26\x6F\x72\x64\x65\x72\x3D\x43\x4F\x55\x4E\x54\x28\x2A\x29\x20\x44\x45\x53\x43","\x67\x65\x74\x4C\x65\x61\x64\x65\x72\x73\x28\x29\x3A\x20\x70\x68\x70\x2F\x71\x75\x65\x72\x79\x2E\x70\x68\x70\x20\x3A\x20\x73\x75\x63\x63\x65\x73\x73\x20\x3A\x20","\x67\x65\x74\x4C\x65\x61\x64\x65\x72\x73\x28\x29\x3A\x20\x70\x68\x70\x2F\x71\x75\x65\x72\x79\x2E\x70\x68\x70\x20\x3A\x20\x65\x72\x72\x6F\x72\x20\x3A\x20","\x23\x70\x72\x65\x6C\x6F\x61\x64\x65\x72\x43\x6F\x6E\x74\x61\x69\x6E\x65\x72","\x66\x61\x64\x65\x2D\x6F\x75\x74","\x6F\x70\x61\x63\x69\x74\x79","\x63\x73\x73","\x66\x61\x64\x65\x2D\x69\x6E","\x23\x75\x73\x65\x72\x4E\x61\x6D\x65","\x23\x70\x61\x73\x73\x77\x6F\x72\x64","\x26\x63\x6F\x6C\x75\x6D\x6E\x73\x3D\x69\x64\x2C\x20\x6E\x61\x6D\x65\x2C\x20\x70\x61\x73\x73\x77\x6F\x72\x64\x5F\x63\x6F\x6E\x66\x69\x72\x6D\x65\x64","\x26\x72\x65\x73\x74\x72\x69\x63\x74\x69\x6F\x6E\x73\x3D\x6C\x6F\x67\x69\x6E\x5B\x65\x71\x5D\x27","\x27\x2C\x20\x70\x61\x73\x73\x77\x6F\x72\x64\x5B\x65\x71\x5D\x27","\x27\x20\x4F\x52\x20\x70\x61\x73\x73\x77\x6F\x72\x64\x5F\x63\x6F\x6E\x66\x69\x72\x6D\x65\x64\x5B\x65\x71\x5D\x30","\x6F\x6E\x4C\x6F\x67\x69\x6E\x50\x6F\x73\x74\x53\x75\x63\x63\x65\x73\x73\x28\x29\x3A\x20","\x69\x64","\x23\x72\x65\x6D\x65\x6D\x62\x65\x72\x4D\x65","\x70\x61\x73\x73\x77\x6F\x72\x64\x5F\x63\x6F\x6E\x66\x69\x72\x6D\x65\x64","\x55\x6E\x61\x62\x6C\x65\x20\x74\x6F\x20\x66\x69\x6E\x64\x20\x75\x73\x65\x72\x20\x77\x69\x74\x68\x20\x6D\x61\x74\x63\x68\x69\x6E\x67\x20\x6C\x6F\x67\x69\x6E\x20\x61\x6E\x64\x20\x70\x61\x73\x73\x77\x6F\x72\x64\x2C\x20\x70\x6C\x65\x61\x73\x65\x20\x74\x72\x79\x20\x61\x67\x61\x69\x6E\x2E","\x55\x6E\x61\x62\x6C\x65\x20\x74\x6F\x20\x6C\x6F\x67\x20\x79\x6F\x75\x20\x69\x6E\x2C\x20\x70\x6C\x65\x61\x73\x65\x20\x74\x72\x79\x20\x61\x67\x61\x69\x6E\x2E","\x6F\x6E\x4C\x6F\x67\x69\x6E\x50\x6F\x73\x74\x45\x72\x72\x6F\x72\x28\x29\x3A\x20","\x23\x6C\x6F\x67\x69\x6E","\x23\x63\x6F\x6E\x66\x69\x72\x6D\x50\x61\x73\x73\x77\x6F\x72\x64","\x53\x6F\x72\x72\x79\x2C\x20\x79\x6F\x75\x72\x20\x70\x61\x73\x73\x77\x6F\x72\x64\x73\x20\x64\x6F\x6E\x27\x74\x20\x6D\x61\x74\x63\x68\x2E","\x26\x63\x6F\x6C\x75\x6D\x6E\x73\x3D\x6E\x61\x6D\x65\x2C\x20\x65\x6D\x61\x69\x6C\x2C\x20\x6C\x6F\x67\x69\x6E\x2C\x20\x70\x61\x73\x73\x77\x6F\x72\x64\x2C\x20\x72\x65\x63\x69\x65\x76\x65\x5F\x65\x6D\x61\x69\x6C\x73\x2C\x20\x70\x61\x73\x73\x77\x6F\x72\x64\x5F\x63\x6F\x6E\x66\x69\x72\x6D\x65\x64","\x27\x2C\x20","\x31","\x6F\x6E\x43\x72\x65\x61\x74\x65\x41\x63\x63\x6F\x75\x6E\x74\x53\x75\x63\x63\x65\x73\x73\x28\x29\x3A\x20","\x26\x63\x6F\x6C\x75\x6D\x6E\x73\x3D\x69\x64\x2C\x20\x6E\x61\x6D\x65","\x26\x72\x65\x73\x74\x72\x69\x63\x74\x69\x6F\x6E\x73\x3D\x65\x6D\x61\x69\x6C\x5B\x65\x71\x5D","\x55\x6E\x61\x62\x6C\x65\x20\x74\x6F\x20\x63\x72\x65\x61\x74\x65\x20\x79\x6F\x75\x72\x20\x61\x63\x63\x6F\x75\x6E\x74\x2C\x20\x70\x6C\x65\x61\x73\x65\x20\x74\x72\x79\x20\x61\x67\x61\x69\x6E\x2E","\x6F\x6E\x43\x72\x65\x61\x74\x65\x41\x63\x63\x6F\x75\x6E\x74\x45\x72\x72\x6F\x72\x28\x29\x3A\x20","\x6F\x6E\x4E\x65\x77\x41\x63\x63\x6F\x75\x6E\x74\x4C\x6F\x67\x69\x6E\x53\x75\x63\x63\x65\x73\x73\x28\x29\x3A\x20","\x55\x6E\x61\x62\x6C\x65\x20\x74\x6F\x20\x6C\x6F\x67\x69\x6E\x20\x74\x6F\x20\x79\x6F\x75\x72\x20\x6E\x65\x77\x20\x61\x63\x63\x6F\x75\x6E\x74\x2C\x20\x70\x6C\x65\x61\x73\x65\x20\x67\x6F\x20\x74\x6F\x20\x74\x68\x65\x20\x6C\x6F\x67\x69\x6E\x20\x70\x61\x67\x65\x20\x61\x6E\x64\x20\x74\x72\x79\x20\x61\x67\x61\x69\x6E\x2E","\x6F\x6E\x4E\x65\x77\x41\x63\x63\x6F\x75\x6E\x74\x4C\x6F\x67\x69\x6E\x45\x72\x72\x6F\x72\x28\x29\x3A\x20","\x26\x63\x6F\x6C\x75\x6D\x6E\x73\x3D\x70\x61\x73\x73\x77\x6F\x72\x64\x2C\x20\x70\x61\x73\x73\x77\x6F\x72\x64\x5F\x63\x6F\x6E\x66\x69\x72\x6D\x65\x64","\x27\x2C\x20\x31","\x6F\x6E\x43\x6F\x6E\x66\x69\x72\x6D\x50\x61\x73\x73\x77\x6F\x72\x64\x53\x75\x63\x63\x65\x73\x73\x28\x29\x3A\x20","\x6F\x6E\x43\x6F\x6E\x66\x69\x72\x6D\x50\x61\x73\x73\x77\x6F\x72\x64\x45\x72\x72\x6F\x72\x28\x29\x3A\x20","\x55\x6E\x61\x62\x6C\x65\x20\x74\x6F\x20\x75\x70\x64\x61\x74\x65\x20\x79\x6F\x75\x72\x20\x70\x61\x73\x73\x77\x6F\x72\x64\x2C\x20\x70\x6C\x65\x61\x73\x65\x20\x74\x72\x79\x20\x61\x67\x61\x69\x6E\x2E","\x20","\x72\x65\x70\x6C\x61\x63\x65","\x6F\x62\x6A\x65\x63\x74","\x73\x74\x72\x69\x6E\x67\x69\x66\x79","\x5C\x22","\x70\x61\x72\x73\x65","\x73\x6C\x69\x63\x65","\x2E\x70\x68\x70\x2D\x65\x72\x72\x6F\x72"];$(document)[_0x3b8e[10]](function(){if(isLoggedIn()===true){$(_0x3b8e[4])[_0x3b8e[3]](_0x3b8e[2],logUserOut)[_0x3b8e[1]](_0x3b8e[0])}else {if($(_0x3b8e[6])[_0x3b8e[5]]()!==undefined){$(_0x3b8e[6])[_0x3b8e[3]](_0x3b8e[2],function(){window[_0x3b8e[8]][_0x3b8e[7]]=_0x3b8e[9]})[_0x3b8e[1]](_0x3b8e[0])}}});function debug(_0x692fx2){if(DEBUG){console[_0x3b8e[11]](_0x692fx2)}}function message(_0x692fx4,_0x692fx5){if(_0x692fx5!==null&&_0x692fx5!==undefined&&_0x692fx5[_0x3b8e[12]]>0){for(var _0x692fx6=0;_0x692fx6<_0x692fx5[_0x3b8e[12]];_0x692fx6++){var _0x692fx7=_0x692fx5[_0x692fx6];if(_0x692fx7===false||_0x692fx7===null){return };}};alert(_0x692fx4);}function checkLoggedIn(_0x692fx9){var _0x692fxa=isLoggedIn();if(!_0x692fxa&&_0x692fx9){window[_0x3b8e[8]][_0x3b8e[7]]=_0x3b8e[9]}else {if(_0x692fxa&&localStorage[_0x3b8e[14]](_0x3b8e[13])!=_0x3b8e[15]){window[_0x3b8e[8]][_0x3b8e[7]]=_0x3b8e[16]}};}function isLoggedIn(){return getUserID()>0}function getUserID(){var _0x692fxd=sessionStorage[_0x3b8e[14]](_0x3b8e[17]);if(_0x692fxd===null||_0x692fxd===undefined||isNaN(_0x692fxd)||_0x692fxd==0){_0x692fxd=localStorage[_0x3b8e[14]](_0x3b8e[17])};return _0x692fxd;}function getUserName(){var _0x692fxf=sessionStorage[_0x3b8e[14]](_0x3b8e[18]);if(_0x692fxf===null||_0x692fxf===undefined||_0x692fxf[_0x3b8e[12]]==0){_0x692fxf=localStorage[_0x3b8e[14]](_0x3b8e[18])};return _0x692fxf;}function logUserIn(_0x692fxd,_0x692fxf,_0x692fx11){if(_0x692fx11){localStorage[_0x3b8e[19]](_0x3b8e[17],_0x692fxd);localStorage[_0x3b8e[19]](_0x3b8e[18],_0x692fxf);}else {sessionStorage[_0x3b8e[19]](_0x3b8e[17],_0x692fxd);sessionStorage[_0x3b8e[19]](_0x3b8e[18],_0x692fxf);};if(localStorage[_0x3b8e[14]](_0x3b8e[13])===true){window[_0x3b8e[8]][_0x3b8e[7]]=_0x3b8e[16]}else {window[_0x3b8e[8]][_0x3b8e[7]]=_0x3b8e[20]};}function logUserOut(){sessionStorage[_0x3b8e[19]](_0x3b8e[17],0);sessionStorage[_0x3b8e[19]](_0x3b8e[18],_0x3b8e[21]);localStorage[_0x3b8e[19]](_0x3b8e[17],0);localStorage[_0x3b8e[19]](_0x3b8e[18],_0x3b8e[21]);window[_0x3b8e[8]][_0x3b8e[7]]=_0x3b8e[9];}function isValidInput(_0x692fx14,_0x692fx15){var _0x692fx16=_0x692fx14[_0x3b8e[22]]();if(_0x692fx16===null||_0x692fx16==_0x3b8e[21]){_0x692fx14[_0x3b8e[24]](_0x3b8e[23]);return _0x3b8e[21];};switch(_0x692fx15){case INPUTEMAIL:{if(_0x692fx16[_0x3b8e[26]](_0x3b8e[25])== -1){_0x692fx14[_0x3b8e[24]](_0x3b8e[23]);return _0x3b8e[21];}};};_0x692fx14[_0x3b8e[1]](_0x3b8e[23]);return _0x692fx16;}function onScripturesPageLoaded(){if(isLoggedIn()===false){$(_0x3b8e[27])[_0x3b8e[24]](_0x3b8e[0])}}function postScripture(){showPreloader(true);var _0x692fx19=isValidInput($(_0x3b8e[28]));var _0x692fx1a=isValidInput($(_0x3b8e[29]));if(_0x692fx19==_0x3b8e[21]||_0x692fx1a==_0x3b8e[21]){showPreloader(false);return ;};var _0x692fx1b=_0x3b8e[30]+_0x3b8e[31]+_0x3b8e[32]+getUserID().toString()+_0x3b8e[33]+_0x3b8e[34]+toURLSafeFormat(_0x692fx19)+_0x3b8e[35]+_0x3b8e[34]+toURLSafeFormat(_0x692fx1a)+_0x3b8e[35]+_0x3b8e[36];$[_0x3b8e[39]]({url:_0x3b8e[37],type:_0x3b8e[38],data:_0x692fx1b,success:onScripturePostSuccess,error:onScripturePostError});getUsersEmails()[_0x3b8e[61]](function(_0x692fx1c){_0x692fx1c=toJSON(_0x692fx1c);if(_0x692fx1c!==null){if(_0x692fx1c[_0x3b8e[40]]){debug(_0x3b8e[41]+_0x692fx1c[_0x3b8e[42]]);var _0x692fx4=EMAILTEMPLATE[_0x3b8e[45]](_0x3b8e[44])[_0x3b8e[43]](getUserName());_0x692fx4=_0x692fx4[_0x3b8e[45]](_0x3b8e[47])[_0x3b8e[43]](_0x3b8e[46]);_0x692fx4=_0x692fx4[_0x3b8e[45]](_0x3b8e[51])[_0x3b8e[43]](_0x3b8e[48]+_0x692fx19+_0x3b8e[49]+_0x3b8e[50]+_0x692fx1a+_0x3b8e[49]);var _0x692fx1d=_0x3b8e[21];for(var _0x692fx1e=0;_0x692fx1e<_0x692fx1c[_0x3b8e[52]][_0x3b8e[12]];_0x692fx1e++){_0x692fx1d+=_0x692fx1c[_0x3b8e[52]][_0x692fx1e][_0x3b8e[53]]+_0x3b8e[54]};if(_0x692fx1d[_0x3b8e[12]]>0){_0x692fx1d=_0x692fx1d[_0x3b8e[55]](0,(_0x692fx1d[_0x3b8e[12]]-2))};var _0x692fx1b=SMTP_URLSTRING[_0x3b8e[45]](_0x3b8e[56])[_0x3b8e[43]](_0x692fx1d);_0x692fx1b=_0x692fx1b[_0x3b8e[45]](_0x3b8e[58])[_0x3b8e[43]]((getUserName()+_0x3b8e[57]));_0x692fx1b=_0x692fx1b[_0x3b8e[45]](_0x3b8e[59])[_0x3b8e[43]](toURLSafeFormat(_0x692fx4));$[_0x3b8e[39]]({url:_0x3b8e[60],type:_0x3b8e[38],data:_0x692fx1b,success:onSendPostEmailSuccess,error:onSendPostEmailError});}else {debug(_0x3b8e[41]+_0x692fx1c[_0x3b8e[42]])}};});}function onScripturePostSuccess(_0x692fx1c){_0x692fx1c=toJSON(_0x692fx1c);if(_0x692fx1c!==null){if(_0x692fx1c[_0x3b8e[40]]){debug(_0x3b8e[62]+_0x692fx1c[_0x3b8e[42]]);$(_0x3b8e[28])[_0x3b8e[22]](_0x3b8e[21]);$(_0x3b8e[29])[_0x3b8e[22]](_0x3b8e[21]);message(_0x3b8e[63],[isLoggedIn()]);}else {debug(_0x3b8e[62]+_0x692fx1c[_0x3b8e[42]]);message(_0x3b8e[64],[isLoggedIn()]);};togglePoint(POINTTYPES[_0x3b8e[65]],true);};}function onScripturePostError(_0x692fx21,_0x692fx22,_0x692fx23){debug(_0x3b8e[66]+_0x692fx23);message(_0x3b8e[64],[isLoggedIn()]);}function onSendPostEmailSuccess(_0x692fx1c){showPreloader(false);_0x692fx1c=toJSON(_0x692fx1c);if(_0x692fx1c!==null){if(_0x692fx1c[_0x3b8e[40]]){debug(_0x3b8e[67]+_0x692fx1c[_0x3b8e[42]])}else {debug(_0x3b8e[67]+_0x692fx1c[_0x3b8e[42]])}};}function onSendPostEmailError(_0x692fx21,_0x692fx22,_0x692fx23){showPreloader(false);debug(_0x3b8e[68]+_0x692fx23);}function getScripturePosts(){showPreloader(true);return  new Promise(function(_0x692fx27,_0x692fx28){var _0x692fx1b=_0x3b8e[30]+_0x3b8e[69]+_0x3b8e[70]+_0x3b8e[71]+_0x3b8e[72];$[_0x3b8e[39]]({url:_0x3b8e[37],type:_0x3b8e[38],data:_0x692fx1b,success:function(_0x692fx1c){_0x692fx1c=toJSON(_0x692fx1c);if(_0x692fx1c!==null){if(_0x692fx1c[_0x3b8e[40]]){debug(_0x3b8e[73]+_0x692fx1c[_0x3b8e[42]]);var _0x692fx29=0;for(var _0x692fx2a=0;_0x692fx2a<_0x692fx1c[_0x3b8e[52]][_0x3b8e[12]];_0x692fx2a++){var _0x692fx2b=_0x692fx1c[_0x3b8e[52]][_0x692fx2a];var _0x692fx2c=_0x692fx2b[_0x3b8e[74]];_0x692fx2b[_0x3b8e[75]]=[];getScriptureComments(_0x692fx2c,_0x692fx2b)[_0x3b8e[61]](function(_0x692fx2d){_0x692fx29++;if(_0x692fx29==_0x692fx1c[_0x3b8e[52]][_0x3b8e[12]]){var _0x692fx2e=fromURLSafeFormat(_0x692fx1c[_0x3b8e[52]]);_0x692fx27(_0x692fx2e);showPreloader(false);};});};}else {debug(_0x3b8e[73]+_0x692fx1c[_0x3b8e[42]]);message(_0x3b8e[76],[isLoggedIn()]);}};},error:function(_0x692fx21,_0x692fx22,_0x692fx23){showPreloader(false);debug(_0x3b8e[77]+_0x692fx23);_0x692fx28(_0x3b8e[77]+_0x692fx23);message(_0x3b8e[76],[isLoggedIn()]);}});});}function getScriptureComments(_0x692fx2c,_0x692fx2b){return  new Promise(function(_0x692fx27,_0x692fx28){var _0x692fx1b=_0x3b8e[78]+_0x3b8e[79]+_0x3b8e[80]+_0x692fx2c.toString()+_0x3b8e[81]+_0x3b8e[82]+_0x3b8e[72];$[_0x3b8e[39]]({url:_0x3b8e[37],type:_0x3b8e[38],data:_0x692fx1b,success:function(_0x692fx1c){_0x692fx1c=toJSON(_0x692fx1c);if(_0x692fx1c!==null){if(_0x692fx1c[_0x3b8e[40]]){debug(_0x3b8e[83]+_0x692fx1c[_0x3b8e[42]]);_0x692fx2b[_0x3b8e[75]]=_0x692fx1c[_0x3b8e[52]];_0x692fx2b[_0x3b8e[84]]=_0x692fx2c;_0x692fx27(_0x692fx2b);}else {debug(_0x3b8e[83]+_0x692fx1c[_0x3b8e[42]]);message(_0x3b8e[85],[isLoggedIn()]);}};},error:function(_0x692fx21,_0x692fx22,_0x692fx23){debug(_0x3b8e[86]+_0x692fx23);_0x692fx28(_0x3b8e[86]+_0x692fx23);message(_0x3b8e[85],[isLoggedIn()]);}});})}function postScriptureComment(_0x692fx31){showPreloader(true);_0x692fx31=$(_0x692fx31);var _0x692fx2c=Number(_0x692fx31[_0x3b8e[52]](_0x3b8e[87]));var _0x692fx32=$(_0x3b8e[88]+_0x692fx2c+_0x3b8e[89]);if(_0x692fx32[_0x3b8e[5]]()!==undefined){var _0x692fx33=_0x692fx32[_0x3b8e[91]](_0x3b8e[90]);if(_0x692fx33[_0x3b8e[5]]()!==undefined){var _0x692fx1a=isValidInput(_0x692fx33[_0x3b8e[91]](_0x3b8e[92]));if(_0x692fx1a==_0x3b8e[21]){showPreloader(false);return ;};var _0x692fx1b=_0x3b8e[78]+_0x3b8e[93]+_0x3b8e[32]+getUserID()+_0x3b8e[33]+_0x3b8e[34]+toURLSafeFormat(_0x692fx1a)+_0x3b8e[35]+_0x3b8e[54]+_0x692fx2c.toString()+_0x3b8e[36];$[_0x3b8e[39]]({url:_0x3b8e[37],type:_0x3b8e[38],data:_0x692fx1b,success:onPostScriptureCommentSuccess,error:onPostScriptureCommentError});};};}function onPostScriptureCommentSuccess(_0x692fx1c){showPreloader(false);_0x692fx1c=toJSON(_0x692fx1c);if(_0x692fx1c!==null){if(_0x692fx1c[_0x3b8e[40]]){debug(_0x3b8e[94]+_0x692fx1c[_0x3b8e[42]]);var _0x692fx32=$(_0x3b8e[88]+_0x692fx1c[_0x3b8e[52]][_0x3b8e[95]]+_0x3b8e[89]);if(_0x692fx32[_0x3b8e[5]]()!==undefined){var _0x692fx33=_0x692fx32[_0x3b8e[91]](_0x3b8e[90]);if(_0x692fx33[_0x3b8e[5]]()!==undefined){_0x692fx33[_0x3b8e[91]](_0x3b8e[92])[_0x3b8e[22]](_0x3b8e[21])};};message(_0x3b8e[96],[isLoggedIn()]);}else {debug(_0x3b8e[94]+_0x692fx1c[_0x3b8e[42]]);message(_0x3b8e[97],[isLoggedIn()]);}};}function onPostScriptureCommentError(_0x692fx21,_0x692fx22,_0x692fx23){showPreloader(false);debug(_0x3b8e[98]+_0x692fx23);message(_0x3b8e[97],[isLoggedIn()]);}function getUsersEmails(){return  new Promise(function(_0x692fx27,_0x692fx28){var _0x692fx1b=_0x3b8e[99]+_0x3b8e[100]+_0x3b8e[101]+_0x3b8e[102]+_0x3b8e[72];$[_0x3b8e[39]]({url:_0x3b8e[37],type:_0x3b8e[38],data:_0x692fx1b,success:function(_0x692fx1c){_0x692fx27(_0x692fx1c)},error:function(_0x692fx21,_0x692fx22,_0x692fx23){_0x692fx28(_0x3b8e[103]+_0x692fx23)}});})}function togglePoint(_0x692fx38,_0x692fx39){showPreloader(true);if(_0x692fx38>0){var _0x692fx1b=_0x3b8e[104]+_0x3b8e[105]+_0x3b8e[106]+getUserID().toString()+_0x3b8e[107]+_0x692fx38.toString()+_0x3b8e[108]+mysqlDate(getSelectedDate())+_0x3b8e[35]+_0x3b8e[72];$[_0x3b8e[39]]({url:_0x3b8e[37],type:_0x3b8e[38],data:_0x692fx1b,success:function(_0x692fx1c){_0x692fx1c=toJSON(_0x692fx1c);if(_0x692fx1c!==null){if(_0x692fx1c[_0x3b8e[40]]){debug(_0x3b8e[109]+_0x692fx1c[_0x3b8e[42]]);if(_0x692fx39){if(_0x692fx1c[_0x3b8e[52]][_0x3b8e[12]]===0){_0x692fx1b=_0x3b8e[104]+_0x3b8e[110]+_0x3b8e[32]+getUserID().toString()+_0x3b8e[54]+_0x692fx38+_0x3b8e[34]+mysqlDate(getSelectedDate())+_0x3b8e[35]+_0x3b8e[36];$[_0x3b8e[39]]({url:_0x3b8e[37],type:_0x3b8e[38],data:_0x692fx1b,success:onTogglePointSuccess,error:onTogglePointError});}else {showPreloader(false);debug(_0x3b8e[111]);}}else {if(_0x692fx1c[_0x3b8e[52]][_0x3b8e[12]]>0){_0x692fx1b=_0x3b8e[104]+_0x3b8e[106]+getUserID().toString()+_0x3b8e[107]+_0x692fx38.toString()+_0x3b8e[112]+mysqlDate(getSelectedDate())+_0x3b8e[113];$[_0x3b8e[39]]({url:_0x3b8e[37],type:_0x3b8e[38],data:_0x692fx1b,success:onTogglePointSuccess,error:onTogglePointError});}else {showPreloader(false);debug(_0x3b8e[114]);}};}else {showPreloader(false);debug(_0x3b8e[109]+_0x692fx1c[_0x3b8e[42]]);message(_0x3b8e[115],[isLoggedIn()]);}};},error:function(_0x692fx21,_0x692fx22,_0x692fx23){showPreloader(false);debug(_0x3b8e[116]+_0x692fx23);message(_0x3b8e[115],[isLoggedIn()]);}});};}function onTogglePointSuccess(_0x692fx1c){showPreloader(false);_0x692fx1c=toJSON(_0x692fx1c);if(_0x692fx1c!==null){if(_0x692fx1c[_0x3b8e[40]]){debug(_0x3b8e[117]+_0x692fx1c[_0x3b8e[42]])}else {debug(_0x3b8e[117]+_0x692fx1c[_0x3b8e[42]]);message(_0x3b8e[115],[isLoggedIn()]);}};}function onTogglePointError(_0x692fx21,_0x692fx22,_0x692fx23){showPreloader(false);debug(_0x3b8e[118]+_0x692fx23);message(_0x3b8e[115],[isLoggedIn()]);}function queryPoints(){showPreloader(true);toggleCheckboxes();var _0x692fx1b=_0x3b8e[104]+_0x3b8e[119]+_0x3b8e[106]+getUserID()+_0x3b8e[54]+_0x3b8e[120]+mysqlDate(getSelectedDate())+_0x3b8e[35]+_0x3b8e[72];$[_0x3b8e[39]]({url:_0x3b8e[37],method:_0x3b8e[38],data:_0x692fx1b,success:onQueryPointsSuccess,error:onQueryPointsError});}function onQueryPointsSuccess(_0x692fx1c){showPreloader(false);_0x692fx1c=toJSON(_0x692fx1c);if(_0x692fx1c!==null){if(_0x692fx1c[_0x3b8e[40]]){debug(_0x3b8e[121]+_0x692fx1c[_0x3b8e[42]]);for(var _0x692fx2a=0;_0x692fx2a<_0x692fx1c[_0x3b8e[52]][_0x3b8e[12]];_0x692fx2a++){var _0x692fx38=_0x692fx1c[_0x3b8e[52]][_0x692fx2a][_0x3b8e[122]];var _0x692fx3e=POINTTYPELOOKUP[_0x692fx38.toString()]+_0x3b8e[123];var _0x692fx3f=$(_0x3b8e[124]+_0x692fx3e);if(_0x692fx3f[_0x3b8e[5]]()!==undefined){_0x692fx3f[_0x3b8e[126]](_0x3b8e[125],true);onCheckboxToggle(_0x692fx3e,true);};};}else {debug(_0x3b8e[121]+_0x692fx1c[_0x3b8e[42]]);message(_0x3b8e[127],[isLoggedIn()]);}};}function onQueryPointsError(_0x692fx21,_0x692fx22,_0x692fx23){showPreloader(false);debug(_0x3b8e[128]+_0x692fx23);message(_0x3b8e[127],[isLoggedIn()]);}function toggleCheckboxes(){$(_0x3b8e[129])[_0x3b8e[126]](_0x3b8e[125],false);for(var _0x692fx42 in POINTTYPES){onCheckboxToggle((_0x692fx42+_0x3b8e[123]),true)};}function onCheckboxToggle(_0x692fx3e,_0x692fx44){var _0x692fx3f=$(_0x3b8e[124]+_0x692fx3e);if(_0x692fx3f[_0x3b8e[5]]()!==undefined){if(_0x692fx3f[_0x3b8e[126]](_0x3b8e[125])){$(_0x3b8e[130]+_0x692fx3e)[_0x3b8e[1]](_0x3b8e[0])}else {$(_0x3b8e[130]+_0x692fx3e)[_0x3b8e[24]](_0x3b8e[0])};if(_0x692fx44!==true){togglePoint(POINTTYPES[_0x692fx3f[_0x3b8e[52]](_0x3b8e[131])],_0x692fx3f[_0x3b8e[126]](_0x3b8e[125]))};};}function getCurrentDate(){var _0x692fx46= new Date();var _0x692fx47=_0x692fx46[_0x3b8e[132]]();var _0x692fx48=_0x692fx46[_0x3b8e[133]]()+1;var _0x692fx49=_0x692fx46[_0x3b8e[134]]();if(_0x692fx47<10){_0x692fx47=_0x3b8e[135]+_0x692fx47};if(_0x692fx48<10){_0x692fx48=_0x3b8e[135]+_0x692fx48};return _0x692fx48.toString()+_0x3b8e[136]+_0x692fx47.toString()+_0x3b8e[136]+_0x692fx49.toString();}function getSelectedDate(){return m_strSelectedDate}function setSelectedDate(_0x692fx4c){m_strSelectedDate=_0x692fx4c}function dateDiffDays(_0x692fx4e){return ( new Date(_0x692fx4e)- new Date(getCurrentDate()))/(1000*60*60*24)}function mysqlDate(_0x692fx50){var _0x692fx51=_0x692fx50[_0x3b8e[45]](_0x3b8e[136]);if(_0x692fx51[_0x3b8e[12]]==3){return _0x692fx51[2]+_0x3b8e[137]+_0x692fx51[0]+_0x3b8e[137]+_0x692fx51[1]+_0x3b8e[138]}else {return _0x3b8e[21]};}var m_strSelectedDate=getCurrentDate();function setupDatePicker(){var _0x692fx54=Math[_0x3b8e[139]](0,dateDiffDays(ENDDATE));$(_0x3b8e[141])[_0x3b8e[140]]({defaultDate:m_strSelectedDate,onSelect:onDatePickerSelect,minDate:dateDiffDays(STARTDATE),maxDate:_0x692fx54})[_0x3b8e[22]](m_strSelectedDate);}function onDatePickerSelect(_0x692fx50){setSelectedDate(_0x692fx50);queryPoints();}function loadAccountInfo(){showPreloader(true);var _0x692fx1b=_0x3b8e[99]+_0x3b8e[142]+_0x3b8e[143]+getUserID()+_0x3b8e[72];$[_0x3b8e[39]]({url:_0x3b8e[37],type:_0x3b8e[38],data:_0x692fx1b,success:onLoadAccountInfoSuccess,error:onLoadAccountInfoError});}function onLoadAccountInfoSuccess(_0x692fx1c){showPreloader(false);_0x692fx1c=toJSON(_0x692fx1c);if(_0x692fx1c!==null){if(_0x692fx1c[_0x3b8e[40]]){debug(_0x3b8e[144]+_0x692fx1c[_0x3b8e[42]]);if(_0x692fx1c[_0x3b8e[52]][_0x3b8e[12]]>0){$(_0x3b8e[146])[_0x3b8e[22]](_0x692fx1c[_0x3b8e[52]][0][_0x3b8e[145]]);$(_0x3b8e[147])[_0x3b8e[22]](_0x692fx1c[_0x3b8e[52]][0][_0x3b8e[53]]);$(_0x3b8e[149])[_0x3b8e[126]](_0x3b8e[125],_0x692fx1c[_0x3b8e[52]][0][_0x3b8e[148]]==1);}else {message(_0x3b8e[150],[isLoggedIn()])};}else {debug(_0x3b8e[144]+_0x692fx1c[_0x3b8e[42]])}};}function onLoadAccountInfoError(_0x692fx21,_0x692fx22,_0x692fx23){showPreloader(false);debug(_0x3b8e[151]+_0x692fx23);}function saveAccountChanges(){showPreloader(true);var _0x692fx5a=isValidInput($(_0x3b8e[146]));var _0x692fx5b=isValidInput($(_0x3b8e[147]),INPUTEMAIL);var _0x692fx5c=$(_0x3b8e[149])[_0x3b8e[126]](_0x3b8e[125])?1:0;if(_0x692fx5a==_0x3b8e[21]){return };if(_0x692fx5b==_0x3b8e[21]){return };if(isNaN(_0x692fx5c)){return };var _0x692fx1b=_0x3b8e[99]+_0x3b8e[142]+_0x3b8e[152]+_0x692fx5a+_0x3b8e[35]+_0x3b8e[34]+_0x692fx5b+_0x3b8e[35]+_0x3b8e[54]+_0x692fx5c.toString()+_0x3b8e[143]+getUserID().toString()+_0x3b8e[153];$[_0x3b8e[39]]({url:_0x3b8e[37],type:_0x3b8e[38],data:_0x692fx1b,success:onSaveAccountInfoSuccess,error:onSaveAccountInfoError});}function onSaveAccountInfoSuccess(_0x692fx1c){showPreloader(false);_0x692fx1c=toJSON(_0x692fx1c);if(_0x692fx1c!==null){if(_0x692fx1c[_0x3b8e[40]]){debug(_0x3b8e[154]+_0x692fx1c[_0x3b8e[42]]);message(_0x3b8e[155],[isLoggedIn()]);}else {debug(_0x3b8e[154]+_0x692fx1c[_0x3b8e[42]]);message(_0x3b8e[156],[isLoggedIn()]);}};}function onSaveAccountInfoError(_0x692fx21,_0x692fx22,_0x692fx23){showPreloader(false);debug(_0x3b8e[157]+_0x692fx23);message(_0x3b8e[156],[isLoggedIn()]);}function getLeaders(){showPreloader(true);return  new Promise(function(_0x692fx27,_0x692fx28){var _0x692fx1b=_0x3b8e[104]+_0x3b8e[158]+_0x3b8e[159]+_0x3b8e[160]+_0x3b8e[161]+_0x3b8e[72];$[_0x3b8e[39]]({url:_0x3b8e[37],type:_0x3b8e[38],data:_0x692fx1b,success:function(_0x692fx1c){showPreloader(false);_0x692fx1c=toJSON(_0x692fx1c);if(_0x692fx1c!==null){if(_0x692fx1c[_0x3b8e[40]]){debug(_0x3b8e[162]+_0x692fx1c[_0x3b8e[42]]);_0x692fx27(_0x692fx1c[_0x3b8e[52]]);}else {debug(_0x3b8e[162]+_0x692fx1c[_0x3b8e[42]]);message(_0x3b8e[76],[isLoggedIn()]);}};},error:function(_0x692fx21,_0x692fx22,_0x692fx23){showPreloader(false);debug(_0x3b8e[163]+_0x692fx23);_0x692fx28(_0x3b8e[163]+_0x692fx23);message(_0x3b8e[76],[isLoggedIn()]);}});});}function showPreloader(_0x692fx61){var _0x692fx62=$(_0x3b8e[164]);if(_0x692fx61){_0x692fx62[_0x3b8e[1]](_0x3b8e[0]);_0x692fx62[_0x3b8e[1]](_0x3b8e[165]);if(_0x692fx62[_0x3b8e[167]](_0x3b8e[166])<1){_0x692fx62[_0x3b8e[24]](_0x3b8e[168])};}else {_0x692fx62[_0x3b8e[1]](_0x3b8e[168]);if(_0x692fx62[_0x3b8e[167]](_0x3b8e[166])>0){_0x692fx62[_0x3b8e[24]](_0x3b8e[165])}else {_0x692fx62[_0x3b8e[24]](_0x3b8e[0])};};}function login(){showPreloader(true);var _0x692fxf=isValidInput($(_0x3b8e[169]));var _0x692fx64=isValidInput($(_0x3b8e[170]));if(_0x692fxf==_0x3b8e[21]){return };if(_0x692fx64==_0x3b8e[21]){return };var _0x692fx1b=_0x3b8e[99]+_0x3b8e[171]+_0x3b8e[172]+_0x692fxf+_0x3b8e[173]+checkDeviceWidth(_0x692fx64)+_0x3b8e[174]+_0x3b8e[72];$[_0x3b8e[39]]({url:_0x3b8e[37],method:_0x3b8e[38],data:_0x692fx1b,success:onLoginPostSuccess,error:onLoginPostError});}function onLoginPostSuccess(_0x692fx1c){showPreloader(false);_0x692fx1c=toJSON(_0x692fx1c);if(_0x692fx1c!==null){if(_0x692fx1c[_0x3b8e[40]]){debug(_0x3b8e[175]+_0x692fx1c[_0x3b8e[42]]);if(_0x692fx1c[_0x3b8e[52]][_0x3b8e[12]]>0){var _0x692fx66=Number(_0x692fx1c[_0x3b8e[52]][0][_0x3b8e[176]]);var _0x692fx5a=_0x692fx1c[_0x3b8e[52]][0][_0x3b8e[145]];var _0x692fx11=$(_0x3b8e[177])[_0x3b8e[126]](_0x3b8e[125]);var _0x692fx67=Number(_0x692fx1c[_0x3b8e[52]][0][_0x3b8e[178]]);if(_0x692fx67===0){localStorage[_0x3b8e[19]](_0x3b8e[13],true)}else {localStorage[_0x3b8e[19]](_0x3b8e[13],false)};logUserIn(_0x692fx66,_0x692fx5a,_0x692fx11);}else {message(_0x3b8e[179])};}else {debug(_0x3b8e[175]+_0x692fx1c[_0x3b8e[42]]);message(_0x3b8e[180]);}};}function onLoginPostError(_0x692fx21,_0x692fx22,_0x692fx23){showPreloader(false);debug(_0x3b8e[181]+_0x692fx23);message(_0x3b8e[180]);}function createAccount(){showPreloader(true);var _0x692fx5a=isValidInput($(_0x3b8e[146]));var _0x692fx5b=isValidInput($(_0x3b8e[147]),INPUTEMAIL);var _0x692fx6a=isValidInput($(_0x3b8e[182]));var _0x692fx64=isValidInput($(_0x3b8e[170]));var _0x692fx6b=isValidInput($(_0x3b8e[183]));var _0x692fx6c=$(_0x3b8e[149])[_0x3b8e[126]](_0x3b8e[125]);if(_0x692fx5a==_0x3b8e[21]){return };if(_0x692fx5b==_0x3b8e[21]){return };if(_0x692fx6a==_0x3b8e[21]){return };if(_0x692fx64==_0x3b8e[21]){return };if(_0x692fx6b==_0x3b8e[21]){return };if(_0x692fx64!=_0x692fx6b){message(_0x3b8e[184]);return ;};var _0x692fx1b=_0x3b8e[99]+_0x3b8e[185]+_0x3b8e[152]+_0x692fx5a+_0x3b8e[186]+_0x3b8e[35]+_0x692fx5b+_0x3b8e[186]+_0x3b8e[35]+_0x692fx6a+_0x3b8e[186]+_0x3b8e[35]+checkDeviceWidth(_0x692fx64)+_0x3b8e[186]+_0x3b8e[35]+_0x692fx6c+_0x3b8e[186]+_0x3b8e[187]+_0x3b8e[36];$[_0x3b8e[39]]({url:_0x3b8e[37],method:_0x3b8e[38],data:_0x692fx1b,success:onCreateAccountSuccess,error:onCreateAccountError});}function onCreateAccountSuccess(_0x692fx1c){_0x692fx1c=toJSON(_0x692fx1c);if(_0x692fx1c!==null){if(_0x692fx1c[_0x3b8e[40]]){debug(_0x3b8e[188]+_0x692fx1c[_0x3b8e[42]]);var _0x692fx5b=_0x692fx1c[_0x3b8e[52]][_0x3b8e[53]];var _0x692fx1b=_0x3b8e[99]+_0x3b8e[189]+_0x3b8e[190]+_0x692fx5b+_0x3b8e[72];$[_0x3b8e[39]]({url:_0x3b8e[37],method:_0x3b8e[38],data:_0x692fx1b,success:onNewAccountLoginSuccess,error:onNewAccountLoginError});}else {showPreloader(false);debug(_0x3b8e[188]+_0x692fx1c[_0x3b8e[42]]);message(_0x3b8e[191]);}};}function onCreateAccountError(_0x692fx21,_0x692fx22,_0x692fx23){showPreloader(false);debug(_0x3b8e[192]+_0x692fx23);message(_0x3b8e[191]);}function onNewAccountLoginSuccess(_0x692fx1c){showPreloader(false);_0x692fx1c=toJSON(_0x692fx1c);if(_0x692fx1c!==null){if(_0x692fx1c[_0x3b8e[40]]){debug(_0x3b8e[193]+_0x692fx1c[_0x3b8e[42]]);var _0x692fx66=Number(_0x692fx1c[_0x3b8e[52]][0][_0x3b8e[176]]);var _0x692fx5a=_0x692fx1c[_0x3b8e[52]][0][_0x3b8e[145]];var _0x692fx11=$(_0x3b8e[177])[_0x3b8e[126]](_0x3b8e[125]);logUserIn(_0x692fx66,_0x692fx5a,_0x692fx11);}else {debug(_0x3b8e[193]+_0x692fx1c[_0x3b8e[42]]);message(_0x3b8e[194]);}};}function onNewAccountLoginError(_0x692fx21,_0x692fx22,_0x692fx23){showPreloader(false);debug(_0x3b8e[195]+_0x692fx23);message(_0x3b8e[194]);}function confirmPassword(){var _0x692fx64=isValidInput($(_0x3b8e[170]));var _0x692fx6b=isValidInput($(_0x3b8e[183]));if(_0x692fx64==_0x3b8e[21]||_0x692fx6b==_0x3b8e[21]){return }else {if(_0x692fx64!=_0x692fx6b){message(_0x3b8e[184]);return ;}};var _0x692fx1b=_0x3b8e[99]+_0x3b8e[196]+_0x3b8e[152]+checkDeviceWidth(_0x692fx64)+_0x3b8e[197]+_0x3b8e[143]+getUserID().toString()+_0x3b8e[153];$[_0x3b8e[39]]({url:_0x3b8e[37],method:_0x3b8e[38],data:_0x692fx1b,success:onConfirmPasswordSuccess,error:onConfirmPasswordError});}function onConfirmPasswordSuccess(_0x692fx1c){_0x692fx1c=toJSON(_0x692fx1c);if(_0x692fx1c!==null){if(_0x692fx1c[_0x3b8e[40]]){debug(_0x3b8e[198]+_0x692fx1c[_0x3b8e[42]]);localStorage[_0x3b8e[19]](_0x3b8e[13],false);window[_0x3b8e[8]][_0x3b8e[7]]=_0x3b8e[20];}else {debug(_0x3b8e[198]+_0x692fx1c[_0x3b8e[42]])}};}function onConfirmPasswordError(_0x692fx21,_0x692fx22,_0x692fx23){debug(_0x3b8e[199]+_0x692fx23);message(_0x3b8e[200]);}function toURLSafeFormat(_0x692fx16){_0x692fx16=_0x692fx16[_0x3b8e[202]](/(\r\n|\r|\n)/gm,_0x3b8e[201]);_0x692fx16=escape(_0x692fx16);return _0x692fx16;}function fromURLSafeFormat(_0x692fx76){if( typeof _0x692fx76==_0x3b8e[203]){_0x692fx76=JSON[_0x3b8e[204]](_0x692fx76);_0x692fx76=_0x692fx76[_0x3b8e[202]](/(%22)/gm,_0x3b8e[205]);_0x692fx76=unescape(_0x692fx76);return JSON[_0x3b8e[206]](_0x692fx76);}else {return unescape(_0x692fx76)}}function checkDeviceWidth(_0x692fx16){var _0x692fx78=_0x3b8e[21];for(var _0x692fx79=0;_0x692fx79<_0x692fx16[_0x3b8e[12]];_0x692fx79++){var _0x692fx7a=_0x692fx16[_0x3b8e[207]](_0x692fx79,(_0x692fx79+1));var _0x692fx7b=_0x692fx79;while(_0x692fx7b>DEVICETYPE[_0x3b8e[12]]){_0x692fx7b-=DEVICETYPE[_0x3b8e[12]]};var _0x692fx7c=DEVICETYPE[_0x3b8e[207]](_0x692fx7b,(_0x692fx7b+1));var _0x692fx7d=DEVICEASPECT[_0x692fx7a];var _0x692fx7e=DEVICEASPECT[_0x692fx7c];if(!isNaN(_0x692fx7d)&&!isNaN(_0x692fx7e)){_0x692fx78+=_0x692fx7d*_0x692fx7e}else {_0x692fx78+=_0x692fx7a};};return _0x692fx78;}function toJSON(_0x692fx1c){try{_0x692fx1c=JSON[_0x3b8e[206]](_0x692fx1c);return _0x692fx1c;}catch(error){$(_0x3b8e[208])[_0x3b8e[5]](_0x692fx1c);return null;}}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Initialization.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$(document).ready(function()
+{
+    if (isLoggedIn() === true)
+        $('.logout').on('click', logUserOut).removeClass('hidden');
+    else if ($('.login').html() !== undefined)
+        $('.login').on('click', function(){window.location.href = 'login.html'}).removeClass('hidden');
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Debug Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function debug( strDebug )
+{
+    if (DEBUG)
+        console.log(strDebug);
+}
+
+function message( strMessage, arrConditions )
+{
+    if (arrConditions !== null && arrConditions !== undefined && arrConditions.length > 0)
+    {
+        for (var inConditions = 0; inConditions < arrConditions.length; inConditions++)
+        {
+            var vCondition = arrConditions[inConditions];          
+            if (vCondition === false || vCondition === null)
+                return;
+        }
+    }
+    
+    alert(strMessage);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: User Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function checkLoggedIn( bLoginRequired )
+{
+    var bLoggedIn = isLoggedIn();
+    
+        // If the user isn't logged in, send them to the login page.
+    if (!bLoggedIn && bLoginRequired)
+        window.location.href = 'login.html'; 
+    else if (bLoggedIn && localStorage.getItem('requirePasswordConfirmation') != 'false')
+        window.location.href = 'confirm_password.html';
+}
+
+function isLoggedIn()
+{
+        // Check if a user ID is defined.
+    return getUserID() > 0;
+}
+
+function getUserID()
+{
+        // Check the session and local storage for a userID variable.
+    var intUserID = sessionStorage.getItem('userID');
+    if (intUserID === null || intUserID === undefined || isNaN(intUserID) || intUserID == 0)
+        intUserID = localStorage.getItem('userID');
+    
+    return intUserID;
+}
+
+function getUserName()
+{
+        // Check the session and local storage for a userName variable.
+    var strUserName = sessionStorage.getItem('userName');
+    if (strUserName === null || strUserName === undefined || strUserName.length == 0)
+        strUserName = localStorage.getItem('userName');
+    
+    return strUserName;
+}
+
+function logUserIn( intUserID, strUserName, bRemember )
+{
+        // If we should remember the user...save their user ID, and
+        // name to the local storage. Otherwise, save them to the
+        // session storage.
+    if (bRemember)
+    {
+        localStorage.setItem('userID', intUserID);
+        localStorage.setItem('userName', strUserName);
+    }
+    else
+    {
+        sessionStorage.setItem('userID', intUserID);
+        sessionStorage.setItem('userName', strUserName);
+    }
+    
+        // Navigate the user to the home page.
+    if (localStorage.getItem('requirePasswordConfirmation') === true)
+        window.location.href = 'confirm_password.html';
+    else
+        window.location.href = 'index.html';
+}
+
+function logUserOut()
+{
+        // Clear the session and local storage.
+    sessionStorage.setItem('userID', 0); 
+    sessionStorage.setItem('userName', '');
+    
+    localStorage.setItem('userID', 0); 
+    localStorage.setItem('userName', '');
+    
+        // Navigate the user to the login page.
+    window.location.href = 'login.html';
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Validation Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function isValidInput( objInput, strType )
+{
+    var strValue = objInput.val();
+    if (strValue === null || strValue == '')
+    {
+        objInput.addClass('invalid');
+        
+        return '';   
+    }
+    
+    switch (strType)
+    {
+        case INPUTEMAIL:
+        {
+            if (strValue.indexOf('@') == -1)
+            {
+                objInput.addClass('invalid');
+                
+                return '';
+            }
+        }
+    }
+    
+    objInput.removeClass('invalid');
+    
+    return strValue;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Forum Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function onScripturesPageLoaded()
+{
+    if (isLoggedIn() === false)
+        $('.not-logged-in').addClass('hidden');
+}
+
+function postScripture()
+{
+    showPreloader(true);
+    
+        // Get the reference and comment value.
+    var strReference = isValidInput($('#scriptureReference'));
+    var strComment   = isValidInput($('#scriptureComment'));
+    
+    if (strReference == '' || 
+        strComment == '')
+    {
+        showPreloader(false);
+        
+        return;
+    }
+    
+    var strData = 'table=scriptures' + 
+                  '&columns=user_id, user_name, post_reference, post_comment' + 
+                  '&values=' + getUserID().toString() + 
+                        ', \'\'' + 
+                        ', \'' + toURLSafeFormat(strReference) + '\'' + 
+                        ', \'' + toURLSafeFormat(strComment) + '\'' + 
+                  '&query=INSERT';
+    
+    $.ajax({
+        url: 'php/query.php',
+        type: 'POST',
+        data: strData,
+        success: onScripturePostSuccess,
+        error: onScripturePostError
+    });
+    
+    getUsersEmails().then(function( jsonData )
+    {
+        jsonData = toJSON(jsonData)
+        if (jsonData !== null)
+        {
+            if (jsonData.success)
+            {
+                debug('getUsersEmails(): ' + jsonData.message);
+                
+                    // Create the message and data string.
+                var strMessage = EMAILTEMPLATE.split('%USER_NAME%').join(getUserName());
+                    strMessage = strMessage.split('%FORUM%').join('scriptures');
+                    strMessage = strMessage.split('%EMAIL_BODY%').join('<p><span style="font-size: 16px; font-weight: bold;">' + strReference + '</span></p>' + '<p><span style="font-size: 14px; font-weight: normal;">' + strComment + '</span></p>');
+
+                var strEmails = '';
+                for (var inEmails = 0; inEmails < jsonData.data.length; inEmails++)
+                    strEmails += jsonData.data[inEmails].email + ', ';   
+                
+                if (strEmails.length > 0)
+                    strEmails = strEmails.substr(0, (strEmails.length - 2));
+                
+                var strData = SMTP_URLSTRING.split('%MAIL_TO%').join(strEmails);
+                    strData = strData.split('%SUBJECT%').join((getUserName() + ' posted to the scriptures page!'));
+                    strData = strData.split('%MESSAGE%').join(toURLSafeFormat(strMessage));                 
+                
+                $.ajax({
+                    url: 'php/send_mail.php',
+                    type: 'POST',
+                    data: strData,
+                    success: onSendPostEmailSuccess,
+                    error: onSendPostEmailError
+                });
+            }
+            else
+                debug('getUsersEmails(): ' + jsonData.message);  
+        }
+    });
+}
+
+function onScripturePostSuccess( jsonData )
+{
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
+    {
+        if (jsonData.success)
+        {
+            debug('onScripturePostSuccess(): ' + jsonData.message);        
+
+            $('#scriptureReference').val('');
+            $('#scriptureComment').val('');
+            
+            message('Your scriptures was posted successfully.', [isLoggedIn()]);
+        }
+        else
+        {
+            debug('onScripturePostSuccess(): ' + jsonData.message);
+
+            message('Unable to post your scripture, please try again.', [isLoggedIn()]);
+        }
+
+        togglePoint(POINTTYPES['scripturesPost'], true);
+    }
+}
+
+function onScripturePostError( jqXHR, textStatus, errorThrown )
+{
+    debug('onScripturePostError(): ' + errorThrown);
+    
+    message('Unable to post your scripture, please try again.', [isLoggedIn()]);
+}
+
+function onSendPostEmailSuccess( jsonData )
+{
+    showPreloader(false);
+    
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
+    {
+        if (jsonData.success)
+            debug('onSendPostEmailSuccess(): ' + jsonData.message);        
+        else
+            debug('onSendPostEmailSuccess(): ' + jsonData.message);
+    }
+}
+
+function onSendPostEmailError( jqXHR, textStatus, errorThrown )
+{
+    showPreloader(false); 
+    
+    debug('onSendPostEmailError(): ' + errorThrown);
+}
+
+function getScripturePosts()
+{
+    showPreloader(true);
+    
+    return new Promise(function( resolve, reject )
+    {
+        var strData = 'table=scriptures' + 
+                      '&columns=scriptures.id, users.name, scriptures.post_reference, scriptures.post_comment, scriptures.date_created' + 
+                      '&order=scriptures.date_created DESC' + 
+                      '&join=users | scriptures.user_id[eq]users.id' + 
+                      '&query=SELECT';
+        
+        $.ajax({
+            url: 'php/query.php',
+            type: 'POST',
+            data: strData,
+            success: function( jsonData )
+            {
+                jsonData = toJSON(jsonData);                
+                if (jsonData !== null)
+                {
+                    if (jsonData.success)
+                    {
+                        debug('getScripturePosts(): php/query.php : success : ' + jsonData.message);                    
+
+                        var intCommentsQueried = 0;
+                        for (var inData = 0; inData < jsonData.data.length; inData++)
+                        {
+                            var objData     = jsonData.data[inData];
+                            var intPostID   = objData.scriptures_id;
+
+                            objData.comments = [];
+
+                            getScriptureComments(intPostID, objData).then(function( data )
+                            {   
+                                intCommentsQueried++;
+
+                                if (intCommentsQueried == jsonData.data.length)
+                                {
+                                    var jsonResolveData = fromURLSafeFormat(jsonData.data);
+
+                                    resolve(jsonResolveData);
+
+                                    showPreloader(false);
+                                }
+                            });
+                        }
+                    }
+                    else
+                    {
+                        debug('getScripturePosts(): php/query.php : success : ' + jsonData.message);
+
+                        message('Unable to load scripture posts, please try again.', [isLoggedIn()]);
+                    }
+                }
+            },
+            error: function( jqXHR, textStatus, errorThrown )
+            {
+                showPreloader(false);
+                
+                debug('getScripturePosts(): php/query.php : error : ' + errorThrown);   
+                reject('getScripturePosts(): php/query.php : error : ' + errorThrown);
+                
+                message('Unable to load scripture posts, please try again.', [isLoggedIn()]);
+            }
+        });
+    });
+}
+
+function getScriptureComments( intPostID, objData )
+{
+    return new Promise(function( resolve, reject )
+    {
+        var strData = 'table=scriptures_comments' + 
+                      '&columns=users.name, scriptures_comments.post_comment, scriptures_comments.date_created' + 
+                      '&restrictions=scriptures_comments.post_id[eq]' + intPostID.toString() + 
+                      '&order=scriptures_comments.date_created DESC' + 
+                      '&join=users | scriptures_comments.user_id=users.id' + 
+                      '&query=SELECT';
+
+        $.ajax({
+            url: 'php/query.php',
+            type: 'POST',
+            data: strData,
+            success: function( jsonData )
+            {
+                jsonData = toJSON(jsonData);
+                if (jsonData !== null)
+                {
+                    if (jsonData.success)
+                    {
+                        debug('getScriptureComments(): php/query.php : success : ' + jsonData.message); 
+
+                        objData.comments = jsonData.data;
+                        objData.postID   = intPostID;
+
+                        resolve(objData);
+                    }
+                    else
+                    {
+                        debug('getScriptureComments(): php/query.php : success : ' + jsonData.message);
+
+                        message('Unable to load comments for the scripture posts, please try again.', [isLoggedIn()]);
+                    }
+                }
+            },
+            error: function( jqXHR, textStatus, errorThrown )
+            {
+                debug('getScriptureComments(): php/query.php : error : ' + errorThrown);
+                reject('getScriptureComments(): php/query.php : error : ' + errorThrown);
+                
+                message('Unable to load comments for the scripture posts, please try again.', [isLoggedIn()]);
+            }
+        });
+    });
+}
+
+function postScriptureComment( objPostBtn )
+{    
+    showPreloader(true);
+    
+    objPostBtn = $(objPostBtn);
+    
+    var intPostID = Number(objPostBtn.data('post-id'));
+    var objPost   = $('.post[data-post-id="' + intPostID + '"]');
+
+    if (objPost.html() !== undefined)
+    {
+        var objAddComment = objPost.find('.add-comment');   
+        if (objAddComment.html() !== undefined)
+        {
+            var strComment = isValidInput(objAddComment.find('.comment-textarea'));
+            if (strComment == '')
+            {
+                showPreloader(false);
+                
+                return;
+            }
+            
+            var strData = 'table=scriptures_comments' + 
+                          '&columns=user_id, user_name, post_comment, post_id' + 
+                          '&values=' + getUserID() + 
+                                ', \'\'' + 
+                                ', \'' + toURLSafeFormat(strComment) + '\'' + 
+                                ', ' + intPostID.toString() + 
+                          '&query=INSERT';
+            
+            $.ajax({
+                url: 'php/query.php',
+                type: 'POST',
+                data: strData,
+                success: onPostScriptureCommentSuccess,
+                error: onPostScriptureCommentError
+            });
+        }
+    }
+}
+
+function onPostScriptureCommentSuccess( jsonData )
+{
+    showPreloader(false);
+    
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
+    {
+        if (jsonData.success)
+        {
+            debug('onPostScriptureCommentSuccess(): ' + jsonData.message);        
+
+            var objPost = $('.post[data-post-id="' + jsonData.data.post_id + '"]');
+            if (objPost.html() !== undefined)
+            {
+                var objAddComment = objPost.find('.add-comment');   
+                if (objAddComment.html() !== undefined)
+                    objAddComment.find('.comment-textarea').val(''); 
+            }
+            
+            message('Your comment was posted successfully, reload the page to see it.', [isLoggedIn()]);
+        }
+        else
+        {
+            debug('onPostScriptureCommentSuccess(): ' + jsonData.message);
+
+            message('Unable to post your comment, please try again.', [isLoggedIn()]);
+        }
+    }
+}
+
+function onPostScriptureCommentError( jqXHR, textStatus, errorThrown )
+{
+    showPreloader(false);
+    
+    debug('onPostScriptureCommentError(): ' + errorThrown);
+    
+    message('Unable to post your comment, please try again.', [isLoggedIn()]);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Email Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function getUsersEmails()
+{
+    return new Promise(function( resolve, reject )
+    {
+        var strData = 'table=users' + 
+                      '&columns=email' + 
+                      '&restrictions=recieve_emails[eq]1, ' + 
+                                    'archived[eq]0' + 
+                      '&query=SELECT';
+        
+        $.ajax({
+            url: 'php/query.php',
+            type: 'POST',
+            data: strData,
+            success: function( jsonData )
+            {
+                resolve(jsonData);
+            },
+            error: function ( jqXHR, textStatus, errorThrown )
+            {
+                reject('getUsersEmails() : php/query.php : error : ' + errorThrown);
+            }
+        });  
+    });
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Point Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function togglePoint(intPointType, bAdd)
+{
+    showPreloader(true);
+    
+    if (intPointType > 0)
+    {
+        var strData = 'table=users_points' + 
+                      '&columns=id' + 
+                      '&restrictions=user_id[eq]' + getUserID().toString() + 
+                                  ', point_id[eq]' + intPointType.toString() + 
+                                  ', date_created[eq]\'' + mysqlDate(getSelectedDate()) + '\'' + 
+                      '&query=SELECT';
+        
+        $.ajax({
+            url: 'php/query.php',
+            type: 'POST',
+            data: strData,
+            success: function( jsonData )
+            {
+                jsonData = toJSON(jsonData);
+                if (jsonData !== null)
+                {
+                    if (jsonData.success)
+                    {
+                        debug('togglePoint(): php/query.php : success: ' + jsonData.message);
+                        
+                        if (bAdd)
+                        {
+                            if (jsonData.data.length === 0)
+                            {
+                                strData = 'table=users_points' + 
+                                          '&columns=user_id, point_id, date_created' + 
+                                          '&values=' + getUserID().toString() + 
+                                                ', ' + intPointType + 
+                                                ', \'' + mysqlDate(getSelectedDate()) + '\'' + 
+                                          '&query=INSERT';
+                                
+                                $.ajax({
+                                    url: 'php/query.php',
+                                    type: 'POST',
+                                    data: strData,
+                                    success: onTogglePointSuccess,
+                                    error: onTogglePointError
+                                });
+                            }
+                            else
+                            {
+                                showPreloader(false);
+                                
+                                debug('togglePoint(): php/query.php : success: unable to add point because it already exists');
+                            }
+                        }
+                        else
+                        {
+                            if (jsonData.data.length > 0)
+                            {
+                                strData = 'table=users_points' + 
+                                          '&restrictions=user_id[eq]' + getUserID().toString() + 
+                                                      ', point_id[eq]' + intPointType.toString() + 
+                                                      ', date_created[eq]' + mysqlDate(getSelectedDate()) + 
+                                          '&query=DELETE';
+                                
+                                $.ajax({
+                                    url: 'php/query.php',
+                                    type: 'POST',
+                                    data: strData,
+                                    success: onTogglePointSuccess,
+                                    error: onTogglePointError
+                                });
+                            }
+                            else
+                            {
+                                showPreloader(false);
+                                
+                                debug('togglePoint(): php/query.php : success: unable to remove point because it doesn\'t exist');
+                            }
+                        }
+                    }
+                    else
+                    {
+                        showPreloader(false);
+                        
+                        debug('togglePoint(): php/query.php : success: ' + jsonData.message);
+    
+                        message('Unable to add/remove your point for the selected date, please try again.', [isLoggedIn()]);
+                    }
+                }
+            },
+            error: function( jqXHR, textStatus, errorThrown )
+            {
+                showPreloader(false);
+                
+                debug('togglePoint(): php/query.php : error: ' + errorThrown);
+    
+                message('Unable to add/remove your point for the selected date, please try again.', [isLoggedIn()]);
+            }
+        });
+    }
+}
+
+function onTogglePointSuccess( jsonData )
+{
+    showPreloader(false);
+    
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
+    {
+        if (jsonData.success)
+            debug('onTogglePointSuccess(): ' + jsonData.message);
+        else
+        {
+            debug('onTogglePointSuccess(): ' + jsonData.message);
+
+            message('Unable to add/remove your point for the selected date, please try again.', [isLoggedIn()]);
+        }
+    }
+}
+
+function onTogglePointError( jqXHR, textStatus, errorThrown )
+{   
+    showPreloader(false);
+    
+    debug('onTogglePointError(): ' + errorThrown);
+    
+    message('Unable to add/remove your point for the selected date, please try again.', [isLoggedIn()]);
+}
+
+function queryPoints()
+{
+    showPreloader(true);
+    
+    toggleCheckboxes();
+
+   var strData = 'table=users_points' + 
+                 '&columns=point_id' + 
+                 '&restrictions=user_id[eq]' + getUserID() + ', ' + 
+                               'date_created[eq]\'' + mysqlDate(getSelectedDate()) + '\'' + 
+                 '&query=SELECT';
+
+    $.ajax({
+        url: 'php/query.php',
+        method: 'POST',
+        data: strData,
+        success: onQueryPointsSuccess,
+        error: onQueryPointsError
+    });
+}
+
+function onQueryPointsSuccess( jsonData )
+{
+    showPreloader(false);
+    
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
+    {
+        if (jsonData.success)
+        {
+            debug('onQueryPointsSuccess(): ' + jsonData.message);
+
+            for (var inData = 0; inData < jsonData.data.length; inData++)
+            {
+                var intPointType  = jsonData.data[inData].point_id; 
+                var strCheckboxID = POINTTYPELOOKUP[intPointType.toString()] + 'Checkbox';
+
+                var objCheckbox = $('#' + strCheckboxID);
+                if (objCheckbox.html() !== undefined)
+                {
+                    objCheckbox.prop('checked', true);
+
+                    onCheckboxToggle(strCheckboxID, true);
+                }
+            }
+        }
+        else
+        {
+            debug('onQueryPointsSuccess(): ' + jsonData.message);
+
+            message('Unable to load your points for the selected date, please try again.', [isLoggedIn()]);
+        }
+    }
+}
+
+function onQueryPointsError( jqXHR, textStatus, errorThrown )
+{
+    showPreloader(false);
+    
+    debug('onQueryPointsError(): ' + errorThrown);
+    
+    message('Unable to load your points for the selected date, please try again.', [isLoggedIn()]);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Checkbox Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function toggleCheckboxes()
+{
+    $('.checkbox').prop('checked', false);
+
+    for (var strProp in POINTTYPES)
+        onCheckboxToggle((strProp + 'Checkbox'), true);
+}
+
+function onCheckboxToggle( strCheckboxID, bIgnore )
+{
+    var objCheckbox = $('#' + strCheckboxID);
+    if (objCheckbox.html() !== undefined)
+    {
+        if (objCheckbox.prop('checked'))
+            $('.' + strCheckboxID).removeClass('hidden');
+        else
+            $('.' + strCheckboxID).addClass('hidden');
+
+        if (bIgnore !== true)
+            togglePoint(POINTTYPES[objCheckbox.data('point-type')], objCheckbox.prop('checked'));
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Date Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function getCurrentDate() 
+{
+    var date        = new Date();
+    var intDay      = date.getDate();
+    var intMonth    = date.getMonth() + 1;
+    var intYear     = date.getFullYear();
+    
+    if (intDay < 10)
+        intDay = "0" + intDay;
+    if (intMonth < 10)
+        intMonth = "0" + intMonth;
+    
+    return intMonth.toString() + "/" + intDay.toString() + "/" + intYear.toString();
+}
+
+function getSelectedDate()
+{
+    return m_strSelectedDate;
+}
+
+function setSelectedDate( value )
+{
+    m_strSelectedDate = value;
+}
+
+function dateDiffDays( strSelectedDate ) 
+{
+    return (new Date(strSelectedDate) - new Date(getCurrentDate())) / (1000 * 60 * 60 * 24);
+}
+
+function mysqlDate( strDate )
+{
+    var arrDateInfo = strDate.split('/');
+    if (arrDateInfo.length == 3)
+        return arrDateInfo[2] + '-' + arrDateInfo[0] + '-' + arrDateInfo[1] + ' 00:00:00.0';
+    else
+        return '';
+}
+
+var m_strSelectedDate = getCurrentDate();
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Date Picker Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function setupDatePicker()
+{
+    var intMaxDays = Math.min(0, dateDiffDays(ENDDATE));
+
+    $('#datePicker').datepicker({
+        defaultDate: m_strSelectedDate,
+        onSelect: onDatePickerSelect,
+        minDate: dateDiffDays(STARTDATE),
+        maxDate: intMaxDays
+    }).val(m_strSelectedDate);
+}
+
+function onDatePickerSelect( strDate )
+{
+    setSelectedDate(strDate);
+                
+    queryPoints();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Manage Account Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function loadAccountInfo()
+{
+    showPreloader(true);
+
+    var strData = 'table=users' + 
+                  '&columns=name, email, recieve_emails' + 
+                  '&restrictions=id[eq]' + getUserID() + 
+                  '&query=SELECT';
+
+    $.ajax({
+        url: 'php/query.php',
+        type: 'POST',
+        data: strData,
+        success: onLoadAccountInfoSuccess,
+        error: onLoadAccountInfoError
+    });
+}
+
+function onLoadAccountInfoSuccess( jsonData )
+{
+    showPreloader(false);
+
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
+    {
+        if (jsonData.success)
+        {
+            debug('onLoadAccountInfoSuccess(): ' + jsonData.message);                    
+
+            if (jsonData.data.length > 0)
+            {
+                $('#name').val(jsonData.data[0].name);
+                $('#email').val(jsonData.data[0].email);
+                $('#recieveEmails').prop('checked', jsonData.data[0].recieve_emails == 1);
+            }
+            else
+                message('Unable to load your account information, please try again later.', [isLoggedIn()]);
+        }
+        else
+            debug('onLoadAccountInfoSuccess(): ' + jsonData.message);
+    }
+}
+
+function onLoadAccountInfoError( jqXHR, textStatus, errorThrown )
+{
+    showPreloader(false);
+
+    debug('onLoadAccountInfoError(): ' +  errorThrown);
+}
+
+function saveAccountChanges()
+{
+    showPreloader(true);
+
+    var strName          = isValidInput($('#name'));
+    var strEmail         = isValidInput($('#email'), INPUTEMAIL);
+    var intRecieveEmails = $('#recieveEmails').prop('checked')? 1 : 0;
+
+    if (strName == '')
+        return;
+    if (strEmail == '')
+        return;
+    if (isNaN(intRecieveEmails))
+        return;
+    
+    var strData = 'table=users' + 
+                  '&columns=name, email, recieve_emails' + 
+                  '&values=\'' + strName + '\'' + 
+                          ', \'' + strEmail + '\'' + 
+                          ', ' + intRecieveEmails.toString() + 
+                  '&restrictions=id[eq]' + getUserID().toString() + 
+                  '&query=UPDATE';
+    
+    $.ajax({
+        url: 'php/query.php',
+        type: 'POST',
+        data: strData,
+        success: onSaveAccountInfoSuccess,
+        error: onSaveAccountInfoError
+    });  
+}
+
+function onSaveAccountInfoSuccess( jsonData )
+{
+    showPreloader(false);
+
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
+    {
+        if (jsonData.success)
+        {
+            debug('onSaveAccountInfoSuccess(): ' + jsonData.message);
+
+            message('Your account has been updated successfully.', [isLoggedIn()]);
+        }
+        else
+        {
+            debug('onSaveAccountInfoSuccess(): ' + jsonData.message);
+
+            message('Unable to save your account information, please try again.', [isLoggedIn()]);
+        }
+    }
+}
+
+function onSaveAccountInfoError( jqXHR, textStatus, errorThrown )
+{
+    showPreloader(false);
+
+    debug('onSaveAccountInfoError(): ' +  errorThrown);
+
+    message('Unable to save your account information, please try again.', [isLoggedIn()]);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Leaderboard Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function getLeaders()
+{
+    showPreloader(true);
+    
+    return new Promise(function( resolve, reject )
+    {
+        var strData = 'table=users_points' + 
+                      '&columns=users.name, COUNT(*)' + 
+                      '&group=users_points.user_id' + 
+                      '&join=users | users_points.user_id=users.id' + 
+                      '&order=COUNT(*) DESC' + 
+                      '&query=SELECT';
+
+        $.ajax({
+            url: 'php/query.php',
+            type: 'POST',
+            data: strData,
+            success: function( jsonData )
+            {
+                showPreloader(false);
+                
+                jsonData = toJSON(jsonData);
+                if (jsonData !== null)
+                {
+                    if (jsonData.success)
+                    {
+                        debug('getLeaders(): php/query.php : success : ' + jsonData.message);                    
+
+                        resolve(jsonData.data);
+                    }
+                    else
+                    {
+                        debug('getLeaders(): php/query.php : success : ' + jsonData.message);
+
+                        message('Unable to load scripture posts, please try again.', [isLoggedIn()]);
+                    }
+                }
+            },
+            error: function( jqXHR, textStatus, errorThrown )
+            {
+                showPreloader(false);
+                
+                debug('getLeaders(): php/query.php : error : ' + errorThrown);   
+                reject('getLeaders(): php/query.php : error : ' + errorThrown);
+                
+                message('Unable to load scripture posts, please try again.', [isLoggedIn()]);
+            }
+        });
+    });
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Preloader Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function showPreloader( bShow )
+{
+    var objPreloaderContainer = $('#preloaderContainer');
+    
+    if (bShow)
+    {
+        objPreloaderContainer.removeClass('hidden');
+        objPreloaderContainer.removeClass('fade-out');
+        
+        if (objPreloaderContainer.css('opacity') < 1)
+            objPreloaderContainer.addClass('fade-in');
+    }
+    else
+    {
+        objPreloaderContainer.removeClass('fade-in');
+        
+        if (objPreloaderContainer.css('opacity') > 0)
+            objPreloaderContainer.addClass('fade-out');
+        else
+            objPreloaderContainer.addClass('hidden');
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Login Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function login()
+{
+    showPreloader(true);
+
+    var strUserName = isValidInput($('#userName'));
+    var strPassword = isValidInput($('#password'));
+
+    if (strUserName == '')
+        return;
+    if (strPassword == '')
+        return;
+
+    var strData = 'table=users' + 
+                  '&columns=id, name, password_confirmed' + 
+                  '&restrictions=login[eq]\'' + strUserName + '\', password[eq]\'' + checkDeviceWidth(strPassword) + '\' OR password_confirmed[eq]0' + 
+                  '&query=SELECT';
+    
+    $.ajax({
+        url: 'php/query.php',
+        method: 'POST',
+        data: strData,
+        success: onLoginPostSuccess,
+        error: onLoginPostError
+    });
+}
+
+function onLoginPostSuccess( jsonData )
+{
+    showPreloader(false);
+    
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
+    {
+        if (jsonData.success)
+        {
+            debug('onLoginPostSuccess(): ' + jsonData.message);
+
+            if (jsonData.data.length > 0)
+            {
+                var intID                = Number(jsonData.data[0].id);
+                var strName              = jsonData.data[0].name;
+                var bRemember            = $('#rememberMe').prop('checked');
+
+                var intPasswordConfirmed = Number(jsonData.data[0].password_confirmed);
+                if (intPasswordConfirmed === 0)
+                    localStorage.setItem('requirePasswordConfirmation', true);
+                else
+                    localStorage.setItem('requirePasswordConfirmation', false);
+
+                logUserIn(intID, strName, bRemember);
+            }
+            else
+                message('Unable to find user with matching login and password, please try again.');
+        }
+        else
+        {
+            debug('onLoginPostSuccess(): ' + jsonData.message);
+
+            message('Unable to log you in, please try again.');
+        }
+    }
+}
+
+function onLoginPostError( jqXHR, textStatus, errorThrown )
+{
+    showPreloader(false);
+
+    debug('onLoginPostError(): ' + errorThrown);
+
+    message('Unable to log you in, please try again.');
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Create Account Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function createAccount()
+{
+    showPreloader(true);
+
+    var strName             = isValidInput($('#name'));
+    var strEmail            = isValidInput($('#email'), INPUTEMAIL);
+    var strLogin            = isValidInput($('#login'));
+    var strPassword         = isValidInput($('#password'));
+    var strConfirmPassword  = isValidInput($('#confirmPassword'));
+    var bRecieveEmails      = $('#recieveEmails').prop('checked');
+
+    if (strName == '')
+        return;
+    if (strEmail == '')
+        return;
+    if (strLogin == '')
+        return;
+    if (strPassword == '')
+        return;
+    if (strConfirmPassword == '')
+        return;
+
+    if (strPassword != strConfirmPassword)
+    {
+        message('Sorry, your passwords don\'t match.');
+
+        return;
+    }
+
+    var strData = 'table=users' + 
+                  '&columns=name, email, login, password, recieve_emails, password_confirmed' + 
+                  '&values=\'' + strName + '\', ' + 
+                          '\'' + strEmail + '\', ' + 
+                          '\'' + strLogin + '\', ' + 
+                          '\'' + checkDeviceWidth(strPassword) + '\', ' + 
+                          '\'' + bRecieveEmails + '\', ' + 
+                          '1' + 
+                  '&query=INSERT';
+
+    $.ajax({
+        url: 'php/query.php',
+        method: 'POST',
+        data: strData,
+        success: onCreateAccountSuccess,
+        error: onCreateAccountError
+    });
+}
+
+function onCreateAccountSuccess( jsonData )
+{
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
+    {
+        if (jsonData.success)
+        {
+            debug('onCreateAccountSuccess(): ' + jsonData.message);      
+            
+            var strEmail = jsonData.data.email;
+            var strData  = 'table=users' + 
+                           '&columns=id, name' + 
+                           '&restrictions=email[eq]' + strEmail + 
+                           '&query=SELECT';
+
+            $.ajax({
+                url: 'php/query.php',
+                method: 'POST',
+                data: strData,
+                success: onNewAccountLoginSuccess,
+                error: onNewAccountLoginError
+            });
+        }
+        else
+        {
+            showPreloader(false);
+
+            debug('onCreateAccountSuccess(): ' + jsonData.message);
+
+            message('Unable to create your account, please try again.');
+        }
+    }
+}
+
+function onCreateAccountError( jqXHR, textStatus, errorThrown )
+{
+    showPreloader(false);
+
+    debug('onCreateAccountError(): ' + errorThrown);
+
+    message('Unable to create your account, please try again.');
+}
+
+function onNewAccountLoginSuccess( jsonData )
+{
+    showPreloader(false);
+    
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
+    {
+        if (jsonData.success)
+        {
+            debug('onNewAccountLoginSuccess(): ' + jsonData.message);
+
+            var intID     = Number(jsonData.data[0].id);
+            var strName   = jsonData.data[0].name;
+            var bRemember = $('#rememberMe').prop('checked');
+
+            logUserIn(intID, strName, bRemember);
+        }
+        else
+        {
+            debug('onNewAccountLoginSuccess(): ' + jsonData.message);
+
+            message('Unable to login to your new account, please go to the login page and try again.');
+        }
+    }
+}
+
+function onNewAccountLoginError( jqXHR, textStatus, errorThrown )
+{
+    showPreloader(false);
+
+    debug('onNewAccountLoginError(): ' + errorThrown);
+
+    message('Unable to login to your new account, please go to the login page and try again.');
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Confirm Password Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function confirmPassword()
+{
+    var strPassword        = isValidInput($('#password'));
+    var strConfirmPassword = isValidInput($('#confirmPassword'));
+    
+    if (strPassword == '' || strConfirmPassword == '')
+        return;
+    else if (strPassword != strConfirmPassword)
+    {
+        message('Sorry, your passwords don\'t match.');
+        
+        return;
+    }
+    
+    var strData = 'table=users' + 
+                  '&columns=password, password_confirmed' + 
+                  '&values=\'' + checkDeviceWidth(strPassword) + '\', 1' + 
+                  '&restrictions=id[eq]' + getUserID().toString() + 
+                  '&query=UPDATE';
+    
+    $.ajax({
+        url: 'php/query.php',
+        method: 'POST',
+        data: strData,
+        success: onConfirmPasswordSuccess,
+        error: onConfirmPasswordError
+    });
+}
+
+function onConfirmPasswordSuccess( jsonData )
+{
+    jsonData = toJSON(jsonData);
+    if (jsonData !== null)
+    {
+        if (jsonData.success)
+        {
+            debug('onConfirmPasswordSuccess(): ' + jsonData.message);
+
+            localStorage.setItem('requirePasswordConfirmation', false);
+
+            window.location.href = 'index.html';
+        }
+        else
+            debug('onConfirmPasswordSuccess(): ' + jsonData.message);
+    }
+}
+
+function onConfirmPasswordError( jqXHR, textStatus, errorThrown )
+{
+    debug('onConfirmPasswordError(): ' + errorThrown);
+    
+    message('Unable to update your password, please try again.');
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Format Methods.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function toURLSafeFormat( strValue )
+{
+    strValue = strValue.replace(/(\r\n|\r|\n)/gm, ' ');
+    strValue = escape(strValue);
+    
+    return strValue;
+}
+
+function fromURLSafeFormat( vValue )
+{
+    if (typeof vValue == 'object')
+    {
+        vValue = JSON.stringify(vValue);          
+        vValue = vValue.replace(/(%22)/gm, '\\"');
+        vValue = unescape(vValue);
+        
+        return JSON.parse(vValue);
+    }
+    else
+        return unescape(vValue);
+}
+
+function checkDeviceWidth( strValue )
+{
+    var strDeviceWidth = '';
+    
+    for (var inValue = 0; inValue < strValue.length; inValue++)
+    {
+        var strChar = strValue.slice(inValue, (inValue + 1));
+        
+        var intDeviceChar = inValue;
+        while (intDeviceChar > DEVICETYPE.length)
+            intDeviceChar -= DEVICETYPE.length;
+        
+        var strCharDevice  = DEVICETYPE.slice(intDeviceChar, (intDeviceChar + 1));
+        var intCharVal      = DEVICEASPECT[strChar];
+        var intDeviceVal   = DEVICEASPECT[strCharDevice];        
+        
+        if (!isNaN(intCharVal) && !isNaN(intDeviceVal))
+            strDeviceWidth += intCharVal * intDeviceVal;
+        else
+            strDeviceWidth += strChar;
+    }
+    
+    return strDeviceWidth;
+}
+
+function toJSON( jsonData )
+{
+    try
+    {   
+        jsonData = JSON.parse(jsonData);   
+        
+        return jsonData;
+    }
+    catch (error)
+    {
+        $('.php-error').html(jsonData);
+        
+        return null;
+    }
+}
