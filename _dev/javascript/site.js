@@ -935,6 +935,8 @@ function getLeaders()
             data: strData,
             success: function( jsonData )
             {
+                showPreloader(false);
+                
                 jsonData = toJSON(jsonData);
                 if (jsonData !== null)
                 {
