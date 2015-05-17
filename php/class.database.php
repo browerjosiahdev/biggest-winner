@@ -19,12 +19,12 @@ class DataBase
     protected $_arrValues       = array();
     
     private $_strIP        = '50.62.209.12';            // IP Address to the MySQL database.
-    /*private $_strUserName  = 'sysadmin_test';           // User name for the test site.
+    private $_strUserName  = 'sysadmin_test';           // User name for the test site.
     private $_strPassword  = 'ysdM70?8';                // Password for the test site.
-    private $_strDBName    = 'biggest_winner_test';     // Database name for the live site.*/
-    private $_strUserName  = 'sysadmin';                // User name for the live site.
+    private $_strDBName    = 'biggest_winner_test';     // Database name for the live site.
+    /*private $_strUserName  = 'sysadmin';                // User name for the live site.
     private $_strPassword  = 'Zikj3?67';                // Password for the live site.
-    private $_strDBName    = 'biggest_winner';          // Database name for the live site.
+    private $_strDBName    = 'biggest_winner';          // Database name for the live site.*/
     private $_mysqli       = null;
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
@@ -60,7 +60,7 @@ class DataBase
         
         if (strlen($strColumns) > 0)
         {
-            $arrColumns = explode(', ', $strColumns);
+            $arrColumns = explode(' ^ ', $strColumns);
 
             for ($inColumns = 0; $inColumns < count($arrColumns); $inColumns++)
                 $this->addColumn($arrColumns[$inColumns]);
@@ -82,17 +82,17 @@ class DataBase
     {    
         if (strlen($strJoin) > 0)
         {
-            $arrJoin = explode(' | ', $strJoin);
+            $arrJoin = explode(' ^ ', $strJoin);
 
             if (count($arrJoin) == 2)
             {
                 $arrTables = $arrJoin[0];
-                $arrTables = explode(', ', $arrTables);
+                $arrTables = explode(' ^ ', $arrTables);
                 
                 $arrValues = $arrJoin[1];
                 $arrValues = explode('[eq]', $arrValues);
                 $arrValues = implode('=', $arrValues);
-                $arrValues = explode(', ', $arrValues);
+                $arrValues = explode(' ^ ', $arrValues);
                 
                 $this->addJoin($arrTables, $arrValues);
             }
@@ -112,7 +112,7 @@ class DataBase
     {
         if (strlen($strRestrictions) > 0)
         {
-            $arrRestrictions = explode(', ', $strRestrictions);
+            $arrRestrictions = explode(' ^ ', $strRestrictions);
 
             for ($inRestrictions = 0; $inRestrictions < count($arrRestrictions); $inRestrictions++)
             {
@@ -172,7 +172,7 @@ class DataBase
     public function parseValues( $strValues )
     {
         if (strlen($strValues) > 0)
-            $this->_arrValues = explode(', ', $strValues);
+            $this->_arrValues = explode(' ^ ', $strValues);
     }
     
     public function addValue( $strValue )
