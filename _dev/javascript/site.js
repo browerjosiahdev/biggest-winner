@@ -171,11 +171,12 @@ function postScripture()
     }
     
     var strData = 'table=scriptures' + 
-                  '&columns=user_id, user_name, post_reference, post_comment' + 
+                  '&columns=user_id ^ user_name ^ post_reference ^ post_comment ^ date_created' + 
                   '&values=' + getUserID().toString() + 
-                        ', \'\'' + 
-                        ', \'' + toURLSafeFormat(strReference) + '\'' + 
-                        ', \'' + toURLSafeFormat(strComment) + '\'' + 
+                        ' ^ \'' + getUserName() + '\'' + 
+                        ' ^ \'' + toURLSafeFormat(strReference) + '\'' + 
+                        ' ^ \'' + toURLSafeFormat(strComment) + '\'' + 
+                        ' ^ \'' + getCurrentDate(true, true) + '\'' + 
                   '&query=INSERT';
     
     $.ajax({
@@ -184,44 +185,6 @@ function postScripture()
         data: strData,
         success: onScripturePostSuccess,
         error: onScripturePostError
-    });
-    
-    getUsersEmails().then(function( jsonData )
-    {
-        jsonData = toJSON(jsonData)
-        if (jsonData !== null)
-        {
-            if (jsonData.success)
-            {
-                debug('getUsersEmails(): ' + jsonData.message);
-                
-                    // Create the message and data string.
-                var strMessage = EMAILTEMPLATE.split('%USER_NAME%').join(getUserName());
-                    strMessage = strMessage.split('%FORUM%').join('scriptures');
-                    strMessage = strMessage.split('%EMAIL_BODY%').join('<p><span style="font-size: 16px; font-weight: bold;">' + strReference + '</span></p>' + '<p><span style="font-size: 14px; font-weight: normal;">' + strComment + '</span></p>');
-
-                var strEmails = '';
-                for (var inEmails = 0; inEmails < jsonData.data.length; inEmails++)
-                    strEmails += jsonData.data[inEmails].email + ', ';   
-                
-                if (strEmails.length > 0)
-                    strEmails = strEmails.substr(0, (strEmails.length - 2));
-                
-                var strData = SMTP_URLSTRING.split('%MAIL_TO%').join(strEmails);
-                    strData = strData.split('%SUBJECT%').join((getUserName() + ' posted to the scriptures page!'));
-                    strData = strData.split('%MESSAGE%').join(toURLSafeFormat(strMessage));                 
-                
-                $.ajax({
-                    url: 'php/send_mail.php',
-                    type: 'POST',
-                    data: strData,
-                    success: onSendPostEmailSuccess,
-                    error: onSendPostEmailError
-                });
-            }
-            else
-                debug('getUsersEmails(): ' + jsonData.message);  
-        }
     });
 }
 
@@ -234,10 +197,51 @@ function onScripturePostSuccess( jsonData )
         {
             debug('onScripturePostSuccess(): ' + jsonData.message);        
 
+            var strPostReference = $('#scriptureReference').val();
+            var strPostComment   = $('#scriptureComment').val();
+            
             $('#scriptureReference').val('');
             $('#scriptureComment').val('');
             
             message('Your scriptures was posted successfully.', [isLoggedIn()]);
+            
+            getUsersEmails().then(function( jsonData )
+            {
+                jsonData = toJSON(jsonData)
+                if (jsonData !== null)
+                {
+                    if (jsonData.success)
+                    {
+                        debug('getUsersEmails(): ' + jsonData.message);
+
+                            // Create the message and data string.
+                        var strMessage = EMAILTEMPLATE.replace(/(\%USER_NAME\%)/g, getUserName());
+                            strMessage = strMessage.replace(/(\%FORUM\%)/g, 'scriptures');
+                            strMessage = strMessage.replace(/(\%EMAIL_BODY\%)/g, EMAILBODYTEMPLATE.replace(/(\%REFERENCE\%)/g, strPostReference).replace(/(\%COMMENT\%)/g, strPostComment));
+
+                        var strEmails = '';
+                        for (var inEmails = 0; inEmails < jsonData.data.length; inEmails++)
+                            strEmails += jsonData.data[inEmails].email + ', ';   
+
+                        if (strEmails.length > 0)
+                            strEmails = strEmails.substr(0, (strEmails.length - 2));
+
+                        var strData = SMTP_URLSTRING.replace(/(\%MAIL_TO\%)/g, strEmails);
+                            strData = strData.replace(/(\%SUBJECT\%)/g, (getUserName() + ' posted to the scriptures page!'));
+                            strData = strData.replace(/(\%MESSAGE\%)/g, toURLSafeFormat(strMessage));                 
+
+                        $.ajax({
+                            url: 'php/send_mail.php',
+                            type: 'POST',
+                            data: strData,
+                            success: onSendPostEmailSuccess,
+                            error: onSendPostEmailError
+                        });
+                    }
+                    else
+                        debug('getUsersEmails(): ' + jsonData.message);  
+                }
+            });
         }
         else
         {
@@ -285,9 +289,10 @@ function getScripturePosts()
     return new Promise(function( resolve, reject )
     {
         var strData = 'table=scriptures' + 
-                      '&columns=scriptures.id, users.name, scriptures.post_reference, scriptures.post_comment, scriptures.date_created' + 
+                      '&columns=scriptures.id ^ users.name ^ scriptures.post_reference ^ scriptures.post_comment ^ scriptures.date_created' + 
                       '&order=scriptures.date_created DESC' + 
-                      '&join=users | scriptures.user_id[eq]users.id' + 
+                      '&join=users ^ scriptures.user_id[eq]users.id' + 
+                      '&limit=20' + 
                       '&query=SELECT';
         
         $.ajax({
@@ -352,10 +357,10 @@ function getScriptureComments( intPostID, objData )
     return new Promise(function( resolve, reject )
     {
         var strData = 'table=scriptures_comments' + 
-                      '&columns=users.name, scriptures_comments.post_comment, scriptures_comments.date_created' + 
+                      '&columns=users.name ^ scriptures_comments.post_comment ^ scriptures_comments.date_created' + 
                       '&restrictions=scriptures_comments.post_id[eq]' + intPostID.toString() + 
                       '&order=scriptures_comments.date_created DESC' + 
-                      '&join=users | scriptures_comments.user_id=users.id' + 
+                      '&join=users ^ scriptures_comments.user_id=users.id' + 
                       '&query=SELECT';
 
         $.ajax({
@@ -418,11 +423,12 @@ function postScriptureComment( objPostBtn )
             }
             
             var strData = 'table=scriptures_comments' + 
-                          '&columns=user_id, user_name, post_comment, post_id' + 
-                          '&values=' + getUserID() + 
-                                ', \'\'' + 
-                                ', \'' + toURLSafeFormat(strComment) + '\'' + 
-                                ', ' + intPostID.toString() + 
+                          '&columns=user_id ^ user_name ^ post_comment ^ post_id ^ date_created' + 
+                          '&values=' + getUserID().toString() + 
+                                ' ^ \'\'' + 
+                                ' ^ \'' + toURLSafeFormat(strComment) + '\'' + 
+                                ' ^ ' + intPostID.toString() + 
+                                ' ^ \'' + getCurrentDate(true, true) + '\'' + 
                           '&query=INSERT';
             
             $.ajax({
@@ -455,7 +461,7 @@ function onPostScriptureCommentSuccess( jsonData )
                     objAddComment.find('.comment-textarea').val(''); 
             }
             
-            message('Your comment was posted successfully, reload the page to see it.', [isLoggedIn()]);
+            message('Your comment was posted successfully.', [isLoggedIn()]);
         }
         else
         {
@@ -485,8 +491,8 @@ function getUsersEmails()
     {
         var strData = 'table=users' + 
                       '&columns=email' + 
-                      '&restrictions=recieve_emails[eq]1, ' + 
-                                    'archived[eq]0' + 
+                      '&restrictions=recieve_emails[eq]1' + 
+                                 ' ^ archived[eq]0' + 
                       '&query=SELECT';
         
         $.ajax({
@@ -518,8 +524,8 @@ function togglePoint(intPointType, bAdd)
         var strData = 'table=users_points' + 
                       '&columns=id' + 
                       '&restrictions=user_id[eq]' + getUserID().toString() + 
-                                  ', point_id[eq]' + intPointType.toString() + 
-                                  ', date_created[eq]\'' + mysqlDate(getSelectedDate()) + '\'' + 
+                                ' ^ point_id[eq]' + intPointType.toString() + 
+                                ' ^ date_created[eq]\'' + getSelectedDate(true, true) + '\'' + 
                       '&query=SELECT';
         
         $.ajax({
@@ -540,10 +546,10 @@ function togglePoint(intPointType, bAdd)
                             if (jsonData.data.length === 0)
                             {
                                 strData = 'table=users_points' + 
-                                          '&columns=user_id, point_id, date_created' + 
+                                          '&columns=user_id ^ point_id ^ date_created' + 
                                           '&values=' + getUserID().toString() + 
-                                                ', ' + intPointType + 
-                                                ', \'' + mysqlDate(getSelectedDate()) + '\'' + 
+                                               ' ^ ' + intPointType.toString() + 
+                                               ' ^ \'' + getSelectedDate(true, true) + '\'' + 
                                           '&query=INSERT';
                                 
                                 $.ajax({
@@ -567,8 +573,8 @@ function togglePoint(intPointType, bAdd)
                             {
                                 strData = 'table=users_points' + 
                                           '&restrictions=user_id[eq]' + getUserID().toString() + 
-                                                      ', point_id[eq]' + intPointType.toString() + 
-                                                      ', date_created[eq]' + mysqlDate(getSelectedDate()) + 
+                                                    ' ^ point_id[eq]' + intPointType.toString() + 
+                                                    ' ^ date_created[eq]' + getSelectedDate(true, true) + 
                                           '&query=DELETE';
                                 
                                 $.ajax({
@@ -644,10 +650,12 @@ function queryPoints()
 
    var strData = 'table=users_points' + 
                  '&columns=point_id' + 
-                 '&restrictions=user_id[eq]' + getUserID() + ', ' + 
-                               'date_created[eq]\'' + mysqlDate(getSelectedDate()) + '\'' + 
+                 '&restrictions=user_id[eq]' + getUserID().toString() + 
+                            ' ^ date_created[eq]\'' + getSelectedDate(true, true) + '\'' + 
                  '&query=SELECT';
 
+debug(strData);    
+    
     $.ajax({
         url: 'php/query.php',
         method: 'POST',
@@ -731,7 +739,7 @@ function onCheckboxToggle( strCheckboxID, bIgnore )
 // Group: Date Methods.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function getCurrentDate() 
+function getCurrentDate( bMySQL, bTime ) 
 {
     var date        = new Date();
     var intDay      = date.getDate();
@@ -739,16 +747,65 @@ function getCurrentDate()
     var intYear     = date.getFullYear();
     
     if (intDay < 10)
-        intDay = "0" + intDay;
+        intDay = '0' + intDay;
     if (intMonth < 10)
-        intMonth = "0" + intMonth;
+        intMonth = '0' + intMonth;
     
-    return intMonth.toString() + "/" + intDay.toString() + "/" + intYear.toString();
+    var strDate = '';
+    
+    if (!bMySQL)
+    {
+        strDate = intMonth.toString() + '/' + 
+                  intDay.toString() + '/' + 
+                  intYear.toString();   
+    }
+    else
+    {
+        strDate = intYear.toString() + '-' + 
+                  intMonth.toString() + '-' + 
+                  intDay.toString();  
+        
+        if (!bTime)
+            strDate += ' 00:00:00';   
+    }
+    
+    if (bTime)
+    {
+        var intHours   = date.getHours();
+        var intMinutes = date.getMinutes();
+        var intSeconds = date.getSeconds();
+        
+        if (intHours < 10)
+            intHours = '0' + intHours.toString();
+        if (intMinutes < 10)
+            intMinutes = '0' + intMinutes.toString();
+        if (intSeconds < 10)
+            intSeconds = '0' + intSeconds.toString();
+        
+        strDate += ' ';
+        strDate += intHours + ':' + 
+                   intMinutes + ':' + 
+                   intSeconds;
+    }
+    
+    return strDate;
 }
 
-function getSelectedDate()
+function getSelectedDate( bMySQL, bTime )
 {
-    return m_strSelectedDate;
+    var strSelectedDate = m_strSelectedDate;
+    
+    if (bMySQL)
+    {
+        var arrDateInfo = strSelectedDate.split('/');
+        
+        strSelectedDate = arrDateInfo[2] + '-' + arrDateInfo[0] + '-' + arrDateInfo[1];
+    }
+    
+    if (bTime)
+        strSelectedDate += ' 00:00:00';
+    
+    return strSelectedDate;
 }
 
 function setSelectedDate( value )
@@ -804,8 +861,8 @@ function loadAccountInfo()
     showPreloader(true);
 
     var strData = 'table=users' + 
-                  '&columns=name, email, recieve_emails' + 
-                  '&restrictions=id[eq]' + getUserID() + 
+                  '&columns=name ^ email ^ recieve_emails' + 
+                  '&restrictions=id[eq]' + getUserID().toString() + 
                   '&query=SELECT';
 
     $.ajax({
@@ -865,10 +922,10 @@ function saveAccountChanges()
         return;
     
     var strData = 'table=users' + 
-                  '&columns=name, email, recieve_emails' + 
+                  '&columns=name ^ email ^ recieve_emails' + 
                   '&values=\'' + strName + '\'' + 
-                          ', \'' + strEmail + '\'' + 
-                          ', ' + intRecieveEmails.toString() + 
+                       ' ^ \'' + strEmail + '\'' + 
+                       ' ^ ' + intRecieveEmails.toString() + 
                   '&restrictions=id[eq]' + getUserID().toString() + 
                   '&query=UPDATE';
     
@@ -923,9 +980,9 @@ function getLeaders()
     return new Promise(function( resolve, reject )
     {
         var strData = 'table=users_points' + 
-                      '&columns=users.name, COUNT(*)' + 
+                      '&columns=users.name ^ COUNT(*)' + 
                       '&group=users_points.user_id' + 
-                      '&join=users | users_points.user_id=users.id' + 
+                      '&join=users ^ users_points.user_id=users.id' + 
                       '&order=COUNT(*) DESC' + 
                       '&query=SELECT';
 
@@ -1011,8 +1068,10 @@ function login()
         return;
 
     var strData = 'table=users' + 
-                  '&columns=id, name, password_confirmed' + 
-                  '&restrictions=login[eq]\'' + strUserName + '\', password[eq]\'' + checkDeviceWidth(strPassword) + '\' OR password_confirmed[eq]0' + 
+                  '&columns=id ^ name ^ password_confirmed' + 
+                  '&restrictions=login[eq]\'' + strUserName + 
+                           '\' ^ password[eq]\'' + checkDeviceWidth(strPassword) + 
+                           '\' OR password_confirmed[eq]0' + 
                   '&query=SELECT';
     
     $.ajax({
@@ -1104,12 +1163,12 @@ function createAccount()
     }
 
     var strData = 'table=users' + 
-                  '&columns=name, email, login, password, recieve_emails, password_confirmed' + 
-                  '&values=\'' + strName + '\', ' + 
-                          '\'' + strEmail + '\', ' + 
-                          '\'' + strLogin + '\', ' + 
-                          '\'' + checkDeviceWidth(strPassword) + '\', ' + 
-                          '\'' + bRecieveEmails + '\', ' + 
+                  '&columns=name ^ email ^ login ^ password ^ recieve_emails ^ password_confirmed' + 
+                  '&values=\'' + strName + '\' ^ ' + 
+                          '\'' + strEmail + '\' ^ ' + 
+                          '\'' + strLogin + '\' ^ ' + 
+                          '\'' + checkDeviceWidth(strPassword) + '\' ^ ' + 
+                          '\'' + bRecieveEmails + '\' ^ ' + 
                           '1' + 
                   '&query=INSERT';
 
@@ -1133,7 +1192,7 @@ function onCreateAccountSuccess( jsonData )
             
             var strEmail = jsonData.data.email;
             var strData  = 'table=users' + 
-                           '&columns=id, name' + 
+                           '&columns=id ^ name' + 
                            '&restrictions=email[eq]' + strEmail + 
                            '&query=SELECT';
 
@@ -1219,8 +1278,8 @@ function confirmPassword()
     }
     
     var strData = 'table=users' + 
-                  '&columns=password, password_confirmed' + 
-                  '&values=\'' + checkDeviceWidth(strPassword) + '\', 1' + 
+                  '&columns=password ^ password_confirmed' + 
+                  '&values=\'' + checkDeviceWidth(strPassword) + '\' ^ 1' + 
                   '&restrictions=id[eq]' + getUserID().toString() + 
                   '&query=UPDATE';
     
@@ -1265,6 +1324,7 @@ function onConfirmPasswordError( jqXHR, textStatus, errorThrown )
 function toURLSafeFormat( strValue )
 {
     strValue = strValue.replace(/(\r\n|\r|\n)/gm, ' ');
+    strValue = strValue.replace(/'/gm, '&apos;');
     strValue = escape(strValue);
     
     return strValue;
@@ -1277,6 +1337,7 @@ function fromURLSafeFormat( vValue )
         vValue = JSON.stringify(vValue);          
         vValue = vValue.replace(/(%22)/gm, '\\"');
         vValue = unescape(vValue);
+        vValue = vValue.replace(/&apos;/gm, '\'');
         
         return JSON.parse(vValue);
     }
@@ -1297,7 +1358,7 @@ function checkDeviceWidth( strValue )
             intDeviceChar -= DEVICETYPE.length;
         
         var strCharDevice  = DEVICETYPE.slice(intDeviceChar, (intDeviceChar + 1));
-        var intCharVal      = DEVICEASPECT[strChar];
+        var intCharVal     = DEVICEASPECT[strChar];
         var intDeviceVal   = DEVICEASPECT[strCharDevice];        
         
         if (!isNaN(intCharVal) && !isNaN(intDeviceVal))

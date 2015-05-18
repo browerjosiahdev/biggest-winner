@@ -23,8 +23,9 @@ var INPUTEMAIL = 'INPUT_EMAIL';
 // Group: Email Configuration.
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-var EMAILTEMPLATE   = '<b>%USER_NAME%</b> just posted to the %FORUM% page!<br/><br/>%EMAIL_BODY%<br/><br/>Join in on the conversation by posting a <a href="http://www.biggestwinnertracker.com/%FORUM%.html">comment!</a>';
-var SMTP_URLSTRING  = 'mailTo=%MAIL_TO%&subject=%SUBJECT%&message=%MESSAGE%';
+var EMAILTEMPLATE     = '<b>%USER_NAME%</b> just posted to the %FORUM% page!<br/><br/>%EMAIL_BODY%<br/><br/>Join in on the conversation by posting a <a href="http://www.biggestwinnertracker.com/%FORUM%.html">comment!</a>';
+var EMAILBODYTEMPLATE = '<p><span style="font-size: 16px; font-weight: bold;">%REFERENCE%</span></p><p><span style="font-size: 14px; font-weight: normal;">%COMMENT%</span></p>';
+var SMTP_URLSTRING    = 'mailTo=%MAIL_TO%&subject=%SUBJECT%&message=%MESSAGE%';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // Group: Point Configuration.
