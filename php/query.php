@@ -11,13 +11,6 @@
     $strValues       = isset($_POST['values'])? $_POST['values'] : '';
     $strQuery        = isset($_POST['query'])? $_POST['query'] : '';
 
-    /*$patterns    = array();
-    $patterns[0] = "/'(.*?)'/";
-    $replace     = array();
-    $replace[0]  = 'TOKEN';
-
-    preg_replace($patterns, $replace, $strValues);*/
-
 //echo '{"success":false,"message":"' . $strValues . '"}';
 //exit();
 

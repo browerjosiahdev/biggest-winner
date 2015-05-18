@@ -1,3 +1,5 @@
+(function()
+{
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Group: Apps.
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -22,16 +24,16 @@ m_postsApp.controller('PostsBodyController', ['$scope', function( $scope )
 }]);
 
 m_postsApp.controller('CommentController', ['$scope', function( $scope )
-{
-    $scope.comment = {};
-    $scope.addComment = function( post )
+{    
+    this.comment = {};
+    this.addComment = function( post )
     {
-        $scope.comment.date_created = getCurrentDate();
-        $scope.comment.user_name    = getUserName();
+        this.comment.scriptures_comments_date_created = getCurrentDate(true, true);
+        this.comment.users_name                       = getUserName();
         
-        post.comments.push($scope.comment);
+        post.comments = [this.comment].concat(post.comments);
         
-        $scope.comment = {};
+        this.comment = {};
     };
 }]);
 
@@ -44,3 +46,4 @@ m_leaderboardApp.controller('LeaderboardBodyController', ['$scope', function( $s
         $scope.$apply();
     });
 }]);
+})();
