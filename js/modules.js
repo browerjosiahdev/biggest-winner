@@ -41,7 +41,7 @@ m_leaderboardApp.controller('LeaderboardBodyController', ['$scope', function( $s
 {
     getLeaders().then(function( data )
     {
-        $scope.leaders = data.slice(0, 5);
+        $scope.leaders = data;
         
         $scope.$apply();
     });

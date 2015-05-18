@@ -68,6 +68,24 @@
                 </div>
             </div>
         </div>
+        <div id="newPost">
+            <div class="post-container">
+                <form name="newPost">
+                    <div class="field">
+                        <p>Reference (200)</p>
+                        <textarea id="scriptureReference" class="comment-textarea" maxlength="200" rows="1"></textarea>
+                    </div>
+                    <div class="field">
+                        <p>Comment (2000)</p>
+                        <textarea id="scriptureComment" class="comment-textarea" maxlength="2000" rows="5"></textarea>
+                    </div>
+                    <button type="submit" onclick="javascript:postScripture();">Submit</button>
+                </form>
+            </div>
+            <div id="newPostTab">
+                <div class="tab" onclick="javascript:toggleNewPostForm();"><div class="tab-content">New Post</div></div>
+            </div>
+        </div>
         <div id="preloaderContainer" class="hidden">
             <div id="preloader"></div>
         </div>

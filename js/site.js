@@ -481,6 +481,24 @@ function onPostScriptureCommentError( jqXHR, textStatus, errorThrown )
     message('Unable to post your comment, please try again.', [isLoggedIn()]);
 }
 
+function toggleNewPostForm()
+{
+    var objNewPost = $('#newPost');   
+    if (objNewPost.html() !== undefined)
+    {
+        if (objNewPost.hasClass('new-post-slide-up'))
+        {
+            objNewPost.removeClass('new-post-slide-up');
+            objNewPost.addClass('new-post-slide-down');
+        }
+        else
+        {
+            objNewPost.removeClass('new-post-slide-down');
+            objNewPost.addClass('new-post-slide-up');   
+        }
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Group: Email Methods.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -797,7 +815,7 @@ function getSelectedDate( bMySQL, bTime )
     
     if (bMySQL)
     {
-        var arrDateInfo = strSelectedDate.split('/');
+        var arrDateInfo = strSelectedDate.match(/(\d*)\/(\d*)\/(\d*)/).shift();
         
         strSelectedDate = arrDateInfo[2] + '-' + arrDateInfo[0] + '-' + arrDateInfo[1];
     }
@@ -818,20 +836,11 @@ function dateDiffDays( strSelectedDate )
     return (new Date(strSelectedDate) - new Date(getCurrentDate())) / (1000 * 60 * 60 * 24);
 }
 
-function mysqlDate( strDate )
-{
-    var arrDateInfo = strDate.split('/');
-    if (arrDateInfo.length == 3)
-        return arrDateInfo[2] + '-' + arrDateInfo[0] + '-' + arrDateInfo[1] + ' 00:00:00.0';
-    else
-        return '';
-}
-
-var m_strSelectedDate = getCurrentDate();
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Group: Date Picker Methods.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var m_strSelectedDate = getCurrentDate();
 
 function setupDatePicker()
 {
@@ -984,6 +993,7 @@ function getLeaders()
                       '&group=users_points.user_id' + 
                       '&join=users ^ users_points.user_id=users.id' + 
                       '&order=COUNT(*) DESC' + 
+                      '&limit=5' + 
                       '&query=SELECT';
 
         $.ajax({

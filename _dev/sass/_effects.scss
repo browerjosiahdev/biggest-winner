@@ -22,3 +22,27 @@
         display: none;
     }
 }
+
+@include keyframes(newPostSlideUp)
+{
+    from
+    {
+        margin-top: 0px;
+    }
+    to
+    {
+        margin-top: -255px;
+    }
+}
+
+@include keyframes(newPostSlideDown)
+{
+    from
+    {
+        margin-top: -255px;
+    }
+    to
+    {
+        margin-top: 0px;
+    }
+}
