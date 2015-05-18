@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="PostsApp">
+<html lang="en" ng-app="BiggestWinnerApp">
     <head>
         <meta http-equiv="cache-control" content="max-age=0" />
         <meta http-equiv="cache-control" content="no-cache" />
@@ -17,15 +17,8 @@
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
     </head>
     <body ng-controller="PostsBodyController as postsBodyCtrl">
-        <div class="header">
-            <div class="title"><span class="up">Christ</span><span class="">Family</span><span class="down">Temple</span><span class="">Church</span><span class="up">Scriptures</span><span class="">Prayer</span><span class="down">Health</span></div>
-        </div>
-        <div class="menu">
-            <div class="link"><a href="index.html">Home</a></div>
-            <div class="link"><a href="scriptures.html">Scriptures</a></div>
-            <div class="link"><a href="leaderboard.html">Leaderboard</a></div>
-            <div class="link"><a href="manage_account.html">Account</a></div>
-        </div>
+        <app-header></app-header>
+        <app-top-menu></app-top-menu>
         <div class="logout log-link hidden">Logout</div>
         <div class="login log-link hidden">Login</div>
         <div class="filters-container">

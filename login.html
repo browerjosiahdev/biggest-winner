@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="BiggestWinnerApp">
     <head>
         <meta http-equiv="cache-control" content="max-age=0" />
         <meta http-equiv="cache-control" content="no-cache" />
@@ -12,27 +12,22 @@
         <link type="text/css" rel="stylesheet" href="css/site.css">
         <script type="text/javascript" language="javascript" src="js/config.js"></script>
         <script type="text/javascript" language="javascript" src="js/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" language="javascript" src="js/angular.min.js"></script>
+        <script type="text/javascript" language="javascript" src="js/modules.js"></script>
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
     </head>
-    <body>
-        <div class="header">
-            <div class="title"><span class="up">Christ</span><span class="">Family</span><span class="down">Temple</span><span class="">Church</span><span class="up">Scriptures</span><span class="">Prayer</span><span class="down">Health</span></div>
-        </div>
-        <div class="menu">
-            <div class="link"><a href="index.html">Home</a></div>
-            <div class="link"><a href="scriptures.html">Scriptures</a></div>
-            <div class="link"><a href="leaderboard.html">Leaderboard</a></div>
-            <div class="link"><a href="manage_account.html">Account</a></div>
-        </div>
+    <body ng-controller="LoginBodyController as loginBodyCtrl">
+        <app-header></app-header>
+        <app-top-menu></app-top-menu>
         <p>Don't have an account? Consider <a href="create_account.html">creating one.</a></p>
         <div class="login-form">
             <div class="form-container">
                 <div class="form-label">User name:</div>
-                <div class="form-input"><input id="userName" class="input-form" type="text"></div>
+                <div class="form-input"><input id="userName" class="input-form" type="text" ng-model="name"></div>
             </div>
             <div class="form-container">
                 <div class="form-label">Password:</div> 
-                <div class="form-input"><input id="password" class="input-form" type="password"></div>
+                <div class="form-input"><input id="password" class="input-form" type="password" ng-model="password"></div>
             </div>
             <button type="submit" onclick="javascript:login();">Login</button><br/><br/>
             Remember me: <input id="rememberMe" type="checkbox">
