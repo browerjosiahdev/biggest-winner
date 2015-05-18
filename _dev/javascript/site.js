@@ -171,11 +171,12 @@ function postScripture()
     }
     
     var strData = 'table=scriptures' + 
-                  '&columns=user_id ^ user_name ^ post_reference ^ post_comment' + 
+                  '&columns=user_id ^ user_name ^ post_reference ^ post_comment ^ date_created' + 
                   '&values=' + getUserID().toString() + 
                         ' ^ \'' + getUserName() + '\'' + 
                         ' ^ \'' + toURLSafeFormat(strReference) + '\'' + 
                         ' ^ \'' + toURLSafeFormat(strComment) + '\'' + 
+                        ' ^ \'' + getCurrentDate(true, true) + '\'' + 
                   '&query=INSERT';
     
     $.ajax({
@@ -291,6 +292,7 @@ function getScripturePosts()
                       '&columns=scriptures.id ^ users.name ^ scriptures.post_reference ^ scriptures.post_comment ^ scriptures.date_created' + 
                       '&order=scriptures.date_created DESC' + 
                       '&join=users ^ scriptures.user_id[eq]users.id' + 
+                      '&limit=20' + 
                       '&query=SELECT';
         
         $.ajax({
@@ -421,11 +423,12 @@ function postScriptureComment( objPostBtn )
             }
             
             var strData = 'table=scriptures_comments' + 
-                          '&columns=user_id ^ user_name ^ post_comment ^ post_id' + 
+                          '&columns=user_id ^ user_name ^ post_comment ^ post_id ^ date_created' + 
                           '&values=' + getUserID().toString() + 
                                 ' ^ \'\'' + 
                                 ' ^ \'' + toURLSafeFormat(strComment) + '\'' + 
                                 ' ^ ' + intPostID.toString() + 
+                                ' ^ \'' + getCurrentDate(true, true) + '\'' + 
                           '&query=INSERT';
             
             $.ajax({
@@ -458,7 +461,7 @@ function onPostScriptureCommentSuccess( jsonData )
                     objAddComment.find('.comment-textarea').val(''); 
             }
             
-            message('Your comment was posted successfully, reload the page to see it.', [isLoggedIn()]);
+            message('Your comment was posted successfully.', [isLoggedIn()]);
         }
         else
         {
@@ -522,7 +525,7 @@ function togglePoint(intPointType, bAdd)
                       '&columns=id' + 
                       '&restrictions=user_id[eq]' + getUserID().toString() + 
                                 ' ^ point_id[eq]' + intPointType.toString() + 
-                                ' ^ date_created[eq]\'' + mysqlDate(getSelectedDate()) + '\'' + 
+                                ' ^ date_created[eq]\'' + getSelectedDate(true, true) + '\'' + 
                       '&query=SELECT';
         
         $.ajax({
@@ -546,7 +549,7 @@ function togglePoint(intPointType, bAdd)
                                           '&columns=user_id ^ point_id ^ date_created' + 
                                           '&values=' + getUserID().toString() + 
                                                ' ^ ' + intPointType.toString() + 
-                                               ' ^ \'' + mysqlDate(getSelectedDate()) + '\'' + 
+                                               ' ^ \'' + getSelectedDate(true, true) + '\'' + 
                                           '&query=INSERT';
                                 
                                 $.ajax({
@@ -571,7 +574,7 @@ function togglePoint(intPointType, bAdd)
                                 strData = 'table=users_points' + 
                                           '&restrictions=user_id[eq]' + getUserID().toString() + 
                                                     ' ^ point_id[eq]' + intPointType.toString() + 
-                                                    ' ^ date_created[eq]' + mysqlDate(getSelectedDate()) + 
+                                                    ' ^ date_created[eq]' + getSelectedDate(true, true) + 
                                           '&query=DELETE';
                                 
                                 $.ajax({
@@ -648,9 +651,9 @@ function queryPoints()
    var strData = 'table=users_points' + 
                  '&columns=point_id' + 
                  '&restrictions=user_id[eq]' + getUserID().toString() + 
-                            ' ^ date_created[eq]\'' + mysqlDate(getSelectedDate()) + '\'' + 
+                            ' ^ date_created[eq]\'' + getSelectedDate(true, true) + '\'' + 
                  '&query=SELECT';
-
+    
     $.ajax({
         url: 'php/query.php',
         method: 'POST',
@@ -734,7 +737,7 @@ function onCheckboxToggle( strCheckboxID, bIgnore )
 // Group: Date Methods.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function getCurrentDate() 
+function getCurrentDate( bMySQL, bTime ) 
 {
     var date        = new Date();
     var intDay      = date.getDate();
@@ -742,16 +745,65 @@ function getCurrentDate()
     var intYear     = date.getFullYear();
     
     if (intDay < 10)
-        intDay = "0" + intDay;
+        intDay = '0' + intDay;
     if (intMonth < 10)
-        intMonth = "0" + intMonth;
+        intMonth = '0' + intMonth;
     
-    return intMonth.toString() + "/" + intDay.toString() + "/" + intYear.toString();
+    var strDate = '';
+    
+    if (!bMySQL)
+    {
+        strDate = intMonth.toString() + '/' + 
+                  intDay.toString() + '/' + 
+                  intYear.toString();   
+    }
+    else
+    {
+        strDate = intYear.toString() + '-' + 
+                  intMonth.toString() + '-' + 
+                  intDay.toString();  
+        
+        if (!bTime)
+            strDate += ' 00:00:00';   
+    }
+    
+    if (bTime)
+    {
+        var intHours   = date.getHours();
+        var intMinutes = date.getMinutes();
+        var intSeconds = date.getSeconds();
+        
+        if (intHours < 10)
+            intHours = '0' + intHours.toString();
+        if (intMinutes < 10)
+            intMinutes = '0' + intMinutes.toString();
+        if (intSeconds < 10)
+            intSeconds = '0' + intSeconds.toString();
+        
+        strDate += ' ';
+        strDate += intHours + ':' + 
+                   intMinutes + ':' + 
+                   intSeconds;
+    }
+    
+    return strDate;
 }
 
-function getSelectedDate()
+function getSelectedDate( bMySQL, bTime )
 {
-    return m_strSelectedDate;
+    var strSelectedDate = m_strSelectedDate;
+    
+    if (bMySQL)
+    {
+        var arrDateInfo = strSelectedDate.split('/');
+        
+        strSelectedDate = arrDateInfo[2] + '-' + arrDateInfo[0] + '-' + arrDateInfo[1];
+    }
+    
+    if (bTime)
+        strSelectedDate += ' 00:00:00';
+    
+    return strSelectedDate;
 }
 
 function setSelectedDate( value )

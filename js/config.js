@@ -1,1 +1,54 @@
-var _0x25bf=["\x61\x6C\x65\x32\x30\x76\x6E\x61","\x4A","\x21","\x23","\x7E","\x24","\x6E","\x2A","\x40","\x2B","\x26","\x5E","\x3F","\x25","\x49\x4E\x50\x55\x54\x5F\x45\x4D\x41\x49\x4C","\x3C\x62\x3E\x25\x55\x53\x45\x52\x5F\x4E\x41\x4D\x45\x25\x3C\x2F\x62\x3E\x20\x6A\x75\x73\x74\x20\x70\x6F\x73\x74\x65\x64\x20\x74\x6F\x20\x74\x68\x65\x20\x25\x46\x4F\x52\x55\x4D\x25\x20\x70\x61\x67\x65\x21\x3C\x62\x72\x2F\x3E\x3C\x62\x72\x2F\x3E\x25\x45\x4D\x41\x49\x4C\x5F\x42\x4F\x44\x59\x25\x3C\x62\x72\x2F\x3E\x3C\x62\x72\x2F\x3E\x4A\x6F\x69\x6E\x20\x69\x6E\x20\x6F\x6E\x20\x74\x68\x65\x20\x63\x6F\x6E\x76\x65\x72\x73\x61\x74\x69\x6F\x6E\x20\x62\x79\x20\x70\x6F\x73\x74\x69\x6E\x67\x20\x61\x20\x3C\x61\x20\x68\x72\x65\x66\x3D\x22\x68\x74\x74\x70\x3A\x2F\x2F\x77\x77\x77\x2E\x62\x69\x67\x67\x65\x73\x74\x77\x69\x6E\x6E\x65\x72\x74\x72\x61\x63\x6B\x65\x72\x2E\x63\x6F\x6D\x2F\x25\x46\x4F\x52\x55\x4D\x25\x2E\x68\x74\x6D\x6C\x22\x3E\x63\x6F\x6D\x6D\x65\x6E\x74\x21\x3C\x2F\x61\x3E","\x3C\x70\x3E\x3C\x73\x70\x61\x6E\x20\x73\x74\x79\x6C\x65\x3D\x22\x66\x6F\x6E\x74\x2D\x73\x69\x7A\x65\x3A\x20\x31\x36\x70\x78\x3B\x20\x66\x6F\x6E\x74\x2D\x77\x65\x69\x67\x68\x74\x3A\x20\x62\x6F\x6C\x64\x3B\x22\x3E\x25\x52\x45\x46\x45\x52\x45\x4E\x43\x45\x25\x3C\x2F\x73\x70\x61\x6E\x3E\x3C\x2F\x70\x3E\x3C\x70\x3E\x3C\x73\x70\x61\x6E\x20\x73\x74\x79\x6C\x65\x3D\x22\x66\x6F\x6E\x74\x2D\x73\x69\x7A\x65\x3A\x20\x31\x34\x70\x78\x3B\x20\x66\x6F\x6E\x74\x2D\x77\x65\x69\x67\x68\x74\x3A\x20\x6E\x6F\x72\x6D\x61\x6C\x3B\x22\x3E\x25\x43\x4F\x4D\x4D\x45\x4E\x54\x25\x3C\x2F\x73\x70\x61\x6E\x3E\x3C\x2F\x70\x3E","\x6D\x61\x69\x6C\x54\x6F\x3D\x25\x4D\x41\x49\x4C\x5F\x54\x4F\x25\x26\x73\x75\x62\x6A\x65\x63\x74\x3D\x25\x53\x55\x42\x4A\x45\x43\x54\x25\x26\x6D\x65\x73\x73\x61\x67\x65\x3D\x25\x4D\x45\x53\x53\x41\x47\x45\x25","\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73","\x65\x78\x65\x72\x63\x69\x73\x65","\x77\x61\x74\x65\x72","\x74\x72\x65\x61\x74\x73","\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x50\x6F\x73\x74","\x30\x35\x2F\x30\x34\x2F\x32\x30\x31\x35","\x30\x37\x2F\x33\x31\x2F\x32\x30\x31\x35"];var DEBUG=true;var DEVICETYPE=_0x25bf[0];var DEVICEASPECT={a:1,b:15,c:14,d:_0x25bf[1],e:10,f:6,g:13,1:8,2:9,3:5,4:11,5:12,6:_0x25bf[2],7:3,8:_0x25bf[3],9:16,h:_0x25bf[4],i:18,j:_0x25bf[5],k:_0x25bf[6],l:21,m:22,n:23,o:24,p:25,q:35,r:27,s:28,t:29,u:_0x25bf[7],v:31,w:32,x:33,y:_0x25bf[8],z:26,A:35,B:36,C:_0x25bf[9],D:38,E:39,F:40,G:41,H:42,I:_0x25bf[10],J:44,K:45,L:46,M:47,N:48,0:49,P:_0x25bf[11],Q:51,R:52,S:53,T:_0x25bf[12],U:55,V:_0x25bf[13],W:57,X:58,Y:59,Z:60};var INPUTEMAIL=_0x25bf[14];var EMAILTEMPLATE=_0x25bf[15];var EMAILBODYTEMPLATE=_0x25bf[16];var SMTP_URLSTRING=_0x25bf[17];var POINTTYPES={"\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73":1,"\x65\x78\x65\x72\x63\x69\x73\x65":2,"\x77\x61\x74\x65\x72":3,"\x74\x72\x65\x61\x74\x73":4,"\x73\x63\x72\x69\x70\x74\x75\x72\x65\x73\x50\x6F\x73\x74":5};var POINTTYPELOOKUP={"\x31":_0x25bf[18],"\x32":_0x25bf[19],"\x33":_0x25bf[20],"\x34":_0x25bf[21],"\x35":_0x25bf[22]};var STARTDATE=_0x25bf[23];var ENDDATE=_0x25bf[24];
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Site Configuration.
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+var DEBUG        = true;
+var DEVICETYPE   = 'ale20vna';
+var DEVICEASPECT = {a: 1, b: 15, c: 14, d: 'J', e: 10, f: 6, g: 13,
+                    1: 8, 2: 9, 3: 5, 4: 11, 5: 12, 6: '!', 7: 3, 8: '#', 9: 16,
+                    h: '~', i: 18, j: '$', k: 'n', l: 21, m: 22, n: 23, o: 24,
+                    p: 25, q: 35, r: 27, s: 28, t: 29, u: '*', v: 31, w: 32,
+                    x: 33, y: '@', z: 26, A: 35, B: 36, C: '+', D: 38, E: 39,
+                    F: 40, G: 41, H: 42, I: '&', J: 44, K: 45, L: 46, M: 47,
+                    N: 48, 0: 49, P: '^', Q: 51, R: 52, S: 53, T: '?', U: 55,
+                    V: '%', W: 57, X: 58, Y: 59, Z: 60};
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Form Configuration.
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+var INPUTEMAIL = 'INPUT_EMAIL';
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Email Configuration.
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+var EMAILTEMPLATE     = '<b>%USER_NAME%</b> just posted to the %FORUM% page!<br/><br/>%EMAIL_BODY%<br/><br/>Join in on the conversation by posting a <a href="http://www.biggestwinnertracker.com/%FORUM%.html">comment!</a>';
+var EMAILBODYTEMPLATE = '<p><span style="font-size: 16px; font-weight: bold;">%REFERENCE%</span></p><p><span style="font-size: 14px; font-weight: normal;">%COMMENT%</span></p>';
+var SMTP_URLSTRING    = 'mailTo=%MAIL_TO%&subject=%SUBJECT%&message=%MESSAGE%';
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Point Configuration.
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+var POINTTYPES = {
+    "scriptures": 1,
+    "exercise": 2,
+    "water": 3,
+    "treats": 4,
+    "scripturesPost": 5
+};
+var POINTTYPELOOKUP = {
+    "1": "scriptures",
+    "2": "exercise",
+    "3": "water",
+    "4": "treats",
+    "5": "scripturesPost"
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Group: Date Configuration.
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+var STARTDATE   = '05/04/2015';
+var ENDDATE     = '07/31/2015';

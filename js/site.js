@@ -653,8 +653,6 @@ function queryPoints()
                  '&restrictions=user_id[eq]' + getUserID().toString() + 
                             ' ^ date_created[eq]\'' + getSelectedDate(true, true) + '\'' + 
                  '&query=SELECT';
-
-debug(strData);    
     
     $.ajax({
         url: 'php/query.php',
