@@ -815,7 +815,8 @@ function getSelectedDate( bMySQL, bTime )
     
     if (bMySQL)
     {
-        var arrDateInfo = strSelectedDate.match(/(\d*)\/(\d*)\/(\d*)/).shift();
+        var arrDateInfo = strSelectedDate.match(/(\d*)\/(\d*)\/(\d*)/);
+            arrDateInfo.shift();
         
         strSelectedDate = arrDateInfo[2] + '-' + arrDateInfo[0] + '-' + arrDateInfo[1];
     }
