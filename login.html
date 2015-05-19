@@ -20,18 +20,20 @@
         <app-header></app-header>
         <app-top-menu></app-top-menu>
         <p>Don't have an account? Consider <a href="create_account.html">creating one.</a></p>
-        <div class="login-form">
-            <div class="form-container">
-                <div class="form-label">User name:</div>
-                <div class="form-input"><input id="userName" class="input-form" type="text" ng-model="name"></div>
+        <form name="login" ng-submit="loginBodyCtrl.login()">
+            <div class="login-form">
+                <div class="form-container">
+                    <div class="form-label">User name:</div>
+                    <div class="form-input"><input id="userName" class="input-form" type="text" ng-model="name" ng-required="true"></div>
+                </div>
+                <div class="form-container">
+                    <div class="form-label">Password:</div> 
+                    <div class="form-input"><input id="password" class="input-form" type="password" ng-model="password" ng-required="true"></div>
+                </div>
+                <button type="submit">Login</button><br/><br/>
+                Remember me: <input id="rememberMe" type="checkbox" ng-model="rememberMe">
             </div>
-            <div class="form-container">
-                <div class="form-label">Password:</div> 
-                <div class="form-input"><input id="password" class="input-form" type="password" ng-model="password"></div>
-            </div>
-            <button type="submit" onclick="javascript:login();">Login</button><br/><br/>
-            Remember me: <input id="rememberMe" type="checkbox">
-        </div>
+        </form>
         <div id="preloaderContainer" class="hidden">
             <div id="preloader"></div>
         </div>

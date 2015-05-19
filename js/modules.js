@@ -38,8 +38,14 @@ appBiggestWinner.controller('PostsBodyController', ['$scope', function( $scope )
 }])
 .controller('LoginBodyController', ['$scope', function( $scope )
 {
-    $scope.name     = '';
-    $scope.password = '';
+    $scope.name       = '';
+    $scope.password   = '';
+    $scope.rememberMe = false;
+    
+    this.login = function()
+    {
+        login();
+    };
 }])
 .controller('CreateAccountBodyController', ['$scope', function( $scope )
 {
@@ -53,10 +59,8 @@ appBiggestWinner.controller('PostsBodyController', ['$scope', function( $scope )
     
     this.createAccount = function()
     {
-        alert('create account: ' + $scope.name);
-        
         createAccount();   
-    }
+    };
 }])
 .directive('appHeader', function()
 {
