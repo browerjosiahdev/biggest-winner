@@ -379,6 +379,10 @@ input, textarea
 {
     &.invalid
     {
+        box-shadow: 0 0 10px #ff0000;   
+    }
+    &.ng-invalid
+    {
         box-shadow: 0 0 10px #ff0000;
     }
 }

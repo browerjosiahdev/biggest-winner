@@ -119,24 +119,20 @@ function logUserOut()
 function isValidInput( objInput, strType )
 {
     var strValue = objInput.val();
-    if (strValue === null || strValue == '')
+    if ((strValue === null) || (strValue == ''))
     {
         objInput.addClass('invalid');
         
         return '';   
     }
     
-    switch (strType)
+    if (strValue.match(/(<)|(>)|(\sselect\s)|(\salter\s)|(\supdate\s)|(\sinsert\s)|(\sremove\s)|(\{)|(\})|(=)|(;)|(var )/gim) !== null)
     {
-        case INPUTEMAIL:
-        {
-            if (strValue.indexOf('@') == -1)
-            {
-                objInput.addClass('invalid');
-                
-                return '';
-            }
-        }
+        objInput.addClass('invalid');
+        
+        //message('Invalid character, inputs must not contain any of the following characters: <>{}=;');
+        
+        return '';
     }
     
     objInput.removeClass('invalid');
@@ -921,7 +917,7 @@ function saveAccountChanges()
     showPreloader(true);
 
     var strName          = isValidInput($('#name'));
-    var strEmail         = isValidInput($('#email'), INPUTEMAIL);
+    var strEmail         = isValidInput($('#email'));
     var intRecieveEmails = $('#recieveEmails').prop('checked')? 1 : 0;
 
     if (strName == '')
@@ -1146,17 +1142,15 @@ function onLoginPostError( jqXHR, textStatus, errorThrown )
 
 function createAccount()
 {
-    showPreloader(true);
-
     var strName             = isValidInput($('#name'));
-    var strEmail            = isValidInput($('#email'), INPUTEMAIL);
+    var strEmail            = isValidInput($('#email'));
     var strLogin            = isValidInput($('#login'));
     var strPassword         = isValidInput($('#password'));
     var strConfirmPassword  = isValidInput($('#confirmPassword'));
     var bRecieveEmails      = $('#recieveEmails').prop('checked');
 
     if (strName == '')
-        return;
+        return; 
     if (strEmail == '')
         return;
     if (strLogin == '')
@@ -1173,6 +1167,8 @@ function createAccount()
         return;
     }
 
+    showPreloader(true);
+    
     var strData = 'table=users' + 
                   '&columns=name ^ email ^ login ^ password ^ recieve_emails ^ password_confirmed' + 
                   '&values=\'' + strName + '\' ^ ' + 

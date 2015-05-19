@@ -16,30 +16,30 @@
         <script type="text/javascript" language="javascript" src="js/modules.js"></script>
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
     </head>
-    <body>
+    <body ng-controller="CreateAccountBodyController as createAccountBodyCtrl">
         <app-header></app-header>
         <app-top-menu></app-top-menu>
         <p>Already have an account? Try <a href="login.html">logging in.</a></p>
         <div class="login-form">
             <div class="form-container">
                 <div class="form-label">*Name:</div>
-                <div class="form-input"><input id="name" class="input-form" type="text"></div>
+                <div class="form-input"><input id="name" class="input-form" type="text" ng-model="createAccountBodyCtrl.name"></div>
             </div>
             <div class="form-container">
                 <div class="form-label">*Email:</div>
-                <div class="form-input"><input id="email" class="input-form" type="email"></div>
+                <div class="form-input"><input id="email" class="input-form" type="email" ng-model="createAccountBodyCtrl.email"></div>
             </div>
             <div class="form-container">
                 <div class="form-label">*Login:</div>
-                <div class="form-input"><input id="login" class="input-form" type="text"></div>
+                <div class="form-input"><input id="login" class="input-form" type="text" ng-model="createAccountBodyCtrl.login"></div>
             </div>
             <div class="form-container">
                 <div class="form-label">*Password:</div>
-                <div class="form-input"><input id="password" class="input-form" type="password"></div>
+                <div class="form-input"><input id="password" class="input-form" type="password" ng-model="createAccountBodyCtrl.password"></div>
             </div>
             <div class="form-container">
                 <div class="form-label">*Confirm Password:</div>
-                <div class="form-input"><input id="confirmPassword" class="input-form" type="password"></div>
+                <div class="form-input"><input id="confirmPassword" class="input-form" type="password" ng-model="createAccountBodyCtrl.passwordConfirm"></div>
             </div>
             Recieve emails when others in the group post? <input id="recieveEmails" type="checkbox" class="checkbox" checked><br/>
             Remember who you are so you don't have to log in? <input id="rememberMe" type="checkbox" class="checkbox"><br/><br/>
