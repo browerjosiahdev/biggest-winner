@@ -377,11 +377,11 @@ body
 
 input, textarea
 {
-    &.invalid
+    &.invalid.ng-dirty
     {
         box-shadow: 0 0 10px #ff0000;   
     }
-    &.ng-invalid
+    &.ng-invalid.ng-dirty
     {
         box-shadow: 0 0 10px #ff0000;
     }

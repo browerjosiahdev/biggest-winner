@@ -48,6 +48,15 @@ appBiggestWinner.controller('PostsBodyController', ['$scope', function( $scope )
     $scope.login           = '';
     $scope.password        = '';
     $scope.passwordConfirm = '';
+    $scope.recieveEmails   = true;
+    $scope.rememberMe      = false;
+    
+    this.createAccount = function()
+    {
+        alert('create account: ' + $scope.name);
+        
+        createAccount();   
+    }
 }])
 .directive('appHeader', function()
 {
