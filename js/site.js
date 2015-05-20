@@ -1288,31 +1288,6 @@ function fromURLSafeFormat( vValue )
         return unescape(vValue);
 }
 
-function checkDeviceWidth( strValue )
-{
-    var strDeviceWidth = '';
-    
-    for (var inValue = 0; inValue < strValue.length; inValue++)
-    {
-        var strChar = strValue.slice(inValue, (inValue + 1));
-        
-        var intDeviceChar = inValue;
-        while (intDeviceChar > DEVICETYPE.length)
-            intDeviceChar -= DEVICETYPE.length;
-        
-        var strCharDevice  = DEVICETYPE.slice(intDeviceChar, (intDeviceChar + 1));
-        var intCharVal     = DEVICEASPECT[strChar];
-        var intDeviceVal   = DEVICEASPECT[strCharDevice];        
-        
-        if (!isNaN(intCharVal) && !isNaN(intDeviceVal))
-            strDeviceWidth += intCharVal * intDeviceVal;
-        else
-            strDeviceWidth += strChar;
-    }
-    
-    return strDeviceWidth;
-}
-
 function toJSON( jsonData )
 {
     try
