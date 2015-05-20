@@ -46,8 +46,6 @@ function checkLoggedIn( bLoginRequired )
         // If the user isn't logged in, send them to the login page.
     if (!bLoggedIn && bLoginRequired)
         window.location.href = 'login.html'; 
-    else if (bLoggedIn && localStorage.getItem('requirePasswordConfirmation') != 'false')
-        window.location.href = 'confirm_password.html';
 }
 
 function isLoggedIn()
@@ -93,10 +91,7 @@ function logUserIn( intUserID, strUserName, bRemember )
     }
     
         // Navigate the user to the home page.
-    if (localStorage.getItem('requirePasswordConfirmation') === true)
-        window.location.href = 'confirm_password.html';
-    else
-        window.location.href = 'index.html';
+    window.location.href = 'index.html';
 }
 
 function logUserOut()
@@ -1082,10 +1077,9 @@ function login( strName, strPassword, bRemember )
     }
     
     var strData = 'table=users' + 
-                  '&columns=id ^ name ^ password_confirmed' + 
+                  '&columns=id ^ name' + 
                   '&restrictions=login[eq]\'' + strName + 
                            '\' ^ password[eq]\'' + strPassword + 
-                           '\' OR password_confirmed[eq]0' + 
                   '&query=SELECT';
     
     $.ajax({
@@ -1113,12 +1107,6 @@ function onLoginPostSuccess( jsonData )
                 var intID                = Number(jsonData.data[0].id);
                 var strName              = jsonData.data[0].name;
                 var bRemember            = $('#rememberMe').prop('checked');
-
-                var intPasswordConfirmed = Number(jsonData.data[0].password_confirmed);
-                if (intPasswordConfirmed === 0)
-                    localStorage.setItem('requirePasswordConfirmation', true);
-                else
-                    localStorage.setItem('requirePasswordConfirmation', false);
 
                 logUserIn(intID, strName, bRemember);
             }
@@ -1177,13 +1165,12 @@ function createAccount()
     showPreloader(true);
     
     var strData = 'table=users' + 
-                  '&columns=name ^ email ^ login ^ password ^ recieve_emails ^ password_confirmed' + 
+                  '&columns=name ^ email ^ login ^ password ^ recieve_emails' + 
                   '&values=\'' + strName + '\' ^ ' + 
                           '\'' + strEmail + '\' ^ ' + 
                           '\'' + strLogin + '\' ^ ' + 
                           '\'' + strPassword + '\' ^ ' + 
                           '\'' + bRecieveEmails + '\' ^ ' + 
-                          '1' + 
                   '&query=INSERT';
 
     $.ajax({
@@ -1271,64 +1258,6 @@ function onNewAccountLoginError( jqXHR, textStatus, errorThrown )
     debug('onNewAccountLoginError(): ' + errorThrown);
 
     message('Unable to login to your new account, please go to the login page and try again.');
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Group: Confirm Password Methods.
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function confirmPassword()
-{
-    var strPassword        = isValidInput($('#password'));
-    var strConfirmPassword = isValidInput($('#confirmPassword'));
-    
-    if (strPassword == '' || strConfirmPassword == '')
-        return;
-    else if (strPassword != strConfirmPassword)
-    {
-        message('Sorry, your passwords don\'t match.');
-        
-        return;
-    }
-    
-    var strData = 'table=users' + 
-                  '&columns=password ^ password_confirmed' + 
-                  '&values=\'' + checkDeviceWidth(strPassword) + '\' ^ 1' + 
-                  '&restrictions=id[eq]' + getUserID().toString() + 
-                  '&query=UPDATE';
-    
-    $.ajax({
-        url: 'php/query.php',
-        method: 'POST',
-        data: strData,
-        success: onConfirmPasswordSuccess,
-        error: onConfirmPasswordError
-    });
-}
-
-function onConfirmPasswordSuccess( jsonData )
-{
-    jsonData = toJSON(jsonData);
-    if (jsonData !== null)
-    {
-        if (jsonData.success)
-        {
-            debug('onConfirmPasswordSuccess(): ' + jsonData.message);
-
-            localStorage.setItem('requirePasswordConfirmation', false);
-
-            window.location.href = 'index.html';
-        }
-        else
-            debug('onConfirmPasswordSuccess(): ' + jsonData.message);
-    }
-}
-
-function onConfirmPasswordError( jqXHR, textStatus, errorThrown )
-{
-    debug('onConfirmPasswordError(): ' + errorThrown);
-    
-    message('Unable to update your password, please try again.');
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

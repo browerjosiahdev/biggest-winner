@@ -18,6 +18,7 @@ class DataBase
     protected $_intLimit         = 0;
     protected $_arrValues        = array();
     protected $_intPasswordIndex = -1;
+    protected $_strPassword      = '';
     
     private $_strIP        = '50.62.209.12';            // IP Address to the MySQL database.
     private $_strUserName  = 'sysadmin_test';           // User name for the test site.
@@ -133,10 +134,16 @@ class DataBase
     
     public function addRestriction( $strRestrictions )
     {
-        if ($this->_restrictions == null)
-            $this->_restrictions = new Restriction();
-        
-        $this->_restrictions->addRestrictions($strRestrictions);
+        $arrRestriction = explode('=', $strRestrictions);
+        if ($arrRestriction[0] == 'password')
+            $this->_strPassword = $arrRestriction[1];
+        else
+        {
+            if ($this->_restrictions == null)
+                $this->_restrictions = new Restriction();
+
+            $this->_restrictions->addRestrictions($strRestrictions);
+        }
     }
     
     public function parseGroupBy( $strGroupBy )
@@ -191,13 +198,7 @@ class DataBase
         if (strlen($strValue) > 0)
         {
             if ($this->_intPasswordIndex == count($this->_arrValues))
-            {
-                $options = [
-                    'cost' => 12
-                ];
-                
-                $strValue = password_hash($strValue, PASSWORD_DEFAULT, $options);
-            }
+                $strValue = '\'' . password_hash($strValue, PASSWORD_DEFAULT) . '\'';
             
             $this->_arrValues[] = $strValue;   
         }
@@ -221,6 +222,24 @@ class DataBase
     {       
         if ($this->connect() == true)
         {   
+            $strQuery = '';
+            $result   = null;
+            
+            if (strlen($this->_strPassword) > 0)
+            {
+                $strQuery = 'SELECT password FROM ' . $this->_strTable . ' WHERE ' . $this->_restrictions->getString();
+                
+                if ($result = $this->_mysqli->query($strQuery))
+                {
+                    $row = $result->fetch_array();
+                    
+                    if (!password_verify($row[0], $this->_strPassword))
+                    {
+                        return '{"success":"false","message":"Incorrect login/password combination."}';   
+                    }
+                }
+            }
+            
             $strColumns = implode(',', $this->_arrColumns);
                         
             $strQuery  = 'SELECT ';
@@ -315,7 +334,7 @@ class DataBase
             $strQuery .= 'VALUES ';
             $strQuery .= '(' . implode(',', $this->_arrValues) . ')';
             
-return '{"success":false,"message":"' . $strQuery . '"}';
+//return '{"success":false,"message":"' . $strQuery . '"}';
             
             if ($this->_mysqli->query($strQuery))
             {
