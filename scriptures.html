@@ -17,8 +17,8 @@
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
     </head>
     <body ng-controller="PostsBodyController as postsBodyCtrl">
-        <app-header></app-header>
-        <app-top-menu></app-top-menu>
+        <div app-header></div>
+        <div app-top-menu></div>
         <div class="logout log-link hidden">Logout</div>
         <div class="login log-link hidden">Login</div>
         <div class="filters-container">
@@ -42,20 +42,20 @@
         </div>
         <div class="posts-container">
             <div class="post" ng-repeat="post in posts | filter:search | orderBy:sort" data-post-id="{{post.scriptures_id}}">
-                <div class="user-name">{{post.users_name}}</div><div class="time-stamp">{{post.scriptures_date_created}}</div>
-                <div class="comment"><b>{{post.scriptures_post_reference}}</b><br /><br />{{post.scriptures_post_comment}}</div>
+                <div class="user-name" ng-bind="post.users_name"></div><div class="time-stamp" ng-bind="post.scriptures_date_created"></div>
+                <div class="comment"><b ng-bind="post.scriptures_post_reference"></b><br /><br /><span ng-bind="post.scriptures_post_comment"></span></div>
                 <div class="user-comments-container">
                     <div class="scrolling-comments-container">
                         <div class="user-comment" ng-repeat="comment in post.comments">
-                            <div class="user-name">{{comment.users_name}}</div><div class="time-stamp">{{comment.scriptures_comments_date_created}}</div>
-                            <div class="comment">{{comment.scriptures_comments_post_comment}}</div>
+                            <div class="user-name" ng-bind="comment.users_name"></div><div class="time-stamp" ng-bind="comment.scriptures_comments_date_created"></div>
+                            <div class="comment" ng-bind="comment.scriptures_comments_post_comment"></div>
                         </div>
                     </div>
                     <form name="commentForm{{$index + 1}}" ng-controller="CommentController as commentCtrl" ng-submit="commentCtrl.addComment(post)">
                         <div class="add-comment not-logged-in">
                             <p>Comment (2000)</p>
-                            <textarea class="comment-textarea" maxlength="2000" rows="3" ng-model="commentCtrl.comment.scriptures_comments_post_comment"></textarea><br/>
-                            <button type="submit" onclick="javascript:postScriptureComment(this)" data-post-id="{{post.scriptures_id}}">Post</button>
+                            <textarea class="comment-textarea" maxlength="2000" rows="3" ng-model="commentCtrl.comment.scriptures_comments_post_comment" ng-required="true"></textarea><br/>
+                            <button type="submit">Post</button>
                         </div>
                     </form>
                 </div>
@@ -63,16 +63,16 @@
         </div>
         <div id="newPost">
             <div class="post-container">
-                <form name="newPost">
+                <form name="scripturePost" ng-controller="ScripturePostController as scripturePostCtrl" ng-submit="scripturePostCtrl.postScripture()">
                     <div class="field">
                         <p>Reference (200)</p>
-                        <textarea id="scriptureReference" class="comment-textarea" maxlength="200" rows="1"></textarea>
+                        <textarea id="scriptureReference" class="comment-textarea" maxlength="200" rows="1" ng-model="reference" ng-required="true"></textarea>
                     </div>
                     <div class="field">
                         <p>Comment (2000)</p>
-                        <textarea id="scriptureComment" class="comment-textarea" maxlength="2000" rows="5"></textarea>
+                        <textarea id="scriptureComment" class="comment-textarea" maxlength="2000" rows="5" ng-model="comment" ng-required="true"></textarea>
                     </div>
-                    <button type="submit" onclick="javascript:postScripture();">Submit</button>
+                    <button type="submit">Post</button>
                 </form>
             </div>
             <div id="newPostTab">

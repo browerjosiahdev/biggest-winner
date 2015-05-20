@@ -17,23 +17,25 @@
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
     </head>
     <body onload="javascript:checkLoggedIn(true); loadAccountInfo();">
-        <app-header></app-header>
-        <app-top-menu></app-top-menu>
+        <div app-header></div>
+        <div app-top-menu></div>
         <div class="logout log-link hidden">Logout</div>
         <div class="login log-link hidden">Login</div>
         <p>Update your account information below:</p>
-        <div class="login-form">
-            <div class="form-container">
-                <div class="form-label">Name:</div>
-                <div class="form-input"><input id="name" class="input-form" type="text"></div>
+        <form name="accountUpdate" ng-controller="AccountManagerController as accountManagerCtrl" ng-submit="accountManagerCtrl.saveAccountChanges()">
+            <div class="login-form">
+                <div class="form-container">
+                    <div class="form-label">Name:</div>
+                    <div class="form-input"><input id="name" class="input-form" type="text" ng-mode="name" ng-required="true"></div>
+                </div>
+                <div class="form-container">
+                    <div class="form-label">Email:</div>
+                    <div class="form-input"><input id="email" class="input-form" type="email" ng-mode="email" ng-required="true"></div>
+                </div>
+                Recieve emails when others in the group post? <input id="recieveEmails" type="checkbox" class="checkbox" ng-mode="recieveEmails"><br/><br/>
+                <button type="submit">Save Changes</button>
             </div>
-            <div class="form-container">
-                <div class="form-label">Email:</div>
-                <div class="form-input"><input id="email" class="input-form" type="email"></div>
-            </div>
-            Recieve emails when others in the group post? <input id="recieveEmails" type="checkbox" class="checkbox"><br/><br/>
-            <button type="submit" onclick="javascript:saveAccountChanges();">Save Changes</button>
-        </div>
+        </form>
         <div id="preloaderContainer" class="hidden">
             <div id="preloader"></div>
         </div>

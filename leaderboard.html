@@ -17,15 +17,15 @@
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
     </head>
     <body ng-controller="LeaderboardBodyController as leaderboardBodyCtrl">
-        <app-header></app-header>
-        <app-top-menu></app-top-menu>
+        <div app-header></div>
+        <div app-top-menu></div>
         <div class="logout log-link hidden">Logout</div>
         <div class="login log-link hidden">Login</div>
         <div class="leaderboard">
             <div class="leader-container" ng-repeat="leader in leaders">
                 <div class="leader-place">{{$index + 1}}</div>
-                <div class="leader-name">{{leader.users_name}}</div>
-                <div class="leader-points">{{leader.count}}</div>
+                <div class="leader-name" ng-bind="leader.users_name"></div>
+                <div class="leader-points" ng-bind="leader.count"></div>
             </div>
         </div>
         <div id="preloaderContainer" class="hidden">

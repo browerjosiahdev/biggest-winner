@@ -19,8 +19,8 @@
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
     </head>
     <body onload="javascript:checkLoggedIn(true); setupDatePicker(); queryPoints();">
-        <app-header></app-header>
-        <app-top-menu></app-top-menu>
+        <div app-header></div>
+        <div app-top-menu></div>
         <div class="logout log-link hidden">Logout</div>
         <div class="login log-link hidden">Login</div>
         Select a date: <input id="datePicker" type="text" style="margin-top:10px;">
@@ -32,19 +32,21 @@
                         <div class="description">Did you read your scriptures today?</div>
                         <div class="input"><input id="scripturesCheckbox" class="checkbox" type="checkbox" onclick="javascript:onCheckboxToggle('scripturesCheckbox');" data-point-type="scriptures"></div>
                     </div>
-                    <div class="fields-container scripturesCheckbox hidden">
-                        <div class="field">
-                            <p>Reference (200)</p>
-                            <textarea id="scriptureReference" class="comment-textarea" maxlength="200" rows="1"></textarea>
+                    <form name="scripturePost" ng-controller="ScripturePostController as scripturePostCtrl" ng-submit="scripturePostCtrl.postScripture()">
+                        <div class="fields-container scripturesCheckbox hidden">
+                            <div class="field">
+                                <p>Reference (200)</p>
+                                <textarea id="scriptureReference" class="comment-textarea" maxlength="200" rows="1" ng-model="reference" ng-required="true"></textarea>
+                            </div>
+                            <div class="field">
+                                <p>Comment (2000)</p>
+                                <textarea id="scriptureComment" class="comment-textarea" maxlength="2000" rows="5" ng-model="comment" ng-required="true"></textarea>
+                            </div>
+                            <button type="submit">Post</button>
+                            <p>or</p>
+                            <p>Did you already post? <input id="scripturesPostCheckbox" class="checkbox" type="checkbox" onclick="javascript:onCheckboxToggle('scripturesPostCheckbox');" data-point-type="scripturesPost"></p>
                         </div>
-                        <div class="field">
-                            <p>Comment (2000)</p>
-                            <textarea id="scriptureComment" class="comment-textarea" maxlength="2000" rows="5"></textarea>
-                        </div>
-                        <button type="submit" onclick="javascript:postScripture();">Submit</button>
-                        <p>or</p>
-                        <p>Did you already post? <input id="scripturesPostCheckbox" class="checkbox" type="checkbox" onclick="javascript:onCheckboxToggle('scripturesPostCheckbox');" data-point-type="scripturesPost"></p>
-                    </div>
+                    </form>
                 </div>
             </div>
             <div class="point-form">
@@ -54,15 +56,6 @@
                         <div class="description">Did you exercise today?</div>
                         <div class="input"><input id="exerciseCheckbox" class="checkbox" type="checkbox" onclick="javascript:onCheckboxToggle('exerciseCheckbox');" data-point-type="exercise"></div>
                     </div>
-                    <!--
-                    <div class="fields-container exerciseCheckbox hidden">
-                        <div class="field">
-                            <p>Comment (2000)</p>
-                            <textarea id="exerciseComment" class="comment-textarea" maxlength="2000" rows="5"></textarea>
-                        </div>
-                        <button type="submit">Submit</button>
-                    </div>
-                    -->
                 </div>
             </div>
             <div class="point-form">

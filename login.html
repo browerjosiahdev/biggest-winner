@@ -17,8 +17,8 @@
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
     </head>
     <body ng-controller="LoginBodyController as loginBodyCtrl">
-        <app-header></app-header>
-        <app-top-menu></app-top-menu>
+        <div app-header></div>
+        <div app-top-menu></div>
         <p>Don't have an account? Consider <a href="create_account.html">creating one.</a></p>
         <form name="login" ng-submit="loginBodyCtrl.login()">
             <div class="login-form">

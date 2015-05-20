@@ -9,14 +9,15 @@ class DataBase
 // Group: Variables.
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    protected $_strTable        = '';
-    protected $_arrColumns      = array();
-    protected $_joins           = null;
-    protected $_restrictions    = null;
-    protected $_strGroupBy      = '';
-    protected $_strOrderBy      = '';
-    protected $_intLimit        = 0;
-    protected $_arrValues       = array();
+    protected $_strTable         = '';
+    protected $_arrColumns       = array();
+    protected $_joins            = null;
+    protected $_restrictions     = null;
+    protected $_strGroupBy       = '';
+    protected $_strOrderBy       = '';
+    protected $_intLimit         = 0;
+    protected $_arrValues        = array();
+    protected $_intPasswordIndex = -1;
     
     private $_strIP        = '50.62.209.12';            // IP Address to the MySQL database.
     private $_strUserName  = 'sysadmin_test';           // User name for the test site.
@@ -75,7 +76,12 @@ class DataBase
     public function addColumn( $strColumn )
     {
         if (strlen($strColumn) > 0)
+        {
+            if ($strColumn == 'password')
+                $this->_intPasswordIndex = count($this->_arrColumns);
+            
             $this->_arrColumns[] = $strColumn;
+        }
     }
     
     public function parseJoin( $strJoin )
@@ -175,10 +181,25 @@ class DataBase
             $this->_arrValues = explode(' ^ ', $strValues);
     }
     
+    protected $_strPasswordValue = '';
+    
     public function addValue( $strValue )
     {
         if (strlen($strValue) > 0)
+        {
+            if ($this->_intPasswordIndex == count($this->_arrValues))
+            {
+                $options = [
+                    'cost' => 12
+                ];
+                
+                $this->_strPasswordValue = $strValue;
+                
+                $strValue = password_hash($strValue, PASSWORD_DEFAULT, $options);
+            }
+            
             $this->_arrValues[] = $strValue;   
+        }
     }
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
@@ -220,7 +241,7 @@ class DataBase
             if ($this->_intLimit > 0)
                 $strQuery .= ' LIMIT ' . $this->_intLimit;
             
-//return '{"success":false,"message":"' . $strQuery . '"}';            
+//return '{"success":false,"message":"' . $strQuery .'"}';
             
             if ($result = $this->_mysqli->query($strQuery))
             {
@@ -293,7 +314,7 @@ class DataBase
             $strQuery .= 'VALUES ';
             $strQuery .= '(' . implode(',', $this->_arrValues) . ')';
             
-//return '{"success":false,"message":"' . $strQuery . '"}';            
+return '{"success":false,"message":"' . $strQuery . ' : ' . $this->_strPasswordValue . '"}';
             
             if ($this->_mysqli->query($strQuery))
             {

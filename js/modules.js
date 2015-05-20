@@ -14,19 +14,6 @@ appBiggestWinner.controller('PostsBodyController', ['$scope', function( $scope )
         onScripturesPageLoaded();
     });
 }])
-.controller('CommentController', ['$scope', function( $scope )
-{    
-    this.comment = {};
-    this.addComment = function( post )
-    {
-        this.comment.scriptures_comments_date_created = getCurrentDate(true, true);
-        this.comment.users_name                       = getUserName();
-        
-        post.comments = [this.comment].concat(post.comments);
-        
-        this.comment = {};
-    };
-}])
 .controller('LeaderboardBodyController', ['$scope', function( $scope )
 {
     getLeaders().then(function( data )
@@ -44,7 +31,7 @@ appBiggestWinner.controller('PostsBodyController', ['$scope', function( $scope )
     
     this.login = function()
     {
-        login();
+        login($scope.name, $scope.password, $scope.rememberMe);
     };
 }])
 .controller('CreateAccountBodyController', ['$scope', function( $scope )
@@ -60,6 +47,42 @@ appBiggestWinner.controller('PostsBodyController', ['$scope', function( $scope )
     this.createAccount = function()
     {
         createAccount();   
+    };
+}])
+.controller('ScripturePostController', ['$scope', function( $scope )
+{
+    $scope.reference = '';
+    $scope.comment   = '';
+    
+    this.postScripture = function()
+    {
+        postScripture();  
+    };
+}])
+.controller('CommentController', ['$scope', function( $scope )
+{    
+    this.comment = {};
+    this.addComment = function( post )
+    {
+        this.comment.scriptures_comments_date_created = getCurrentDate(true, true);
+        this.comment.users_name                       = getUserName();
+        
+        post.comments = [this.comment].concat(post.comments);
+        
+        this.comment = {};
+        
+        postScriptureComment(post.scriptures_id);
+    };
+}])
+.controller('AccountManagerController', ['$scope', function( $scope )
+{
+    $scope.name          = '';
+    $scope.email         = '';
+    $scope.recieveEmails = false;
+    
+    this.saveAccountChanges = function()
+    {
+        saveAccountChanges();  
     };
 }])
 .directive('appHeader', function()

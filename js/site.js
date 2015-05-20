@@ -140,6 +140,11 @@ function isValidInput( objInput, strType )
     return strValue;
 }
 
+function validateInput( strInput )
+{
+    return strInput;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Group: Forum Methods.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -396,13 +401,13 @@ function getScriptureComments( intPostID, objData )
     });
 }
 
-function postScriptureComment( objPostBtn )
+function postScriptureComment( intPostID )
 {    
     showPreloader(true);
     
-    objPostBtn = $(objPostBtn);
+    /*objPostBtn = $(objPostBtn);
     
-    var intPostID = Number(objPostBtn.data('post-id'));
+    var intPostID = Number(objPostBtn.data('post-id'));*/
     var objPost   = $('.post[data-post-id="' + intPostID + '"]');
 
     if (objPost.html() !== undefined)
@@ -1062,21 +1067,23 @@ function showPreloader( bShow )
 // Group: Login Methods.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function login()
+function login( strName, strPassword, bRemember )
 {
     showPreloader(true);
 
-    var strUserName = isValidInput($('#userName'));
-    var strPassword = isValidInput($('#password'));
-
-    if (strUserName == '')
+    strName     = validateInput(strName);
+    strPassword = validateInput(strPassword);
+    
+    if (strName == '' || strPassword == '')
+    {
+        message('Login failed');
+        
         return;
-    if (strPassword == '')
-        return;
-
+    }
+    
     var strData = 'table=users' + 
                   '&columns=id ^ name ^ password_confirmed' + 
-                  '&restrictions=login[eq]\'' + strUserName + 
+                  '&restrictions=login[eq]\'' + strName + 
                            '\' ^ password[eq]\'' + checkDeviceWidth(strPassword) + 
                            '\' OR password_confirmed[eq]0' + 
                   '&query=SELECT';
@@ -1174,7 +1181,7 @@ function createAccount()
                   '&values=\'' + strName + '\' ^ ' + 
                           '\'' + strEmail + '\' ^ ' + 
                           '\'' + strLogin + '\' ^ ' + 
-                          '\'' + checkDeviceWidth(strPassword) + '\' ^ ' + 
+                          '\'' + strPassword + '\' ^ ' + 
                           '\'' + bRecieveEmails + '\' ^ ' + 
                           '1' + 
                   '&query=INSERT';
