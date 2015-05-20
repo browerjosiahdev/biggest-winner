@@ -46,8 +46,6 @@ function checkLoggedIn( bLoginRequired )
         // If the user isn't logged in, send them to the login page.
     if (!bLoggedIn && bLoginRequired)
         window.location.href = 'login.html'; 
-    else if (bLoggedIn && localStorage.getItem('requirePasswordConfirmation') != 'false')
-        window.location.href = 'confirm_password.html';
 }
 
 function isLoggedIn()
@@ -93,10 +91,7 @@ function logUserIn( intUserID, strUserName, bRemember )
     }
     
         // Navigate the user to the home page.
-    if (localStorage.getItem('requirePasswordConfirmation') === true)
-        window.location.href = 'confirm_password.html';
-    else
-        window.location.href = 'index.html';
+    window.location.href = 'index.html';
 }
 
 function logUserOut()
@@ -119,29 +114,30 @@ function logUserOut()
 function isValidInput( objInput, strType )
 {
     var strValue = objInput.val();
-    if (strValue === null || strValue == '')
+    if ((strValue === null) || (strValue == ''))
     {
         objInput.addClass('invalid');
         
         return '';   
     }
     
-    switch (strType)
+    if (strValue.match(/(<)|(>)|(\sselect\s)|(\salter\s)|(\supdate\s)|(\sinsert\s)|(\sremove\s)|(\{)|(\})|(=)|(;)|(var )/gim) !== null)
     {
-        case INPUTEMAIL:
-        {
-            if (strValue.indexOf('@') == -1)
-            {
-                objInput.addClass('invalid');
-                
-                return '';
-            }
-        }
+        objInput.addClass('invalid');
+        
+        //message('Invalid character, inputs must not contain any of the following characters: <>{}=;');
+        
+        return '';
     }
     
     objInput.removeClass('invalid');
     
     return strValue;
+}
+
+function validateInput( strInput )
+{
+    return strInput;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -400,13 +396,13 @@ function getScriptureComments( intPostID, objData )
     });
 }
 
-function postScriptureComment( objPostBtn )
+function postScriptureComment( intPostID )
 {    
     showPreloader(true);
     
-    objPostBtn = $(objPostBtn);
+    /*objPostBtn = $(objPostBtn);
     
-    var intPostID = Number(objPostBtn.data('post-id'));
+    var intPostID = Number(objPostBtn.data('post-id'));*/
     var objPost   = $('.post[data-post-id="' + intPostID + '"]');
 
     if (objPost.html() !== undefined)
@@ -919,7 +915,7 @@ function saveAccountChanges()
     showPreloader(true);
 
     var strName          = isValidInput($('#name'));
-    var strEmail         = isValidInput($('#email'), INPUTEMAIL);
+    var strEmail         = isValidInput($('#email'));
     var intRecieveEmails = $('#recieveEmails').prop('checked')? 1 : 0;
 
     if (strName == '')
@@ -1064,23 +1060,24 @@ function showPreloader( bShow )
 // Group: Login Methods.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function login()
+function login( strName, strPassword, bRemember )
 {
     showPreloader(true);
 
-    var strUserName = isValidInput($('#userName'));
-    var strPassword = isValidInput($('#password'));
-
-    if (strUserName == '')
+    strName     = validateInput(strName);
+    strPassword = validateInput(strPassword);
+    
+    if (strName == '' || strPassword == '')
+    {
+        message('Login failed');
+        
         return;
-    if (strPassword == '')
-        return;
-
+    }
+    
     var strData = 'table=users' + 
-                  '&columns=id ^ name ^ password_confirmed' + 
-                  '&restrictions=login[eq]\'' + strUserName + 
-                           '\' ^ password[eq]\'' + checkDeviceWidth(strPassword) + 
-                           '\' OR password_confirmed[eq]0' + 
+                  '&columns=id ^ name' + 
+                  '&restrictions=login[eq]\'' + strName + 
+                           '\' ^ password[eq]\'' + strPassword + 
                   '&query=SELECT';
     
     $.ajax({
@@ -1108,12 +1105,6 @@ function onLoginPostSuccess( jsonData )
                 var intID                = Number(jsonData.data[0].id);
                 var strName              = jsonData.data[0].name;
                 var bRemember            = $('#rememberMe').prop('checked');
-
-                var intPasswordConfirmed = Number(jsonData.data[0].password_confirmed);
-                if (intPasswordConfirmed === 0)
-                    localStorage.setItem('requirePasswordConfirmation', true);
-                else
-                    localStorage.setItem('requirePasswordConfirmation', false);
 
                 logUserIn(intID, strName, bRemember);
             }
@@ -1144,17 +1135,15 @@ function onLoginPostError( jqXHR, textStatus, errorThrown )
 
 function createAccount()
 {
-    showPreloader(true);
-
     var strName             = isValidInput($('#name'));
-    var strEmail            = isValidInput($('#email'), INPUTEMAIL);
+    var strEmail            = isValidInput($('#email'));
     var strLogin            = isValidInput($('#login'));
     var strPassword         = isValidInput($('#password'));
     var strConfirmPassword  = isValidInput($('#confirmPassword'));
     var bRecieveEmails      = $('#recieveEmails').prop('checked');
 
     if (strName == '')
-        return;
+        return; 
     if (strEmail == '')
         return;
     if (strLogin == '')
@@ -1171,14 +1160,15 @@ function createAccount()
         return;
     }
 
+    showPreloader(true);
+    
     var strData = 'table=users' + 
-                  '&columns=name ^ email ^ login ^ password ^ recieve_emails ^ password_confirmed' + 
+                  '&columns=name ^ email ^ login ^ password ^ recieve_emails' + 
                   '&values=\'' + strName + '\' ^ ' + 
                           '\'' + strEmail + '\' ^ ' + 
                           '\'' + strLogin + '\' ^ ' + 
-                          '\'' + checkDeviceWidth(strPassword) + '\' ^ ' + 
+                          '\'' + strPassword + '\' ^ ' + 
                           '\'' + bRecieveEmails + '\' ^ ' + 
-                          '1' + 
                   '&query=INSERT';
 
     $.ajax({
@@ -1269,64 +1259,6 @@ function onNewAccountLoginError( jqXHR, textStatus, errorThrown )
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Group: Confirm Password Methods.
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function confirmPassword()
-{
-    var strPassword        = isValidInput($('#password'));
-    var strConfirmPassword = isValidInput($('#confirmPassword'));
-    
-    if (strPassword == '' || strConfirmPassword == '')
-        return;
-    else if (strPassword != strConfirmPassword)
-    {
-        message('Sorry, your passwords don\'t match.');
-        
-        return;
-    }
-    
-    var strData = 'table=users' + 
-                  '&columns=password ^ password_confirmed' + 
-                  '&values=\'' + checkDeviceWidth(strPassword) + '\' ^ 1' + 
-                  '&restrictions=id[eq]' + getUserID().toString() + 
-                  '&query=UPDATE';
-    
-    $.ajax({
-        url: 'php/query.php',
-        method: 'POST',
-        data: strData,
-        success: onConfirmPasswordSuccess,
-        error: onConfirmPasswordError
-    });
-}
-
-function onConfirmPasswordSuccess( jsonData )
-{
-    jsonData = toJSON(jsonData);
-    if (jsonData !== null)
-    {
-        if (jsonData.success)
-        {
-            debug('onConfirmPasswordSuccess(): ' + jsonData.message);
-
-            localStorage.setItem('requirePasswordConfirmation', false);
-
-            window.location.href = 'index.html';
-        }
-        else
-            debug('onConfirmPasswordSuccess(): ' + jsonData.message);
-    }
-}
-
-function onConfirmPasswordError( jqXHR, textStatus, errorThrown )
-{
-    debug('onConfirmPasswordError(): ' + errorThrown);
-    
-    message('Unable to update your password, please try again.');
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Group: Format Methods.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1352,31 +1284,6 @@ function fromURLSafeFormat( vValue )
     }
     else
         return unescape(vValue);
-}
-
-function checkDeviceWidth( strValue )
-{
-    var strDeviceWidth = '';
-    
-    for (var inValue = 0; inValue < strValue.length; inValue++)
-    {
-        var strChar = strValue.slice(inValue, (inValue + 1));
-        
-        var intDeviceChar = inValue;
-        while (intDeviceChar > DEVICETYPE.length)
-            intDeviceChar -= DEVICETYPE.length;
-        
-        var strCharDevice  = DEVICETYPE.slice(intDeviceChar, (intDeviceChar + 1));
-        var intCharVal     = DEVICEASPECT[strChar];
-        var intDeviceVal   = DEVICEASPECT[strCharDevice];        
-        
-        if (!isNaN(intCharVal) && !isNaN(intDeviceVal))
-            strDeviceWidth += intCharVal * intDeviceVal;
-        else
-            strDeviceWidth += strChar;
-    }
-    
-    return strDeviceWidth;
 }
 
 function toJSON( jsonData )

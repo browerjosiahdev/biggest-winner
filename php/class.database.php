@@ -9,14 +9,16 @@ class DataBase
 // Group: Variables.
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    protected $_strTable        = '';
-    protected $_arrColumns      = array();
-    protected $_joins           = null;
-    protected $_restrictions    = null;
-    protected $_strGroupBy      = '';
-    protected $_strOrderBy      = '';
-    protected $_intLimit        = 0;
-    protected $_arrValues       = array();
+    private $_strTable         = '';
+    private $_arrColumns       = array();
+    private $_joins            = null;
+    private $_restrictions     = null;
+    private $_strGroupBy       = '';
+    private $_strOrderBy       = '';
+    private $_intLimit         = 0;
+    private $_arrValues        = array();
+    private $_intPasswordIndex = -1;
+    private $_strUserPassword  = '';
     
     private $_strIP        = '50.62.209.12';            // IP Address to the MySQL database.
     /*private $_strUserName  = 'sysadmin_test';           // User name for the test site.
@@ -75,7 +77,12 @@ class DataBase
     public function addColumn( $strColumn )
     {
         if (strlen($strColumn) > 0)
+        {
+            if ($strColumn == 'password')
+                $this->_intPasswordIndex = count($this->_arrColumns);
+            
             $this->_arrColumns[] = $strColumn;
+        }
     }
     
     public function parseJoin( $strJoin )
@@ -127,10 +134,16 @@ class DataBase
     
     public function addRestriction( $strRestrictions )
     {
-        if ($this->_restrictions == null)
-            $this->_restrictions = new Restriction();
-        
-        $this->_restrictions->addRestrictions($strRestrictions);
+        $arrRestriction = explode('=', $strRestrictions);
+        if ($arrRestriction[0] == 'password')
+            $this->_strUserPassword = '\'' . preg_replace('/\'/', '', $arrRestriction[1]) . '\'';
+        else
+        {
+            if ($this->_restrictions == null)
+                $this->_restrictions = new Restriction();
+
+            $this->_restrictions->addRestrictions($strRestrictions);
+        }
     }
     
     public function parseGroupBy( $strGroupBy )
@@ -172,13 +185,23 @@ class DataBase
     public function parseValues( $strValues )
     {
         if (strlen($strValues) > 0)
-            $this->_arrValues = explode(' ^ ', $strValues);
+        {
+            $arrValues = explode(' ^ ', $strValues);
+            
+            for ($inValues = 0; $inValues < count($arrValues); $inValues++)
+                $this->addValue($arrValues[$inValues]);   
+        }
     }
     
     public function addValue( $strValue )
     {
         if (strlen($strValue) > 0)
+        {
+            if ($this->_intPasswordIndex == count($this->_arrValues))
+                $strValue = '\'' . password_hash($strValue, PASSWORD_DEFAULT) . '\'';
+            
             $this->_arrValues[] = $strValue;   
+        }
     }
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
@@ -199,6 +222,34 @@ class DataBase
     {       
         if ($this->connect() == true)
         {   
+            $strQuery = '';
+            $result   = null;
+            
+            if (strlen($this->_strUserPassword) > 0)
+            {
+                $strQuery = 'SELECT id, password FROM ' . $this->_strTable . ' WHERE ' . $this->_restrictions->getString();
+                
+                if ($result = $this->_mysqli->query($strQuery))
+                {
+                    $row             = $result->fetch_array();
+                    $intUserID       = $row[0];
+                    $strUserPassword = $row[1];
+                    
+                    if (!password_verify($this->_strUserPassword, $strUserPassword))
+                    {
+                        if ($intUserID > 0 && strlen($strUserPassword) == 0)
+                        {
+                            $strQuery = 'UPDATE ' . $this->_strTable . ' SET password=\'' . password_hash($this->_strUserPassword, PASSWORD_DEFAULT) . '\' WHERE id=' . $intUserID;
+                            
+                            if (!$this->_mysqli->query($strQuery))
+                                return '{"success":false,"message":"Unable to update password: ' . $strQuery . '"}';    
+                        }
+                        else
+                            return '{"success":false,"message":"Incorrect login/password combination."}';
+                    }
+                }
+            }
+            
             $strColumns = implode(',', $this->_arrColumns);
                         
             $strQuery  = 'SELECT ';
@@ -220,7 +271,7 @@ class DataBase
             if ($this->_intLimit > 0)
                 $strQuery .= ' LIMIT ' . $this->_intLimit;
             
-//return '{"success":false,"message":"' . $strQuery . '"}';            
+//return '{"success":false,"message":"' . $strQuery .'"}';
             
             if ($result = $this->_mysqli->query($strQuery))
             {
@@ -293,7 +344,7 @@ class DataBase
             $strQuery .= 'VALUES ';
             $strQuery .= '(' . implode(',', $this->_arrValues) . ')';
             
-//return '{"success":false,"message":"' . $strQuery . '"}';            
+//return '{"success":false,"message":"' . $strQuery . '"}';
             
             if ($this->_mysqli->query($strQuery))
             {

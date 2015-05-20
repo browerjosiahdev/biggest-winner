@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="LeaderboardApp">
+<html lang="en" ng-app="BiggestWinnerApp">
     <head>
         <meta http-equiv="cache-control" content="max-age=0" />
         <meta http-equiv="cache-control" content="no-cache" />
@@ -17,22 +17,15 @@
         <script type="text/javascript" language="javascript" src="js/site.js"></script>
     </head>
     <body ng-controller="LeaderboardBodyController as leaderboardBodyCtrl">
-        <div class="header">
-            <div class="title"><span class="up">Christ</span><span class="">Family</span><span class="down">Temple</span><span class="">Church</span><span class="up">Scriptures</span><span class="">Prayer</span><span class="down">Health</span></div>
-        </div>
-        <div class="menu">
-            <div class="link"><a href="index.html">Home</a></div>
-            <div class="link"><a href="scriptures.html">Scriptures</a></div>
-            <div class="link"><a href="leaderboard.html">Leaderboard</a></div>
-            <div class="link"><a href="manage_account.html">Account</a></div>
-        </div>
+        <div app-header></div>
+        <div app-top-menu></div>
         <div class="logout log-link hidden">Logout</div>
         <div class="login log-link hidden">Login</div>
         <div class="leaderboard">
             <div class="leader-container" ng-repeat="leader in leaders">
                 <div class="leader-place">{{$index + 1}}</div>
-                <div class="leader-name">{{leader.users_name}}</div>
-                <div class="leader-points">{{leader.count}}</div>
+                <div class="leader-name" ng-bind="leader.users_name"></div>
+                <div class="leader-points" ng-bind="leader.count"></div>
             </div>
         </div>
         <div id="preloaderContainer" class="hidden">
