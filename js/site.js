@@ -119,29 +119,30 @@ function logUserOut()
 function isValidInput( objInput, strType )
 {
     var strValue = objInput.val();
-    if (strValue === null || strValue == '')
+    if ((strValue === null) || (strValue == ''))
     {
         objInput.addClass('invalid');
         
         return '';   
     }
     
-    switch (strType)
+    if (strValue.match(/(<)|(>)|(\sselect\s)|(\salter\s)|(\supdate\s)|(\sinsert\s)|(\sremove\s)|(\{)|(\})|(=)|(;)|(var )/gim) !== null)
     {
-        case INPUTEMAIL:
-        {
-            if (strValue.indexOf('@') == -1)
-            {
-                objInput.addClass('invalid');
-                
-                return '';
-            }
-        }
+        objInput.addClass('invalid');
+        
+        //message('Invalid character, inputs must not contain any of the following characters: <>{}=;');
+        
+        return '';
     }
     
     objInput.removeClass('invalid');
     
     return strValue;
+}
+
+function validateInput( strInput )
+{
+    return strInput;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -400,13 +401,13 @@ function getScriptureComments( intPostID, objData )
     });
 }
 
-function postScriptureComment( objPostBtn )
+function postScriptureComment( intPostID )
 {    
     showPreloader(true);
     
-    objPostBtn = $(objPostBtn);
+    /*objPostBtn = $(objPostBtn);
     
-    var intPostID = Number(objPostBtn.data('post-id'));
+    var intPostID = Number(objPostBtn.data('post-id'));*/
     var objPost   = $('.post[data-post-id="' + intPostID + '"]');
 
     if (objPost.html() !== undefined)
@@ -479,6 +480,24 @@ function onPostScriptureCommentError( jqXHR, textStatus, errorThrown )
     debug('onPostScriptureCommentError(): ' + errorThrown);
     
     message('Unable to post your comment, please try again.', [isLoggedIn()]);
+}
+
+function toggleNewPostForm()
+{
+    var objNewPost = $('#newPost');   
+    if (objNewPost.html() !== undefined)
+    {
+        if (objNewPost.hasClass('new-post-slide-up'))
+        {
+            objNewPost.removeClass('new-post-slide-up');
+            objNewPost.addClass('new-post-slide-down');
+        }
+        else
+        {
+            objNewPost.removeClass('new-post-slide-down');
+            objNewPost.addClass('new-post-slide-up');   
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -797,7 +816,8 @@ function getSelectedDate( bMySQL, bTime )
     
     if (bMySQL)
     {
-        var arrDateInfo = strSelectedDate.split('/');
+        var arrDateInfo = strSelectedDate.match(/(\d*)\/(\d*)\/(\d*)/);
+            arrDateInfo.shift();
         
         strSelectedDate = arrDateInfo[2] + '-' + arrDateInfo[0] + '-' + arrDateInfo[1];
     }
@@ -818,20 +838,11 @@ function dateDiffDays( strSelectedDate )
     return (new Date(strSelectedDate) - new Date(getCurrentDate())) / (1000 * 60 * 60 * 24);
 }
 
-function mysqlDate( strDate )
-{
-    var arrDateInfo = strDate.split('/');
-    if (arrDateInfo.length == 3)
-        return arrDateInfo[2] + '-' + arrDateInfo[0] + '-' + arrDateInfo[1] + ' 00:00:00.0';
-    else
-        return '';
-}
-
-var m_strSelectedDate = getCurrentDate();
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Group: Date Picker Methods.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var m_strSelectedDate = getCurrentDate();
 
 function setupDatePicker()
 {
@@ -911,7 +922,7 @@ function saveAccountChanges()
     showPreloader(true);
 
     var strName          = isValidInput($('#name'));
-    var strEmail         = isValidInput($('#email'), INPUTEMAIL);
+    var strEmail         = isValidInput($('#email'));
     var intRecieveEmails = $('#recieveEmails').prop('checked')? 1 : 0;
 
     if (strName == '')
@@ -984,6 +995,7 @@ function getLeaders()
                       '&group=users_points.user_id' + 
                       '&join=users ^ users_points.user_id=users.id' + 
                       '&order=COUNT(*) DESC' + 
+                      '&limit=5' + 
                       '&query=SELECT';
 
         $.ajax({
@@ -1055,22 +1067,24 @@ function showPreloader( bShow )
 // Group: Login Methods.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function login()
+function login( strName, strPassword, bRemember )
 {
     showPreloader(true);
 
-    var strUserName = isValidInput($('#userName'));
-    var strPassword = isValidInput($('#password'));
-
-    if (strUserName == '')
+    strName     = validateInput(strName);
+    strPassword = validateInput(strPassword);
+    
+    if (strName == '' || strPassword == '')
+    {
+        message('Login failed');
+        
         return;
-    if (strPassword == '')
-        return;
-
+    }
+    
     var strData = 'table=users' + 
                   '&columns=id ^ name ^ password_confirmed' + 
-                  '&restrictions=login[eq]\'' + strUserName + 
-                           '\' ^ password[eq]\'' + checkDeviceWidth(strPassword) + 
+                  '&restrictions=login[eq]\'' + strName + 
+                           '\' ^ password[eq]\'' + strPassword + 
                            '\' OR password_confirmed[eq]0' + 
                   '&query=SELECT';
     
@@ -1135,17 +1149,15 @@ function onLoginPostError( jqXHR, textStatus, errorThrown )
 
 function createAccount()
 {
-    showPreloader(true);
-
     var strName             = isValidInput($('#name'));
-    var strEmail            = isValidInput($('#email'), INPUTEMAIL);
+    var strEmail            = isValidInput($('#email'));
     var strLogin            = isValidInput($('#login'));
     var strPassword         = isValidInput($('#password'));
     var strConfirmPassword  = isValidInput($('#confirmPassword'));
     var bRecieveEmails      = $('#recieveEmails').prop('checked');
 
     if (strName == '')
-        return;
+        return; 
     if (strEmail == '')
         return;
     if (strLogin == '')
@@ -1162,12 +1174,14 @@ function createAccount()
         return;
     }
 
+    showPreloader(true);
+    
     var strData = 'table=users' + 
                   '&columns=name ^ email ^ login ^ password ^ recieve_emails ^ password_confirmed' + 
                   '&values=\'' + strName + '\' ^ ' + 
                           '\'' + strEmail + '\' ^ ' + 
                           '\'' + strLogin + '\' ^ ' + 
-                          '\'' + checkDeviceWidth(strPassword) + '\' ^ ' + 
+                          '\'' + strPassword + '\' ^ ' + 
                           '\'' + bRecieveEmails + '\' ^ ' + 
                           '1' + 
                   '&query=INSERT';

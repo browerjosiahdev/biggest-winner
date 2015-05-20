@@ -55,6 +55,10 @@ CREATE TABLE IF NOT EXISTS scriptures (id INT AUTO_INCREMENT,
                                        date_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 
                                        
                                        PRIMARY KEY(id));
+
+ALTER IGNORE scriptures 
+             MODIFY post_reference VARCHAR(300) NOT NULL,
+             MODIFY post_comment VARCHAR(2500) NOT NULL;
                                        
 ALTER IGNORE scriptures
              MODIFY post_reference VARCHAR(300) NOT NULL,
@@ -68,6 +72,6 @@ CREATE TABLE IF NOT EXISTS scriptures_comments (id INT AUTO_INCREMENT,
                                                 post_id INT NOT NULL,
                                                
                                                 PRIMARY KEY(id));
-                                                
+
 ALTER IGNORE scriptures_comments
-             MODIFY post_comment VARCHAR(2500) NOT NULL;                                                
+             MODIFY post_comment VARCHAR(2500) NOT NULL;
