@@ -254,7 +254,7 @@ class DataBase
                         
             $strQuery  = 'SELECT ';
             $strQuery .= $strColumns . ' ';
-            $strQuery .= 'FROM ' . $this->_strTable;            
+            $strQuery .= 'FROM ' . $this->_strTable;
             
             if ($this->_joins != null)
                 $strQuery .= ' JOIN ' . $this->_joins->getString();
