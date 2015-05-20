@@ -21,12 +21,12 @@ class DataBase
     private $_strUserPassword  = '';
     
     private $_strIP        = '50.62.209.12';            // IP Address to the MySQL database.
-    /*private $_strUserName  = 'sysadmin_test';           // User name for the test site.
+    private $_strUserName  = 'sysadmin_test';           // User name for the test site.
     private $_strPassword  = 'ysdM70?8';                // Password for the test site.
-    private $_strDBName    = 'biggest_winner_test';     // Database name for the live site.*/
-    private $_strUserName  = 'sysadmin';                // User name for the live site.
+    private $_strDBName    = 'biggest_winner_test';     // Database name for the live site.
+    /*private $_strUserName  = 'sysadmin';                // User name for the live site.
     private $_strPassword  = 'Zikj3?67';                // Password for the live site.
-    private $_strDBName    = 'biggest_winner';          // Database name for the live site.
+    private $_strDBName    = 'biggest_winner';          // Database name for the live site.*/
     private $_mysqli       = null;
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
@@ -198,7 +198,8 @@ class DataBase
         if (strlen($strValue) > 0)
         {
             if ($this->_intPasswordIndex == count($this->_arrValues))
-                $strValue = '\'' . password_hash($strValue, PASSWORD_DEFAULT) . '\'';
+                $strValue = '\'' . hash('sha256', $strValue, false) . '\'';
+                //$strValue = '\'' . password_hash($strValue, PASSWORD_DEFAULT) . '\'';
             
             $this->_arrValues[] = $strValue;   
         }
@@ -235,11 +236,13 @@ class DataBase
                     $intUserID       = $row[0];
                     $strUserPassword = $row[1];
                     
-                    if (!password_verify($this->_strUserPassword, $strUserPassword))
+                    //if (!password_verify($this->_strUserPassword, $strUserPassword))
+                    if (strcmp(hash('sha256', $this->_strUserPassword), hash('sha256', $strUserPassword)) != 0)
                     {
                         if ($intUserID > 0 && strlen($strUserPassword) == 0)
                         {
-                            $strQuery = 'UPDATE ' . $this->_strTable . ' SET password=\'' . password_hash($this->_strUserPassword, PASSWORD_DEFAULT) . '\' WHERE id=' . $intUserID;
+                            //$strQuery = 'UPDATE ' . $this->_strTable . ' SET password=\'' . password_hash($this->_strUserPassword, PASSWORD_DEFAULT) . '\' WHERE id=' . $intUserID;
+                            $strQuery = 'UPDATE ' . $this->_strTable . ' SET password=\'' . hash('sha256', $this->_strUserPassword) . '\' WHERE id=' . $intUserID;
                             
                             if (!$this->_mysqli->query($strQuery))
                                 return '{"success":false,"message":"Unable to update password: ' . $strQuery . '"}';    
