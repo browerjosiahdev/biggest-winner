@@ -1,5 +1,5 @@
-/*USE biggest_winner_test;*/
-USE biggest_winner;
+USE biggest_winner_test;
+/*USE biggest_winner;*/
 
 CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT, 
                                  name VARCHAR(100) NOT NULL, 
@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT,
                                  PRIMARY KEY(id));
                                  
 ALTER IGNORE TABLE users 
+                   MODIFY password VARCHAR(255) NOT NULL,
                    ADD COLUMN password_confirmed INT NOT NULL DEFAULT 0;
                                  
 INSERT IGNORE INTO users (name, login, password, email) 
@@ -55,6 +56,10 @@ CREATE TABLE IF NOT EXISTS scriptures (id INT AUTO_INCREMENT,
                                        
                                        PRIMARY KEY(id));
                                        
+ALTER IGNORE scriptures
+             MODIFY post_reference VARCHAR(300) NOT NULL,
+             MODIFY post_comment VARCHAR(2500) NOT NULL;
+                                       
 CREATE TABLE IF NOT EXISTS scriptures_comments (id INT AUTO_INCREMENT, 
                                                 user_id INT NOT NULL, 
                                                 user_name VARCHAR(100) NOT NULL, 
@@ -64,3 +69,5 @@ CREATE TABLE IF NOT EXISTS scriptures_comments (id INT AUTO_INCREMENT,
                                                
                                                 PRIMARY KEY(id));
                                                 
+ALTER IGNORE scriptures_comments
+             MODIFY post_comment VARCHAR(2500) NOT NULL;                                                
