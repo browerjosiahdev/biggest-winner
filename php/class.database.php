@@ -136,7 +136,8 @@ class DataBase
     {
         $arrRestriction = explode('=', $strRestrictions);
         if ($arrRestriction[0] == 'password')
-            $this->_strUserPassword = '\'' . preg_replace('/\'/', '', $arrRestriction[1]) . '\'';
+            //$this->_strUserPassword = '\'' . preg_replace('/\'/', '', $arrRestriction[1]) . '\'';
+            $this->_strUserPassword = preg_replace('/\'/', '', $arrRestriction[1]);
         else
         {
             if ($this->_restrictions == null)
@@ -198,7 +199,7 @@ class DataBase
         if (strlen($strValue) > 0)
         {
             if ($this->_intPasswordIndex == count($this->_arrValues))
-                $strValue = '\'' . hash('sha256', $strValue, false) . '\'';
+                $strValue = $strValue;
                 //$strValue = '\'' . password_hash($strValue, PASSWORD_DEFAULT) . '\'';
             
             $this->_arrValues[] = $strValue;   
@@ -237,18 +238,18 @@ class DataBase
                     $strUserPassword = $row[1];
                     
                     //if (!password_verify($this->_strUserPassword, $strUserPassword))
-                    if (strcmp(hash('sha256', $this->_strUserPassword), hash('sha256', $strUserPassword)) != 0)
-                    {
+                    if (strcmp($this->_strUserPassword, $strUserPassword) != 0)
+                    {                        
                         if ($intUserID > 0 && strlen($strUserPassword) == 0)
                         {
                             //$strQuery = 'UPDATE ' . $this->_strTable . ' SET password=\'' . password_hash($this->_strUserPassword, PASSWORD_DEFAULT) . '\' WHERE id=' . $intUserID;
-                            $strQuery = 'UPDATE ' . $this->_strTable . ' SET password=\'' . hash('sha256', $this->_strUserPassword) . '\' WHERE id=' . $intUserID;
+                            $strQuery = 'UPDATE ' . $this->_strTable . ' SET password=\'' . $this->_strUserPassword . '\' WHERE id=' . $intUserID;
                             
                             if (!$this->_mysqli->query($strQuery))
                                 return '{"success":false,"message":"Unable to update password: ' . $strQuery . '"}';    
                         }
                         else
-                            return '{"success":false,"message":"Incorrect login/password combination."}';
+                            return '{"success":false,"message":"Incorrect login and/or password."}';
                     }
                 }
             }
