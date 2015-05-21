@@ -21,12 +21,12 @@ class DataBase
     private $_strUserPassword  = '';
     
     private $_strIP        = '50.62.209.12';            // IP Address to the MySQL database.
-    private $_strUserName  = 'sysadmin_test';           // User name for the test site.
+    /*private $_strUserName  = 'sysadmin_test';           // User name for the test site.
     private $_strPassword  = 'ysdM70?8';                // Password for the test site.
-    private $_strDBName    = 'biggest_winner_test';     // Database name for the live site.
-    /*private $_strUserName  = 'sysadmin';                // User name for the live site.
+    private $_strDBName    = 'biggest_winner_test';     // Database name for the live site.*/
+    private $_strUserName  = 'sysadmin';                // User name for the live site.
     private $_strPassword  = 'Zikj3?67';                // Password for the live site.
-    private $_strDBName    = 'biggest_winner';          // Database name for the live site.*/
+    private $_strDBName    = 'biggest_winner';          // Database name for the live site.
     private $_mysqli       = null;
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
