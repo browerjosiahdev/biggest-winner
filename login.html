@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="BiggestWinnerApp">
+<html lang="en-US" ng-app="BiggestWinnerApp">
     <head>
         <meta http-equiv="cache-control" content="max-age=0" />
         <meta http-equiv="cache-control" content="no-cache" />
@@ -7,6 +7,9 @@
         <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
         <meta http-equiv="pragma" content="no-cache" />
         <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+        <meta name="author" content="Josiah Brower" />
+        <meta name="keywords" content="scriptures,family,competition,biggest,winner,prayer,diligence,health" />
+        <meta name="description" content="Biggest Winner Family Competition" />
         <title>Biggest Winner</title>
         <link type="text/css" rel="stylesheet" href="css/font.css">
         <link type="text/css" rel="stylesheet" href="css/site.css">
@@ -19,7 +22,7 @@
     <body ng-controller="LoginBodyController as loginBodyCtrl">
         <div app-header></div>
         <div app-top-menu></div>
-        <p>Don't have an account? Consider <a href="create_account.html">creating one.</a></p>
+        <p>Don't have an account? Sorry, the competition is already under way.</p>
         <form name="login" ng-submit="loginBodyCtrl.login()">
             <div class="login-form">
                 <div class="form-container">
@@ -27,7 +30,7 @@
                     <div class="form-input"><input id="userName" class="input-form" type="text" ng-model="name" ng-required="true"></div>
                 </div>
                 <div class="form-container">
-                    <div class="form-label">Password:</div> 
+                    <div class="form-label">Password:</div>
                     <div class="form-input"><input id="password" class="input-form" type="password" ng-model="password" ng-required="true"></div>
                 </div>
                 <button type="submit">Login</button><br/><br/>
